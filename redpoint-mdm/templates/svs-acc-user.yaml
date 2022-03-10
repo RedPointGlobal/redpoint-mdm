@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ .Values.serviceAccount.names.user }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.names.user }}

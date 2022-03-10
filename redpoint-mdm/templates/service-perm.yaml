@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.service.names.perm }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.service.names.perm }} 
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port.https }}
+      targetPort: {{ .Values.service.port.perm }}
+      protocol: {{ .Values.service.protocol }}
+      name: {{ .Values.service.names.perm }}
+  selector:
+    app: {{ .Values.names.perm}}

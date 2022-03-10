@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.names.core }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.names.core }}
+    aadpodidbinding: {{ .Values.aad_pod_identity.selector }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.names.core }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.names.core }}
+        aadpodidbinding: {{ .Values.aad_pod_identity.selector }}
+      annotations:
+        container.apparmor.security.beta.kubernetes.io/rp-mdm-core: runtime/default
+    spec:
+      imagePullSecrets:
+        - name: {{ .Values.imagePullSecrets }}
+      serviceAccountName: {{ .Values.serviceAccount.names.core }}
+      {{ if .Values.securityContext -}}
+      securityContext:
+        {{- toYaml .Values.securityContext | nindent 12 }}
+      {{- end }}
+      containers:
+        - name: {{ .Values.names.core }}         
+          image:  "{{ .Values.images.repository.core }}:{{ .Values.images.tag }}"
+          imagePullPolicy: {{ .Values.images.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.port.core }}
+          resources:
+            {{- toYaml .Values.resources_core | nindent 12 }}
+          env:
+          - name: MDM_MONGO_URI
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.mongodb_connection_secret }}
+                key: MONGO_CONNECTION_STRING
+          volumeMounts:
+            - name: rpmdm-core-properties
+              mountPath: /usr/local/share/redpointmdm/
+            - name: secrets-store
+              mountPath: "/mnt/secrets-store"
+      nodeSelector:
+        nodepool: {{ .Values.nodeSelector.nodepool }}
+      volumes:
+        - name: rpmdm-core-properties
+          configMap:
+            name: rpmdm-core-properties
+        - name: secrets-store
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true 
+            volumeAttributes:
+              secretProviderClass: secrets-store

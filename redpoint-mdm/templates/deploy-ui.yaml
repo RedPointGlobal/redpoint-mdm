@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.names.ui }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.names.ui }}
+    aadpodidbinding: {{ .Values.aad_pod_identity.selector }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.names.ui }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.names.ui }}
+        aadpodidbinding: {{ .Values.aad_pod_identity.selector }}
+      annotations:
+        container.apparmor.security.beta.kubernetes.io/rp-mdm-ui: runtime/default
+    spec:
+      imagePullSecrets:
+        - name: {{ .Values.imagePullSecrets }}
+      serviceAccountName: {{ .Values.serviceAccount.names.ui }}
+      containers:
+        - name: {{ .Values.names.ui }}         
+          image:  "{{ .Values.images.repository.ui }}:{{ .Values.images.tag }}"
+          imagePullPolicy: {{ .Values.images.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.port.ui }}
+          resources:
+            {{- toYaml .Values.resources_ui | nindent 12 }}
+          env:
+          - name: MDM_MONGO_URI
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.mongodb_connection_secret }}
+                key: MONGO_CONNECTION_STRING
+          volumeMounts:
+            - name: rpmdm-ui-properties
+              mountPath: /usr/local/share/redpointmdm/
+            - name: secrets-store
+              mountPath: "/mnt/secrets-store"
+      nodeSelector:
+        nodepool: {{ .Values.nodeSelector.nodepool }}     
+      volumes:
+        - name: rpmdm-ui-properties
+          configMap:
+            name: rpmdm-ui-properties
+        - name: secrets-store
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true 
+            volumeAttributes:
+              secretProviderClass: secrets-store
+

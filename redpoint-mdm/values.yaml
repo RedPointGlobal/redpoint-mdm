@@ -1,0 +1,118 @@
+replicaCount: 1
+
+app_name: mdm
+namespace: rp-mdm-demo  # Change this if you want to use a different namespace
+mongodb_connection_secret: mongo-string
+java_api_service: rp-mdm-core
+
+aad_pod_identity:
+  selector: mdm-aad-pod-identity
+
+names:
+  ui: rp-mdm-ui
+  core: rp-mdm-core
+  auth: rp-mdm-auth
+  perm: rp-mdm-perm
+  user: rp-mdm-user
+
+images:
+  repository:
+    ui: redpointglobal/rp-mdm-ui
+    core: redpointglobal/rp-mdm-core
+    auth: redpointglobal/rp-mdm-authentication
+    perm: redpointglobal/rp-mdm-permission
+    user: redpointglobal/rp-mdm-user
+  tag: v1.4.1-RELEASE  # Change this tag to reflect the version of MDM you are installing
+  pullPolicy: Always
+
+imagePullSecrets: docker-io # Change this if you want to use a different imagePull secret name
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  annotations: {}
+  names:
+    ui: rp-mdm-ui
+    core: rp-mdm-core
+    auth: rp-mdm-auth
+    perm: rp-mdm-perm
+    user: rp-mdm-user
+
+podAnnotations: {}
+
+podSecurityContext: {}
+
+securityContext:
+  fsGroup: 101
+  runAsGroup: 101
+  runAsUser: 101
+  supplementalGroups:
+    - 200
+
+service:
+  names:
+    ui: rp-mdm-ui
+    core: rp-mdm-core
+    auth: rp-mdm-auth
+    perm: rp-mdm-perm
+    user: rp-mdm-user
+  type: ClusterIP
+  port:
+    ui: 9090
+    core: 9902
+    auth: 9901
+    user: 9903
+    perm: 9908
+    https: 443
+  protocol: TCP
+
+ldap:
+  active_dir_url: ldap://redpointcloud.com.com # Change these to the correct domain in your environment
+  active_dir_domain: DC=redpointcloud.com,DC=com # Change these to the correct domain in your environment
+
+ingress:
+  name:
+    ui: mdmui-ingress
+    core: mdmcore-ingress
+    auth: mdmauth-ingress
+  enabled: true
+  host:
+    ui: rp-mdm-ui.redpointcloud.com.com # Change these to the correct domain in your environment
+    core: rp-mdm-core.redpointcloud.com.com # Change these to the correct domain in your environment
+    auth: rp-mdm-auth.redpointcloud.com.com #Change these to the correct domain in your environment
+  tls_secret_name: mdm-tls
+  className: mdm
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: "/"
+    nginx.ingress.kubernetes.io/connection-proxy-header: "keep-alive"
+
+resources_core:
+  limits:
+    cpu: "3000m"  
+    memory: 12Gi 
+  requests:
+    cpu: "2000m" # 1 core = 1000 millicores
+    memory: 8Gi
+
+resources_ui:
+  limits:
+    cpu: "1000m" 
+    memory: 1Gi
+  requests:
+    cpu: 500m
+    memory: 0.5Gi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+nodeSelector:
+  nodepool: user
+
+tolerations: []
+
+affinity: {}

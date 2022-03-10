@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rpmdm-perm-properties
+  namespace: {{ .Values.namespace }}
+data:
+  mdm_permission_service.properties: |
+    permission.host=localhost
+    permission.port=9908
+    user.host=rp-mdm-user
+    user.port=443
+    authentication.host=rp-mdm-auth
+    authentication.port=443
+    trace_messages=false

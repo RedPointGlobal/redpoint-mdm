@@ -1,0 +1,8 @@
+apiVersion: v2
+name: redpoint-mdm
+
+description: A Helm chart for Redpoint Master Data Management (MDM)
+
+type: application
+version: 1.4.1
+appVersion: "1.4.1"

@@ -1,0 +1,62 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.names.perm }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.names.perm }}
+    aadpodidbinding: {{ .Values.aad_pod_identity.selector }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.names.perm }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.names.perm }}
+        aadpodidbinding: {{ .Values.aad_pod_identity.selector }}
+      annotations:
+        container.apparmor.security.beta.kubernetes.io/rp-mdm-perm: runtime/default
+    spec:
+      imagePullSecrets:
+        - name: {{ .Values.imagePullSecrets }}
+      serviceAccountName: {{ .Values.serviceAccount.names.perm }}
+      {{ if .Values.securityContext -}}
+      securityContext:
+        {{- toYaml .Values.securityContext | nindent 12 }}
+      {{- end }}
+      containers:
+        - name: {{ .Values.names.perm }}
+          image: "{{ .Values.images.repository.perm }}:{{ .Values.images.tag }}"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: {{ .Values.service.port.perm }}
+          resources:
+            {{- toYaml .Values.resources_ui | nindent 12 }}
+          env:
+          - name: MDM_MONGO_URI
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.mongodb_connection_secret }}
+                key: MONGO_CONNECTION_STRING
+          - name: JAVA_API_SERVICE
+            value: {{ .Values.java_api_service }}
+          volumeMounts:
+            - name: rpmdm-perm-properties
+              mountPath: /usr/local/share/redpointmdm/
+            - name: secrets-store
+              mountPath: "/mnt/secrets-store"
+      nodeSelector:
+        nodepool: {{ .Values.nodeSelector.nodepool }}
+      volumes:
+        - name: rpmdm-perm-properties
+          configMap:
+            name: rpmdm-perm-properties
+        - name: secrets-store
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true 
+            volumeAttributes:
+              secretProviderClass: secrets-store
