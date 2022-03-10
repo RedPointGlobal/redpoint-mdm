@@ -36,9 +36,10 @@ Before you install MDM, you must:
      - docker-io                : Secret that contains your docker hub credentials
      - mdm-tls                  : Secret that contains your TLS certificate and private key to be used by the Ingress
 5. Edit the values.yaml file and update the following sections
+```sh
      - ldap : Change the example.com domain to your Active Directory domain
      - ingress: Change the host_domain value to the FQDN you want to use for your ingress URLs
-
+ ```
 6. Make sure you are in the repo directory that you cloned in step 1 and then run the following command to insall MDM
 ```sh
     helm install redpoint-mdm ./redpoint-mdm
