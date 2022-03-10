@@ -64,6 +64,7 @@ Once you obtain your activation key from Redpoint Support, access the MDM web UI
 ![6f248329-95d0-4ac6-a99f-efc220e2ecb8](https://user-images.githubusercontent.com/42842390/157773834-f2fe34ed-afb5-4d5d-af22-2cc898158846.png)
 
 After successfuly activation, you should see the Welcome page below 
+
 ![34ce4157-3c8c-43dc-8d00-85838237b1cb](https://user-images.githubusercontent.com/42842390/157773845-a1a972e6-f29b-4a20-a8d3-3560a9f84514.png)
 
 
