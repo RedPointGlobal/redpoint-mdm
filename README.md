@@ -19,9 +19,10 @@ Before you install MDM, you must:
 1. Install kubectl. ( https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/ )
 2. Install HELM. ( https://helm.sh/docs/intro/install/ )
 3. Have a Kubernetes solution available to use. ( https://kubernetes.io/docs/setup/production-environment/turnkey-solutions/ )
-4. Have a MongoDB database server available to use for the MDM application Databases. ( https://docs.mongodb.com/v4.4/installation/). This can also be a managed solution like mongo Atlas. (As of this writing, MDM has been tested on MongoDB version 4.4)
-5. Clone this repository ( git clone https://github.com/RedPointGlobal/rp-mdm.git ) 
-6. Provide Redpoint Support with your docker hub ID so they can grant you permissions to pull the MDM container images
+4. Have an Ingress Controller solution deployed in your Kubernetes cluster (https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/)
+5. Have a MongoDB database server available to use for the MDM application Databases. ( https://docs.mongodb.com/v4.4/installation/). This can also be a managed solution like mongo Atlas. (As of this writing, MDM has been tested on MongoDB version 4.4)
+6. Clone this repository ( git clone https://github.com/RedPointGlobal/rp-mdm.git ) 
+7. Provide Redpoint Support with your docker hub ID so they can grant you permissions to pull the MDM container images
 
 ### Procedure
 
