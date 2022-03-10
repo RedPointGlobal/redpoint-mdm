@@ -5,8 +5,6 @@ MDM is packaged and distributed as docker container images that are hosted in th
 ![NEW_MDM](https://user-images.githubusercontent.com/42842390/157733806-a9c6be0a-1888-4010-8602-dc1e70fd0b22.jpg)
 This documentation will show you how to:
 
-## Table of Contents
-
 - [Install or upgrade MDM in Kubernetes using HELM](#Install-or-upgrade-mdm-in-kubernetes-using-helm)
   - [Prerequisites](#prerequisites)
   - [Expose the MDM Web UI](#expose-the-mdm-web-ui)
