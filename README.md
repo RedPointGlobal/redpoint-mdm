@@ -42,7 +42,17 @@ Before you install MDM, you must:
 
 It may take a few minutes for the all the MDM services to start. Please wait about 10 minutes before testing.
 
-### Access the MDM Web UI, Core and Authentication server endpoints
-Execute the command below to get the URL endpoints 
+### Get the MDM Web UI, Core and Authentication server endpoints
+7. Execute the command below to get the URL endpoints 
     - kubectl get ingress 
 
+The command returns the following URL endpoints
+   rp-mdm-ui.example.com
+   rp-mdm-auth.example.com
+   rp-mdm-core.example.com
+    
+
+### Configure the connection between MDM and Redpoint Data Management (RPDM)
+8. To connect MDM to RPDM, you simply install the MDM Tools in RPDM (see MDM and RPDM user guides for more info) and then provide the following 
+    - Authentication Server URL: https://rp-mdm-auth.example.com/mdm
+    - Core Server URL: https://rp-mdm-core.example.com/mdm
