@@ -7,7 +7,7 @@ This documentation will show you how to:
 
 - [Install or upgrade MDM in Kubernetes using HELM](#Install-or-upgrade-mdm-in-kubernetes-using-helm)
   - [Prerequisites](#prerequisites)
-  - [Access the MDM Web UI, Core and Authentication Server Endpoints ](#access-the-mdm-web-ui-core-and-authentication-server-endpoints)
+  - [Retrieve the MDM URL Endpoints ](#retrieve-the-mdm-url-endpoints)
   - [Connect MDM to Redpoint Data Management (RPDM)](#connect-mdm-to-redpoint-data-management-(rpdm))
   - [Procedure](#procedure)
 - [Upgrade MDM](#upgrade-mdm)
@@ -42,17 +42,17 @@ Before you install MDM, you must:
 
 It may take a few minutes for the all the MDM services to start. Please wait about 10 minutes before testing.
 
-### Get the MDM Web UI, Core and Authentication server endpoints
+### Retrieve the MDM URL endpoints
 7. Execute the command below to get the URL endpoints 
     - kubectl get ingress 
 
-The command returns the following URL endpoints
-   rp-mdm-ui.example.com
-   rp-mdm-auth.example.com
-   rp-mdm-core.example.com
+- The command returns the following URL endpoints
+    - rp-mdm-ui.example.com
+    - rp-mdm-auth.example.com
+    - rp-mdm-core.example.com
     
 
-### Configure the connection between MDM and Redpoint Data Management (RPDM)
+### Connect MDM to Redpoint Data Management (RPDM)
 8. To connect MDM to RPDM, you simply install the MDM Tools in RPDM (see MDM and RPDM user guides for more info) and then provide the following 
     - Authentication Server URL: https://rp-mdm-auth.example.com/mdm
     - Core Server URL: https://rp-mdm-core.example.com/mdm
