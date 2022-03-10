@@ -28,13 +28,18 @@ Before you install MDM, you must:
 
 ### Procedure
 
-1. Clone this repository ( git clone https://github.com/RedPointGlobal/rp-mdm.git )
+1. Clone this repository
+```sh
+git clone https://github.com/RedPointGlobal/rp-mdm.git
+ ```
 2. Connect to your Kubernetes Cluster
 3. Create a namespace for MDM (HELM expects a namespace named redpoint-mdm to exist)
 4. Create the following kubernetes secrets that MDM needs
+```sh
      - mongodb-conn-string      : Secret that contains the mongodb connection string
      - docker-io                : Secret that contains your docker hub credentials
      - mdm-tls                  : Secret that contains your TLS certificate and private key to be used by the Ingress
+ ```
 5. Edit the values.yaml file and update the following sections
 ```sh
      - ldap : Change the example.com domain to your Active Directory domain
