@@ -1,12 +1,11 @@
 replicaCount: 1
 
 app_name: mdm
-namespace: rp-mdm-demo  # Change this if you want to use a different namespace
-mongodb_connection_secret: mongo-string
+namespace: redpoint-mdm
+mongodb_connection_secret: mongodb-conn-string # A kubernetes secret containing the mongodb connection string.
 java_api_service: rp-mdm-core
 
-aad_pod_identity:
-  selector: mdm-aad-pod-identity
+aad_pod_identity: {}
 
 names:
   ui: rp-mdm-ui
@@ -67,22 +66,24 @@ service:
     https: 443
   protocol: TCP
 
+
 ldap:
-  active_dir_url: ldap://redpointcloud.com.com # Change these to the correct domain in your environment
-  active_dir_domain: DC=redpointcloud.com,DC=com # Change these to the correct domain in your environment
+  active_dir_url: ldap://example.com # For enabling Active Directory authentication, update the value for your environment
+  active_dir_domain: DC=example,DC=com # For enabling Active Directory authentication, update the value for your environment
 
 ingress:
+  host_domain: example.com
   name:
-    ui: mdmui-ingress
-    core: mdmcore-ingress
-    auth: mdmauth-ingress
+    ui: rp-mdm-ui-ingress
+    core: rp-mdm-core-ingress
+    auth: rp-mdm-auth-ingress
   enabled: true
   host:
-    ui: rp-mdm-ui.redpointcloud.com.com # Change these to the correct domain in your environment
-    core: rp-mdm-core.redpointcloud.com.com # Change these to the correct domain in your environment
-    auth: rp-mdm-auth.redpointcloud.com.com #Change these to the correct domain in your environment
-  tls_secret_name: mdm-tls
-  className: mdm
+    ui: rp-mdm-ui
+    core: rp-mdm-core
+    auth: rp-mdm-auth
+  tls_secret_name: mdm-tls # Kubernetes secret containing your TLS certificates
+  className: nginx # Change this if you want to use a different ingressclass name that exists already.
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: "/"
     nginx.ingress.kubernetes.io/connection-proxy-header: "keep-alive"

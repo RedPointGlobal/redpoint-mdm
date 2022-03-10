@@ -8,11 +8,11 @@ metadata:
 spec:
   tls:
   - hosts:
-      - {{ .Values.ingress.host.core }}
+      - "{{ .Values.ingress.host.core }}.{{ .Values.ingress.host_domain }}"
     secretName: {{ .Values.ingress.tls_secret_name }}
   ingressClassName: {{ .Values.ingress.className }}
   rules:
-  - host: {{ .Values.ingress.host.core }}
+  - host: "{{ .Values.ingress.host.core }}.{{ .Values.ingress.host_domain }}"
     http:
       paths:
       - path: /
