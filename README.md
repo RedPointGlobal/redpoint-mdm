@@ -6,11 +6,16 @@ MDM is packaged and distributed as docker container images that are hosted in th
 
 This documentation will show you how to:
 
-- Install or upgrade MDM in Kubernetes using HELM.
-- Expose the MDM Web User Interface
-- Connect MDM to Redpoint Data Management (RPDM) using the MDM Tools
+## Table of Contents
 
-## Prerequisites
+- [Install or upgrade MDM in Kubernetes using HELM](#Install-or-upgrade-mdm-in-kubernetes-using-helm)
+  - [Prerequisites](#prerequisites)
+  - [Expose the MDM Web UI](#expose-the-mdm-web-ui)
+  - [Connect MDM to Redpoint Data Management (RPDM)](#connect-mdm-to-redpoint-data-management-(rpdm))
+  - [Procedure](#procedure)
+- [Upgrade MDM](#upgrade-mdm)
+
+### Prerequisites
 
 Before you install MDM, you must:
 
