@@ -10,6 +10,7 @@ This documentation will show you how to:
   - [Retrieve the MDM URL Endpoints ](#retrieve-the-mdm-url-endpoints)
   - [Connect MDM to Redpoint Data Management (RPDM)](#connect-mdm-to-redpoint-data-management-(rpdm))
   - [Procedure](#procedure)
+- [Install MDM License](#install-mdm-license)
 - [Get Support](#get-support)
 
 ### Prerequisites
@@ -57,6 +58,14 @@ It may take a few minutes for the all the MDM services to start. Please wait abo
 8. To connect MDM to RPDM, you simply install the MDM Tools in RPDM (see MDM and RPDM user guides for more info) and then provide the following 
     - Authentication Server URL: https://rp-mdm-auth.example.com/mdm
     - Core Server URL: https://rp-mdm-core.example.com/mdm
+
+### Install MDM License
+Once you obtain your activation key from Redpoint Support, access the MDM web UI and provide the information below
+![6f248329-95d0-4ac6-a99f-efc220e2ecb8](https://user-images.githubusercontent.com/42842390/157773834-f2fe34ed-afb5-4d5d-af22-2cc898158846.png)
+
+After successfuly activation, you should see the Welcome page below 
+![34ce4157-3c8c-43dc-8d00-85838237b1cb](https://user-images.githubusercontent.com/42842390/157773845-a1a972e6-f29b-4a20-a8d3-3560a9f84514.png)
+
 
 ### Get Support 
 Contact support@redpointglobal.com for any application specific issues you may encounter. Note that Kubernetes specific or other network connectivity errors are out of scope.
