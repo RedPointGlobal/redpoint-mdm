@@ -32,3 +32,6 @@ Before you install MDM, you must:
      - mongodb-conn-string      : Secret that contains the mongodb connection string
      - docker-io                : Secret that contains your docker hub credentials
      - mdm-tls                  : Secret that contains your TLS certificate and private key to be used by the Ingress
+5. Edit the values.yaml file and update the following sections
+     - ldap : Change the example.com domain to your Active Directory domain
+     - ingress: Change the host_domain value to the FQDN you want to use for your ingress URLs
