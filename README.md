@@ -10,7 +10,7 @@ This documentation will show you how to:
 - Expose the MDM Web User Interface
 - Connect MDM to Redpoint Data Management (RPDM) using the MDM Tools
 
-# Prerequisites
+## Prerequisites
 
 Before you install MDM, you must:
 
