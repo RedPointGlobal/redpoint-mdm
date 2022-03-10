@@ -40,14 +40,15 @@ Before you install MDM, you must:
      - ingress: Change the host_domain value to the FQDN you want to use for your ingress URLs
 
 6. Make sure you are in the repo directory that you cloned in step 1 and then run the following command to insall MDM
-    - **helm install redpoint-mdm ./redpoint-mdm**
+    - helm install redpoint-mdm ./redpoint-mdm
 
 It may take a few minutes for the all the MDM services to start. Please wait about 10 minutes before testing.
 
 ### Retrieve the MDM URL endpoints
 7. Execute the command below to get the URL endpoints 
-    - **kubectl get ingress **
-
+```sh
+    - kubectl get ingress
+ ```
 - The command returns the following URL endpoints
     - rp-mdm-ui.example.com (This is the Web UI endpoint)
     - rp-mdm-auth.example.com (This is the authentication server endpoint)
