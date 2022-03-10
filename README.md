@@ -29,6 +29,6 @@ Before you install MDM, you must:
 2. Connect to your Kubernetes Cluster
 3. Create a namespace for MDM (kubectl create namespace redpoint-mdm )
 4. Create the following kubernetes secrets that MDM needs
-- mongodb-conn-string : Secret that contains the mongodb connection string
-- docker-io : Secret that contains your docker hub credentials
-- mdm-tls : Secret that contains your TLS certificate and private key to be used by the Ingress
+     - mongodb-conn-string      : Secret that contains the mongodb connection string
+     - docker-io                : Secret that contains your docker hub credentials
+     - mdm-tls                  : Secret that contains your TLS certificate and private key to be used by the Ingress
