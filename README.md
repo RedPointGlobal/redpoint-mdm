@@ -10,6 +10,8 @@ This documentation will show you how to:
 - Expose the MDM Web User Interface
 - Connect MDM to Redpoint Data Management (RPDM) using the MDM Tools
 
+# Prerequisites
+
 Before you install MDM, you must:
 
 1. Install kubectl. ( https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/ )
