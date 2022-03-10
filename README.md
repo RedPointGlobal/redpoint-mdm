@@ -2,7 +2,7 @@ Redpoint Master Data Management (MDM) is a data stewardship system for managing 
 
 MDM is packaged and distributed as docker container images that are hosted in the Redpoint Global private repository in Docker Hub.
 
-![Copy of Redpoint MDM](https://user-images.githubusercontent.com/42842390/157733682-2a0fe90e-7079-4790-856b-7866dec40d6b.jpeg)
+![NEW_MDM](https://user-images.githubusercontent.com/42842390/157733806-a9c6be0a-1888-4010-8602-dc1e70fd0b22.jpg)
 
 This documentation will show you how to:
 
