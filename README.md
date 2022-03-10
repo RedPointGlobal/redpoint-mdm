@@ -23,6 +23,7 @@ Before you install MDM, you must:
 5. Have a MongoDB database server available to use for the MDM application Databases. ( https://docs.mongodb.com/v4.4/installation/). This can also be a managed solution like mongo Atlas. (As of this writing, MDM has been tested on MongoDB version 4.4)
 6. Clone this repository ( git clone https://github.com/RedPointGlobal/rp-mdm.git ) 
 7. Provide Redpoint Support with your docker hub ID so they can grant you permissions to pull the MDM container images
+8. Have a license key to activate a Trial for Production License. Contact Redpoint support for an activation key
 
 ### Procedure
 
