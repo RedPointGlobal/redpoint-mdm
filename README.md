@@ -9,3 +9,11 @@ This documentation will show you how to:
 - Install or upgrade MDM in Kubernetes using HELM.
 - Expose the MDM Web User Interface
 - Connect MDM to Redpoint Data Management (RPDM) using the MDM Tools
+
+Before you install MDM, you must:
+
+1. Install kubectl. ( https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/ )
+2. Install HELM. ( https://helm.sh/docs/intro/install/ )
+3. Have a Kubernetes solution available to use. ( https://kubernetes.io/docs/setup/production-environment/turnkey-solutions/ )
+4. Clone this repository ( git clone https://github.com/RedPointGlobal/rp-mdm.git ) 
+5. Provide Redpoint Support with your docker hub ID so they can grant you permissions to pull the MDM container images
