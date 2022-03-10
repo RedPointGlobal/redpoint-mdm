@@ -47,9 +47,9 @@ It may take a few minutes for the all the MDM services to start. Please wait abo
     - kubectl get ingress 
 
 - The command returns the following URL endpoints
-    - rp-mdm-ui.example.com
-    - rp-mdm-auth.example.com
-    - rp-mdm-core.example.com
+    - rp-mdm-ui.example.com (This is the Web UI endpoint)
+    - rp-mdm-auth.example.com (This is the authentication server endpoint)
+    - rp-mdm-core.example.com (This is the core service endpoint )
     
 
 ### Connect MDM to Redpoint Data Management (RPDM)
