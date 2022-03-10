@@ -7,7 +7,7 @@ This documentation will show you how to:
 
 - [Install or upgrade MDM in Kubernetes using HELM](#Install-or-upgrade-mdm-in-kubernetes-using-helm)
   - [Prerequisites](#prerequisites)
-  - [Expose the MDM Web UI](#expose-the-mdm-web-ui)
+  - [Access the MDM Web UI, Core and Authentication Server Endpoints ](#access-the-mdm-web-ui-core-and-authentication-server-endpoints)
   - [Connect MDM to Redpoint Data Management (RPDM)](#connect-mdm-to-redpoint-data-management-(rpdm))
   - [Procedure](#procedure)
 - [Upgrade MDM](#upgrade-mdm)
@@ -42,5 +42,7 @@ Before you install MDM, you must:
 
 It may take a few minutes for the all the MDM services to start. Please wait about 10 minutes before testing.
 
-### Expose the MDM Web UI
+### Access the MDM Web UI, Core and Authentication server endpoints
+Execute the command below to get the URL endpoints 
+    - kubectl get ingress 
 
