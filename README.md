@@ -27,7 +27,7 @@ Before you install MDM, you must:
 
 1. Clone this repository ( git clone https://github.com/RedPointGlobal/rp-mdm.git )
 2. Connect to your Kubernetes Cluster
-3. Create a namespace for MDM (kubectl create namespace redpoint-mdm )
+3. Create a namespace for MDM (HELM expects a namespace named redpoint-mdm to exist)
 4. Create the following kubernetes secrets that MDM needs
      - mongodb-conn-string      : Secret that contains the mongodb connection string
      - docker-io                : Secret that contains your docker hub credentials
