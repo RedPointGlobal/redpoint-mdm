@@ -74,6 +74,7 @@ Once you obtain your activation key from Redpoint Support, access the MDM web UI
 ```sh
   - trial license url : trial-license
   - prod license url  : https://qlm1.net/redpointglobal/qlmlicenseserver/qlmservice.asmx
+  - activation key:   : Activation key you received from Redpoint Support
   - public key:       : Same as the activation key
   - product key:      : Trial for trial activation key or Prod for a prod activation key
  ```
