@@ -3,11 +3,15 @@ Redpoint Master Data Management (MDM) is a data stewardship system for managing 
 MDM is packaged and distributed as docker container images that are hosted in the Redpoint Global private repository in Docker Hub.
 
 ![NEW_MDM](https://user-images.githubusercontent.com/42842390/157733806-a9c6be0a-1888-4010-8602-dc1e70fd0b22.jpg)
-This documentation will show you how to:
+This documentation will show you how to Install or upgrade MDM in Kubernetes using HELM
 
-- [Install or upgrade MDM in Kubernetes using HELM](#Install-or-upgrade-mdm-in-kubernetes-using-helm)
-  - [Retrieve the MDM URL Endpoints ](#retrieve-the-mdm-url-endpoints)
-  - [Connect MDM to Redpoint Data Management (RPDM)](#connect-mdm-to-redpoint-data-management-(rpdm))
+### Table of Contents
+
+- [Prerequisites ](#prerequisites)
+- [System Requirements ](#system-requirements)
+- [Procedure ](#procedure)
+- [Retrieve the MDM URL Endpoints ](#retrieve-the-mdm-url-endpoints)
+- [Connect MDM to Redpoint Data Management (RPDM)](#connect-mdm-to-redpoint-data-management-(rpdm))
 - [Install MDM License](#install-mdm-license)
 - [Get MDM Support](#get-mdm-support)
 
