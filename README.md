@@ -50,7 +50,7 @@ kubectl create namespace redpoint-mdm
  ```
 6. Make sure you are in the repo directory that you cloned in step 1 and then run the following command to insall MDM
 ```sh
-    helm install redpoint-mdm ./redpoint-mdm
+    helm install redpoint-mdm redpoint-mdm/ --values values.yaml
  ```
 It may take a few minutes for the all the MDM services to start. Please wait about 10 minutes before testing.
 
