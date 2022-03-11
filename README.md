@@ -11,6 +11,19 @@ This documentation will show you how to:
 - [Install MDM License](#install-mdm-license)
 - [Get MDM Support](#get-mdm-support)
 
+### System Requirements
+
+- MongoDB server sizing
+    - 4 GB memory for data < 1 million records total: 
+    - 8-16 GB memory for data 1-10 million records total
+    - SSD disks for best IO perfomance
+    - Size the MongoDB memory to keep working index set in memory for data > 10 million records total
+
+- Kubernetes Cluster sizing
+    - nodepool with 2-3 nodes for high availabilty
+    - 8 vCPus and 32 GB memory per node
+    - 20 GB or more free disk space per node
+
 ### Prerequisites
 
 Before you install MDM, you must:
