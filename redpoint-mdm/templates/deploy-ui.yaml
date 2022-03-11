@@ -5,7 +5,6 @@ metadata:
   namespace: {{ .Values.namespace }}
   labels:
     app: {{ .Values.names.ui }}
-    aadpodidbinding: {{ .Values.aad_pod_identity.selector }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -15,7 +14,6 @@ spec:
     metadata:
       labels:
         app: {{ .Values.names.ui }}
-        aadpodidbinding: {{ .Values.aad_pod_identity.selector }}
       annotations:
         container.apparmor.security.beta.kubernetes.io/rp-mdm-ui: runtime/default
     spec:
@@ -39,18 +37,10 @@ spec:
           volumeMounts:
             - name: rpmdm-ui-properties
               mountPath: /usr/local/share/redpointmdm/
-            - name: secrets-store
-              mountPath: "/mnt/secrets-store"
       nodeSelector:
         nodepool: {{ .Values.nodeSelector.nodepool }}     
       volumes:
         - name: rpmdm-ui-properties
           configMap:
             name: rpmdm-ui-properties
-        - name: secrets-store
-          csi:
-            driver: secrets-store.csi.k8s.io
-            readOnly: true 
-            volumeAttributes:
-              secretProviderClass: secrets-store
 
