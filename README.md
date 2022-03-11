@@ -8,9 +8,8 @@ This documentation will show you how to:
 - [Install or upgrade MDM in Kubernetes using HELM](#Install-or-upgrade-mdm-in-kubernetes-using-helm)
   - [Retrieve the MDM URL Endpoints ](#retrieve-the-mdm-url-endpoints)
   - [Connect MDM to Redpoint Data Management (RPDM)](#connect-mdm-to-redpoint-data-management-(rpdm))
-  - [Procedure](#procedure)
 - [Install MDM License](#install-mdm-license)
-- [Get Support](#get-support)
+- [Get MDM Support](#get-mdm-support)
 
 ### Prerequisites
 
@@ -79,5 +78,5 @@ After successfuly activation, you should see the Welcome page below
 ![34ce4157-3c8c-43dc-8d00-85838237b1cb](https://user-images.githubusercontent.com/42842390/157773845-a1a972e6-f29b-4a20-a8d3-3560a9f84514.png)
 
 
-### Get Support 
+### Get MDM Support 
 Contact support@redpointglobal.com for any application specific issues you may encounter. Note that Kubernetes specific or other network connectivity errors are out of scope.
