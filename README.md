@@ -25,7 +25,7 @@ This documentation will show you how to Install or upgrade MDM in Kubernetes usi
 
 - Kubernetes Cluster sizing
     - nodepool with 2-3 nodes for high availabilty
-    - 8 vCPus and 32 GB memory per node
+    - 8 vCPUs and 32 GB memory per node
     - 20 GB or more free disk space per node
 
 ### Prerequisites
