@@ -9,7 +9,7 @@ This documentation will show you how to Install or upgrade MDM in Kubernetes usi
 
 - [Prerequisites ](#prerequisites)
 - [System Requirements ](#system-requirements)
-- [Procedure ](#procedure)
+- [Install Procedure ](#install-procedure)
 - [Retrieve the MDM URL Endpoints ](#retrieve-the-mdm-url-endpoints)
 - [Connect MDM to Redpoint Data Management (RPDM)](#connect-mdm-to-redpoint-data-management-(rpdm))
 - [Install MDM License](#install-mdm-license)
@@ -41,7 +41,7 @@ Before you install MDM, you must:
 7. Provide Redpoint Support with your docker hub ID so they can grant you permissions to pull the MDM container images
 8. Have a license key to activate a Trial for Production License. Contact Redpoint support for an activation key
 
-### Procedure
+### Install Procedure
 
 1. Clone this repository
 ```sh
