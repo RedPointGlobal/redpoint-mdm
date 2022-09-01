@@ -65,7 +65,7 @@ kubectl create namespace redpoint-mdm
 ```sh
      - ldap : Change the example.com domain to your Active Directory domain
      - ingress: Change the host_domain value to the FQDN you want to use for your ingress URLs
-     - Update the ``tag`` section in the ```values.yaml``` line 24 to ensure you are installing the latest stable version of MDM. You can get this information from support@redpointglobal.com. The Helm chart defaults to version v1.4.1-RELEASE
+     - Update the ``tag`` section in the ```values.yaml``` line 24 to ensure you are installing the latest stable version of MDM. The Helm chart defaults to version v1.4.1-RELEASE
  ```
 6. Make sure you are in the repo directory that you cloned in step 1 and then run the following command to insall MDM
 ```sh
