@@ -106,6 +106,7 @@ After successful activation, you should see the Welcome page below
 ![34ce4157-3c8c-43dc-8d00-85838237b1cb](https://user-images.githubusercontent.com/42842390/157773845-a1a972e6-f29b-4a20-a8d3-3560a9f84514.png)
 
 ### Installation Gotchas
-After running the HELM install command, you may notice that the Pods are stuck in a "PENDING" state. This is because the helm chart expects your kubernetes nodepool to have the following label ```nodepool: user```. If you want to use a different label be sure to update the NodeSelector section (line 114) in the values.yaml file to match the labels that you have applied on your nodepool.
+ 1) After running the HELM install command, you may notice that the Pods are stuck in a "PENDING" state. This is because the helm chart expects your kubernetes nodepool to have the following label ```nodepool: user```. If you want to use a different label be sure to update the NodeSelector section (line 114) in the ```values.yaml```file to match the labels that you have applied on your nodepool. Once this is done, the Pods will transition into the "RUNNING" state
+ 2) Ensure you are installing the latest stable version of MDM by updating the ``tag`` section in the ```values.yaml``` line 24 
 ### Get MDM Support 
 Contact support@redpointglobal.com for any application specific issues you may encounter. Note that Kubernetes specific or other network connectivity errors are out of scope.
