@@ -65,6 +65,7 @@ kubectl create namespace redpoint-mdm
 ```sh
      - ldap : Change the example.com domain to your Active Directory domain
      - ingress: Change the host_domain value to the FQDN you want to use for your ingress URLs
+     - Update the ``tag`` section in the ```values.yaml``` line 24 to ensure you are installing the latest stable version of MDM. You can get this information from support@redpointglobal.com. The Helm chart defaults to version v1.4.1-RELEASE
  ```
 6. Make sure you are in the repo directory that you cloned in step 1 and then run the following command to insall MDM
 ```sh
@@ -106,7 +107,6 @@ After successful activation, you should see the Welcome page below
 ![34ce4157-3c8c-43dc-8d00-85838237b1cb](https://user-images.githubusercontent.com/42842390/157773845-a1a972e6-f29b-4a20-a8d3-3560a9f84514.png)
 
 ### Installation Gotchas
- 1) After running the HELM install command, you may notice that the Pods are stuck in a "PENDING" state. This is because the helm chart expects your kubernetes nodepool to have the following label ```nodepool: user```. If you want to use a different label be sure to update the NodeSelector section (line 114) in the ```values.yaml```file to match the labels that you have applied on your nodepool. Once this is done, the Pods will transition into the "RUNNING" state
- 2) Ensure you are installing the latest stable version of MDM by updating the ``tag`` section in the ```values.yaml``` line 24 
+ 1) After running the HELM install command, you may notice that the Pods are stuck in a "PENDING" state. This is because the helm chart expects your kubernetes nodepool to have the following label ```nodepool: user```. If you want to use a different label be sure to update the NodeSelector section (line 114) in the ```values.yaml```file to match the labels that you have applied on your nodepool. Once this is done, the Pods will transition into the "RUNNING" state 
 ### Get MDM Support 
 Contact support@redpointglobal.com for any application specific issues you may encounter. Note that Kubernetes specific or other network connectivity errors are out of scope.
