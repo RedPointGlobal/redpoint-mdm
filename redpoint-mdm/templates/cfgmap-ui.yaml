@@ -16,6 +16,21 @@ data:
     core.port=443
     core.host=rp-mdm-core
     trace_messages=true
-
+    
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: log4js-config
+  namespace: {{ .Values.namespace }}
+data:
+  log4js_config.json: |
+    {
+    "appenders": {"console": { "type": "console" }},
+     "categories": {
+     "MDM Server": { "appenders": ["console"], "level": "debug" },
+     "default": { "appenders": ["console"], "level": "debug" }
+      }
+    }
 
 
