@@ -21,7 +21,7 @@ images:
     auth: redpointglobal/rp-mdm-authentication
     perm: redpointglobal/rp-mdm-permission
     user: redpointglobal/rp-mdm-user
-  tag: v1.5.0-RELEASE  # Update this tag to reflect the version of MDM you are installing
+  tag: v1.4.2-RELEASE  # Update this tag to reflect the version of MDM you are installing
   pullPolicy: Always
 
 imagePullSecrets: docker-io # # A kubernetes secret containing your docker hub credentials
@@ -42,12 +42,13 @@ podAnnotations: {}
 
 podSecurityContext: {}
 
-securityContext:
-  fsGroup: 101
-  runAsGroup: 101
-  runAsUser: 101
-  supplementalGroups:
-    - 200
+securityContext: 
+   seccompProfile:
+     type: RuntimeDefault
+   runAsNonRoot: true
+   runAsUser: 1000
+   runAsGroup: 3000
+   fsGroup: 2000
 
 service:
   names:
