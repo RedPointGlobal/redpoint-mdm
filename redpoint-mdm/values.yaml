@@ -42,12 +42,13 @@ podAnnotations: {}
 
 podSecurityContext: {}
 
-securityContext:
-  fsGroup: 101
-  runAsGroup: 101
-  runAsUser: 101
-  supplementalGroups:
-    - 200
+securityContext: 
+   seccompProfile:
+     type: RuntimeDefault
+   runAsNonRoot: true
+   runAsUser: 1000
+   runAsGroup: 3000
+   fsGroup: 2000
 
 service:
   names:
