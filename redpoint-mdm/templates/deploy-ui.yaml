@@ -37,10 +37,15 @@ spec:
           volumeMounts:
             - name: rpmdm-ui-properties
               mountPath: /usr/local/share/redpointmdm/
+            - name: log4js-config
+              mountPath: /usr/local/app/mdm-ui/log4js_config.json
+              subPath: log4js_config.json
       nodeSelector:
         nodepool: {{ .Values.nodeSelector.nodepool }}     
       volumes:
         - name: rpmdm-ui-properties
           configMap:
             name: rpmdm-ui-properties
-
+        - name: log4js-config
+          configMap:
+            name: log4js-config
