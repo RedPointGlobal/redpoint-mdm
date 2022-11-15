@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rpmdm-log-properties
+  namespace: {{ .Values.namespace }}
+data:
+  redpointmdm.properties: |
+    mdm.port=9904
+    rpmdm.service.logging=true

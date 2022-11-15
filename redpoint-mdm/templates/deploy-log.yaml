@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.names.log }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.names.log }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.names.log }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.names.log }}
+      annotations:
+        container.apparmor.security.beta.kubernetes.io/rp-mdm-log: runtime/default
+    spec:
+      imagePullSecrets:
+        - name: {{ .Values.imagePullSecrets }}
+      serviceAccountName: {{ .Values.serviceAccount.names.log }}
+      containers:
+        - name: {{ .Values.names.log }}         
+          image:  "{{ .Values.images.repository.log }}:{{ .Values.images.tag }}"
+          imagePullPolicy: {{ .Values.images.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.service.port.log }}
+          resources:
+            {{- toYaml .Values.resources_ui | nindent 12 }}
+          env:
+          - name: MDM_MONGO_URI
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Values.mongodb_connection_secret }}
+                key: MONGO_CONNECTION_STRING
+          volumeMounts:
+            - name: rpmdm-log-properties
+              mountPath: /usr/local/share/redpointmdm/
+            - name: log4js-config
+              mountPath: /usr/local/app/mdm-log/log4js_config.json
+              subPath: log4js_config.json
+      nodeSelector:
+        application: {{ .Values.nodeSelector.application }}    
+      tolerations:
+        - effect: NoSchedule
+          key: application
+          operator: Equal 
+          value: {{ .Values.nodeSelector.application }}
+      volumes:
+        - name: rpmdm-log-properties
+          configMap:
+            name: rpmdm-log-properties
+        - name: log4js-config
+          configMap:
+            name: log4js-config
+
+

@@ -13,6 +13,7 @@ names:
   auth: rp-mdm-auth
   perm: rp-mdm-perm
   user: rp-mdm-user
+  log: rp-mdm-log
 
 images:
   repository:
@@ -21,7 +22,8 @@ images:
     auth: redpointglobal/rp-mdm-authentication
     perm: redpointglobal/rp-mdm-permission
     user: redpointglobal/rp-mdm-user
-  tag: v1.4.2-RELEASE  # Update this tag to reflect the version of MDM you are installing
+    log: redpointglobal/rp-mdm-log
+  tag: v1.5.0-RELEASE
   pullPolicy: Always
 
 imagePullSecrets: docker-io # # A kubernetes secret containing your docker hub credentials
@@ -37,6 +39,7 @@ serviceAccount:
     auth: rp-mdm-auth
     perm: rp-mdm-perm
     user: rp-mdm-user
+    log: rp-mdm-log
 
 podAnnotations: {}
 
@@ -57,6 +60,7 @@ service:
     auth: rp-mdm-auth
     perm: rp-mdm-perm
     user: rp-mdm-user
+    log: rp-mdm-log
   type: ClusterIP
   port:
     ui: 9090
@@ -64,7 +68,8 @@ service:
     auth: 9901
     user: 9903
     perm: 9908
-    https: 443
+    log: 9904
+    https: 80
   protocol: TCP
 
 
