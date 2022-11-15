@@ -37,9 +37,6 @@ spec:
           volumeMounts:
             - name: rpmdm-log-properties
               mountPath: /usr/local/share/redpointmdm/
-            - name: log4js-config
-              mountPath: /usr/local/app/mdm-log/log4js_config.json
-              subPath: log4js_config.json
       nodeSelector:
         application: {{ .Values.nodeSelector.application }}    
       tolerations:
@@ -51,8 +48,5 @@ spec:
         - name: rpmdm-log-properties
           configMap:
             name: rpmdm-log-properties
-        - name: log4js-config
-          configMap:
-            name: log4js-config
 
 
