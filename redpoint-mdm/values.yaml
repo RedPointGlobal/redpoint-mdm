@@ -21,7 +21,7 @@ images:
     auth: redpointglobal/rp-mdm-authentication
     perm: redpointglobal/rp-mdm-permission
     user: redpointglobal/rp-mdm-user
-  tag: v1.4.2-RELEASE  # Update this tag to reflect the version of MDM you are installing
+  tag: v1.5.0-RELEASE  # Update this tag to reflect the version of MDM you are installing
   pullPolicy: Always
 
 imagePullSecrets: docker-io # # A kubernetes secret containing your docker hub credentials
@@ -64,7 +64,7 @@ service:
     auth: 9901
     user: 9903
     perm: 9908
-    https: 443
+    https: 80
   protocol: TCP
 
 

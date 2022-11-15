@@ -7,7 +7,8 @@ data:
   redpointmdm.properties: |
     rpmdm.service.host=0.0.0.0
     rpmdm.service.port=9902
-    rpmdm.authentication.url=http://rp-mdm-auth:443/mdm
-    rpmdm.usergroup.url=http://rp-mdm-user:443/mdm
-    rpmdm.permission.url=http://rp-mdm-perm:443/mdm
+    rpmdm.authentication.url=http://rp-mdm-auth:80/mdm
+    rpmdm.usergroup.url=http://rp-mdm-user:80/mdm
+    rpmdm.permission.url=http://rp-mdm-perm:80/mdm
+    rpmdm.log.url=http://rp-mdm-log:80/mdm
     rpmdm.service.logging=true

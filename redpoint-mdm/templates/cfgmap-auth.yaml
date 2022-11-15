@@ -7,10 +7,7 @@ data:
   mdm_authentication_service.properties: |
     authentication.active_dir.url={{ .Values.ldap.active_dir_url }}
     authentication.active_dir.domain={{ .Values.ldap.active_dir_domain }}
-    authentication.host=localhost
     authentication.port=9901
-    user.host=rp-mdm-user
-    user.port=443
-    permission.host=rp-mdm-perm
-    permission.port=443
+    user.url=http://rp-mdm-user:80
+    log.url=http://rp-mdm-log:80
     trace_messages=false

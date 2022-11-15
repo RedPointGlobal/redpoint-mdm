@@ -1,5 +1,10 @@
 1. MDM has successfully been installed in your cluster.
   - It may take a few minutes for the all the MDM services to start. Please wait about 10 minutes.
 
+  - The following prerequiaites are required before running the helm install command
+
+      - A namespace "redpoint-mdm"
+      - A kubernetes secret "mongodb-connstring" containing the mongo database connection string
+
 2. For application support, please contact support@redpointglobal.com
 

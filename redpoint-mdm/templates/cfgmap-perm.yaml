@@ -5,10 +5,8 @@ metadata:
   namespace: {{ .Values.namespace }}
 data:
   mdm_permission_service.properties: |
-    permission.host=localhost
     permission.port=9908
-    user.host=rp-mdm-user
-    user.port=443
-    authentication.host=rp-mdm-auth
-    authentication.port=443
+    user.url=http://rp-mdm-user:80
+    log.url=http://rp-mdm-log:80
+    authentication.url=http://rp-mdm-auth:80
     trace_messages=false

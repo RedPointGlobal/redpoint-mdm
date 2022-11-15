@@ -5,18 +5,14 @@ metadata:
   namespace: {{ .Values.namespace }}
 data:
   mdm_web_service.properties: |
-    mdm.host=0.0.0.0
     mdm.port=9090
-    authentication.host=rp-mdm-auth
-    authentication.port=443
-    user.host=rp-mdm-user
-    user.port=443
-    permission.host=rp-mdm-perm
-    permission.port=443
-    core.port=443
-    core.host=rp-mdm-core
+    authentication.url=http://rp-mdm-auth:80
+    user.url=http://rp-mdm-user:80
+    log.url=http://rp-mdm-log:80
+    core.url=http://rp-mdm-core:80
+    permission.url=http://rp-mdm-perm:80
     trace_messages=true
-    
+
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -32,5 +28,3 @@ data:
      "default": { "appenders": ["console"], "level": "debug" }
       }
     }
-
-

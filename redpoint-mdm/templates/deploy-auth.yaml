@@ -21,10 +21,6 @@ spec:
       imagePullSecrets:
         - name: {{ .Values.imagePullSecrets }}
       serviceAccountName: {{ .Values.serviceAccount.names.auth }}
-      {{ if .Values.securityContext -}}
-      securityContext:
-        {{- toYaml .Values.securityContext | nindent 12 }}
-      {{- end }}
       containers:
         - name: {{ .Values.names.auth }}
           image: "{{ .Values.images.repository.auth }}:{{ .Values.images.tag }}"
@@ -44,9 +40,21 @@ spec:
           volumeMounts:
             - name: rpmdm-auth-properties
               mountPath: /usr/local/share/redpointmdm/
+            - name: log4js-config
+              mountPath: /usr/local/app/authentication-service/log4js_config.json
+              subPath: log4js_config.json
       nodeSelector:
-        nodepool: {{ .Values.nodeSelector.nodepool }}
+        application: {{ .Values.nodeSelector.application }}
+      tolerations:
+        - effect: NoSchedule
+          key: application
+          operator: Equal 
+          value: {{ .Values.nodeSelector.application }}
       volumes:
         - name: rpmdm-auth-properties
           configMap:
             name: rpmdm-auth-properties
+        - name: log4js-config
+          configMap:
+            name: log4js-config
+    
