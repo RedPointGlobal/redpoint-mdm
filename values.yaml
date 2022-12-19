@@ -118,7 +118,7 @@ autoscaling:
   targetMemoryUtilizationPercentage: 80
 
 nodeSelector:
-  nodepool: user
+  application: mdm
 
 tolerations: []
 
