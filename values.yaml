@@ -23,7 +23,7 @@ images:
     perm: redpointglobal/rp-mdm-permission
     user: redpointglobal/rp-mdm-user
     log: redpointglobal/rp-mdm-log
-  tag: v1.5.0-RELEASE
+  tag: v1.5.1-RELEASE
   pullPolicy: Always
 
 imagePullSecrets: docker-io # # A kubernetes secret containing your docker hub credentials
