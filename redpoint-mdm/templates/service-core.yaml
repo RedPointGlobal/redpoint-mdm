@@ -6,7 +6,6 @@ metadata:
   labels:
     app: {{ .Values.service.names.core }} 
 spec:
-  type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port.https }}
       targetPort: {{ .Values.service.port.core }}
@@ -15,22 +14,3 @@ spec:
   selector:
     app: {{ .Values.names.core}}
 
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: {{ .Values.service.names.core }}-tcp
-  namespace: {{ .Values.namespace }}
-  labels:
-    app: {{ .Values.service.names.core }} 
-  annotations:
-    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
-spec:
-  type: LoadBalancer
-  ports:
-    - port: 9902
-      targetPort: 9902
-      protocol: TCP
-      name: mdm-core
-  selector:
-    app: {{ .Values.names.core}}

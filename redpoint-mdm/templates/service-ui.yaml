@@ -6,7 +6,6 @@ metadata:
   labels:
     app: {{ .Values.service.names.ui }} 
 spec:
-  type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port.https }}
       targetPort: {{ .Values.service.port.ui }}

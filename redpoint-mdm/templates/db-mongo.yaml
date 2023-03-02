@@ -1,0 +1,76 @@
+{{- if .Values.createTestMongo }}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mongo-redpoint-mdm
+  namespace: {{ .Values.namespace }}
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mongo-redpoint-mdm"
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mongo-redpoint-mdm
+  namespace: {{ .Values.namespace }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-redpoint-mdm
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongo-redpoint-mdm
+  template:
+    metadata:
+      labels:
+        app: mongo-redpoint-mdm
+    spec:
+      containers:
+        - name: mongodb
+          image: mongo:6.0.4
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              value: redpointaml
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              value: "yKo3BN671b0m"
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: mongo-redpoint-mdm
+              mountPath: /data/db
+      volumes:
+        - name: mongo-redpoint-mdm
+          persistentVolumeClaim:
+            claimName: mongo-redpoint-mdm
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-redpoint-mdm
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    app: mongo-redpoint-mdm
+  ports:
+    - name: mongodb
+      port: 27017
+      targetPort: 27017
+  type: ClusterIP
+{{- end }}

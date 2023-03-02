@@ -44,12 +44,12 @@ spec:
               mountPath: /usr/local/app/user-service/log4js_config.json
               subPath: log4js_config.json
       nodeSelector:
-        application: {{ .Values.nodeSelector.application }}
+        {{ .Values.nodeSelector.key }}: {{ .Values.nodeSelector.value }}
       tolerations:
         - effect: NoSchedule
-          key: application
+          key: {{ .Values.nodeSelector.key }}
           operator: Equal 
-          value: {{ .Values.nodeSelector.application }}
+          value: {{ .Values.nodeSelector.value }}
       volumes:
         - name: rpmdm-user-properties
           configMap:

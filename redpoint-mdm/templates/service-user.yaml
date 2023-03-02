@@ -6,7 +6,6 @@ metadata:
   labels:
     app: {{ .Values.service.names.user }} 
 spec:
-  type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port.https }}
       targetPort: {{ .Values.service.port.user }}

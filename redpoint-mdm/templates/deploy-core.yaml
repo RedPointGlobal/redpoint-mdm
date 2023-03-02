@@ -42,12 +42,12 @@ spec:
             - name: rpmdm-core-properties
               mountPath: /usr/local/share/redpointmdm/
       nodeSelector:
-        application: {{ .Values.nodeSelector.application }}
+        {{ .Values.nodeSelector.key }}: {{ .Values.nodeSelector.value }}
       tolerations:
         - effect: NoSchedule
-          key: application
+          key: {{ .Values.nodeSelector.key }}
           operator: Equal 
-          value: {{ .Values.nodeSelector.application }}
+          value: {{ .Values.nodeSelector.value }}
       volumes:
         - name: rpmdm-core-properties
           configMap:
