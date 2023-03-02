@@ -1,8 +1,9 @@
 replicaCount: 1
 
-app_name: mdm
+app_name: redpoint-mdm
 namespace: redpoint-mdm
 mongodb_connection_secret: mongodb-conn-string # A kubernetes secret containing the mongodb connection string.
+createTestMongo: true  # Set to false in production and provide a connection string to your production mongo cluster
 java_api_service: rp-mdm-core
 
 aad_pod_identity: {}
@@ -23,7 +24,7 @@ images:
     perm: redpointglobal/rp-mdm-permission
     user: redpointglobal/rp-mdm-user
     log: redpointglobal/rp-mdm-log
-  tag: v1.5.0-RELEASE
+  tag: v1.5.1-RELEASE
   pullPolicy: Always
 
 imagePullSecrets: docker-io # # A kubernetes secret containing your docker hub credentials
@@ -78,7 +79,7 @@ ldap:
   active_dir_domain: DC=example,DC=com # For enabling Active Directory authentication, update the value for your environment
 
 ingress:
-  host_domain: example.com
+  host_domain: example.dev
   name:
     ui: rp-mdm-ui-ingress
     core: rp-mdm-core-ingress
@@ -118,7 +119,9 @@ autoscaling:
   targetMemoryUtilizationPercentage: 80
 
 nodeSelector:
-  application: mdm
+  key: application
+  value: mdm
+
 
 tolerations: []
 

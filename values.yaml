@@ -79,7 +79,7 @@ ldap:
   active_dir_domain: DC=example,DC=com # For enabling Active Directory authentication, update the value for your environment
 
 ingress:
-  host_domain: rdpnt.dev
+  host_domain: example.dev
   name:
     ui: rp-mdm-ui-ingress
     core: rp-mdm-core-ingress
