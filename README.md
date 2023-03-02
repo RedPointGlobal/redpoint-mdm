@@ -88,7 +88,7 @@ It may take a few minutes for the all the MDM services to start. Please wait abo
 ### Connect MDM to Redpoint Data Management (RPDM)
 8. To connect MDM to RPDM, you simply install the MDM Tools in RPDM (see MDM and RPDM user guides for more info) and then provide the following 
     - Authentication Server URL: https://rp-mdm-auth.example.com/mdm
-    - Core Server URL: https://rp-mdm-core.example.com/mdm
+    - MDM Server URL: https://rp-mdm-core.example.com/mdm
 
 ### Install MDM License
 Once you obtain your activation key from Redpoint Support, access the MDM web UI and provide the information below
