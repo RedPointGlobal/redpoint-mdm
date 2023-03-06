@@ -195,7 +195,7 @@ metadata:
   namespace: {{ .Values.namespace }}
 data:
   9901: "{{ .Values.namespace }}/rp-mdm-auth:9901"
-  9902: "{{ .Values.namespace }}/rp-mdm-auth:9902"
+  9902: "{{ .Values.namespace }}/rp-mdm-core:9902"
 
 ---
 # Source: ingress-nginx/templates/controller-deployment.yaml
