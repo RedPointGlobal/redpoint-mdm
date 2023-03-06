@@ -14,3 +14,20 @@ spec:
   selector:
     app: {{ .Values.names.core}}
 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.service.names.core }}-tcp
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.service.names.core }} 
+spec:
+  ports:
+    - port: {{ .Values.service.port.https }}
+      targetPort: {{ .Values.service.port.core }}
+      protocol: {{ .Values.service.protocol }}
+      name: {{ .Values.service.names.core }}
+  selector:
+    app: {{ .Values.names.core}}
+  type: LoadBalancer

@@ -14,3 +14,20 @@ spec:
   selector:
     app: {{ .Values.names.auth}}
 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.service.names.auth }}-tcp
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.service.names.auth }} 
+spec:
+  ports:
+    - port: {{ .Values.service.port.https }}
+      targetPort: {{ .Values.service.port.auth }}
+      protocol: {{ .Values.service.protocol }}
+      name: {{ .Values.service.names.auth }}
+  selector:
+    app: {{ .Values.names.auth}}
+  type: LoadBalancer
