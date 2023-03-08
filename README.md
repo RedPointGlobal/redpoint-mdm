@@ -98,7 +98,7 @@ The MDM tools will appear in the Master Data tool group.
 ```
     - Authentication Server URL: https://rp-mdm-auth.example.com/mdm
     - MDM Server URL:            https://rp-mdm-core.example.com/mdm
-    
+``` 
  ![image](https://user-images.githubusercontent.com/42842390/223878996-04c82cf7-531e-4568-9e6f-8390181628fa.png)
 
 ### Install MDM License
