@@ -86,9 +86,18 @@ It may take a few minutes for the all the MDM services to start. Please wait abo
  ```  
 
 ### Connect MDM to Redpoint Data Management (RPDM)
-8. To connect MDM to RPDM, you simply install the MDM Tools in RPDM (see MDM and RPDM user guides for more info) and then provide the following 
+To connect MDM to RPDM, you simply install the MDM Tools in RPDM as follows
+ - Copy the Redpoint-provided "shaded" version of the MDM tools JAR file into the \java_plugins folder in the Redpoint Data Management installation folder. 
+The filename is of the form mdm-connectors-*-shaded.jar.
+ - In the Redpoint Data Management client, click the Palette menu button at the top of the tool palette and select Reset Palette.
+
+The MDM tools will appear in the Master Data tool group.
+ - Click the Repository tab and go to Settings > Tools.
+ - Close and re-open any projects that were active before installing the MDM tools JAR file.
+ - Click the MDM tab and enter your server and authentication credentials as shown below
+```
     - Authentication Server URL: https://rp-mdm-auth.example.com/mdm
-    - MDM Server URL: https://rp-mdm-core.example.com/mdm
+    - MDM Server URL:            https://rp-mdm-core.example.com/mdm
     
  ![image](https://user-images.githubusercontent.com/42842390/223878996-04c82cf7-531e-4568-9e6f-8390181628fa.png)
 
