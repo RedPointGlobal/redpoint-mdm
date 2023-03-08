@@ -22,12 +22,14 @@ metadata:
   namespace: {{ .Values.namespace }}
   labels:
     app: {{ .Values.service.names.core }} 
+#  annotations:
+#    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+#   service.beta.kubernetes.io/azure-load-balancer-internal-subnet: "snet-rgoc-nonprod-eus2-aks"
 spec:
   ports:
-    - port: {{ .Values.service.port.https }}
-      targetPort: {{ .Values.service.port.core }}
+    - port: 9902
+      targetPort: 9902
       protocol: {{ .Values.service.protocol }}
-      name: {{ .Values.service.names.core }}
   selector:
     app: {{ .Values.names.core}}
-  type: LoadBalancer
+#  type: LoadBalancer
