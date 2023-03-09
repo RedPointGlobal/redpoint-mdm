@@ -10,7 +10,7 @@ spec:
   - hosts:
       - {{ .Values.ingress.host.auth }}
     secretName: {{ .Values.ingress.tls_secret_name }}
-  ingressClassName: {{ .Values.ingress.className }}
+  ingressClassName: {{ .Values.namespace }}
   rules:
   - host: {{ .Values.ingress.host.auth }}.{{ .Values.ingress.host_domain }}
     http:

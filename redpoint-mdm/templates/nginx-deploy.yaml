@@ -9,7 +9,7 @@ metadata:
     app.kubernetes.io/version: 1.5.1
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
-  name: {{ .Values.ingress.className }}
+  name: {{ .Values.namespace }}
 spec:
   controller: k8s.io/ingress-nginx
   
