@@ -85,7 +85,7 @@ It may take a few minutes for the all the MDM services to start. Please wait abo
 ### Retrieve the MDM URL endpoints
 The chart creates an NGINX ingress controller for you and configures all the ingress rules necesssary for accessing MDM endpoints externally. It deploys a public Load Balancer by default.
 
-If you prefer an internal load balancer, simply edit the ```nginx-redpoint-mdm``` load balancer service in ```redpoint-mdm/templates/nginx-deploy.yaml`` file and uncomment the annotations below
+If you prefer an internal load balancer, simply edit the ```nginx-redpoint-mdm``` load balancer service in ```redpoint-mdm/templates/nginx-deploy.yaml``` file and uncomment the annotations below
 ```
 #    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
 #    service.beta.kubernetes.io/azure-load-balancer-internal-subnet: "<add your subnet name>"
