@@ -307,7 +307,7 @@ kind: Service
 metadata:
   annotations:
 #    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
-#    service.beta.kubernetes.io/azure-load-balancer-internal-subnet: "snet-rgoc-nonprod-eus2-aks"
+#    service.beta.kubernetes.io/azure-load-balancer-internal-subnet: "<your subnet name>"
   labels:
     helm.sh/chart: ingress-nginx-4.4.0
     app.kubernetes.io/name: ingress-nginx
