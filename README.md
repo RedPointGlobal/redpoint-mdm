@@ -53,18 +53,18 @@ git clone https://github.com/RedPointGlobal/rp-mdm.git
 kubectl create namespace redpoint-mdm
  ```
 3. Create the following kubernetes secrets that MDM needs
- - mongodb-conn-string      : Secret that contains the mongodb connection string
+ - Secret that contains the mongodb connection string ```mongodb-conn-string``
 ```
  kubectl create secret generic mongodb-conn-string \
 --from-literal=MONGO_CONNECTION_STRING=$your_mongo_connection_string \
 --namespace redpoint-mdm
 ```
- - docker-io                : Secret that contains your docker hub credentials
+ - Secret that contains your docker hub credentials ```docker-io```
 ```
 kubectl create secret docker-registry dockerhub --docker-server='https://index.docker.io/v1/' \
 --docker-username=$your_docker_username --docker-password=$your_docker_password --docker-email=$your_docker_email \ --namespace redpoint-mdm
 ```
- - mdm-tls                  : Secret that contains your TLS certificate and private
+ - Secret that contains your TLS certificate and private ```mdm-tls```
 ```
 kubectl create secret tls mdm-tls --cert=$your_tls_cert --key=$your_tls_key --namespace redpoint-mdm
 ```
