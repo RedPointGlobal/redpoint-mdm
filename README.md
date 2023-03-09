@@ -131,11 +131,11 @@ The MDM tools will appear in the Master Data tool group.
  ![image](https://user-images.githubusercontent.com/42842390/223878996-04c82cf7-531e-4568-9e6f-8390181628fa.png)
 
 ### Troubleshooting
-If you followed this guide step by step and ensured all the prerequsites are in place, then things should just work out of the box. However, the most common issues we have seen our customer encounter with installation are mentioned below
+If you followed this guide step by step, then things should just work out of the box. However, the most common issues we have seen our customers encounter with installation are mentioned below;
 
  - ```Pods are stuck in a "PENDING" state```
  
- After running the HELM install command, you may notice that the Pods are stuck in a "PENDING" state. This is because the helm chart expects your kubernetes nodepool to have the following label application: mdm. If you want to use a different label be sure to update the NodeSelector section in the values.yaml file to match the labels that you have applied on your nodepool.
+ You may notice that the Pods are stuck in a "PENDING" state. This is because the helm chart expects your kubernetes nodepool to have the following label ```application: mdm```. If you want to use a different label, update the NodeSelector section in the ```values.yaml``` file to match the labels that you have assigned to your nodepool.
 ```
  nodeSelector:
   key: application
