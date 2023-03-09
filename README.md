@@ -71,11 +71,10 @@ kubectl create secret docker-registry dockerhub --docker-server='https://index.d
 ```
 kubectl create secret tls mdm-tls --cert=$cert --key=$key --namespace redpoint-mdm
 ```
-5. Edit the values.yaml file and update the following sections
+5. For INGRESS and LDAP, edit the values.yaml file and update the following sections
 ```sh
-     - ldap : Change the example.com domain to your Active Directory domain
-     - ingress: Change the host_domain value to the FQDN you want to use for your ingress URLs
-     - Update the ``tag`` section in the ```values.yaml``` line 24 to ensure you are installing the latest stable version of MDM. The Helm chart defaults to version v1.4.1-RELEASE
+     - ldap :   Replace the example.com domain to your Active Directory domain
+     - ingress: Replace the host_domain value to the FQDN you want to use for your ingress URLs
  ```
 6. Make sure you are in the repo directory that you cloned in step 1 and then run the following command to insall MDM
 ```sh
