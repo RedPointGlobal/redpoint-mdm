@@ -51,12 +51,12 @@ Before you install MDM, you must:
 git clone https://github.com/RedPointGlobal/rp-mdm.git
  ```
 2. Connect to your Kubernetes Cluster
-3. Create a namespace for MDM (HELM expects a namespace named redpoint-mdm to exist)
+3. Create a namespace for MDM (HELM expects a namespace named redpoint-mdm)
 ```sh
 kubectl create namespace redpoint-mdm
  ```
 4. Create the following kubernetes secrets that MDM needs
-mongodb-conn-string      : Secret that contains the mongodb connection string
+ - mongodb-conn-string      : Secret that contains the mongodb connection string
 ```
  kubectl create secret generic mongodb-conn-string \
 --from-literal=MONGO_CONNECTION_STRING=$mongo_connection_string \
