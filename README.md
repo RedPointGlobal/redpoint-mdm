@@ -57,9 +57,21 @@ kubectl create namespace redpoint-mdm
  ```
 4. Create the following kubernetes secrets that MDM needs
 ```sh
-     - mongodb-conn-string      : Secret that contains the mongodb connection string
-     - docker-io                : Secret that contains your docker hub credentials
-     - mdm-tls                  : Secret that contains your TLS certificate and private key to be used by the Ingress
+mongodb-conn-string      : Secret that contains the mongodb connection string
+
+ kubectl create secret generic mongodb-conn-string \
+--from-literal=MONGO_CONNECTION_STRING=$mongo_connection_string \
+--namespace redpoint-mdm
+
+docker-io                : Secret that contains your docker hub credentials
+
+kubectl create secret docker-registry dockerhub --docker-server='https://index.docker.io/v1/' \
+--docker-username=$docker_username --docker-password=$docker_password --docker-email=$docker_email \ --namespace redpoint-mdm
+
+mdm-tls                  : Secret that contains your TLS certificate and private
+
+kubectl create secret tls mdm-tls --cert=$cert --key=$key --namespace redpoint-mdm
+
  ```
 5. Edit the values.yaml file and update the following sections
 ```sh
