@@ -42,7 +42,7 @@ Before you install MDM, you must:
 5. Have a docker ID and provide it to Redpoint Support so they can grant you permissions to pull the MDM container images
 6. Have a license key to activate MDM. Contact Redpoint support for an activation key
 
-### Install Procedure
+### Before you Install
 
 1. Clone this repository and connect to your target Kubernetes Cluster
 ```sh
@@ -73,7 +73,8 @@ kubectl create secret tls mdm-tls --cert=$your_tls_cert --key=$your_tls_key --na
      - ldap :   Replace the example.com domain with your Active Directory domain
      - ingress: Replace the host_domain value with the FQDN you want to use for your ingress URLs
  ```
-5. Make sure you are in the repo directory that you cloned in step 1 and then run the following command to insall MDM
+### Install
+Make sure you are in the repo directory that you cloned in step 1 and then run the following command to insall MDM
 ```sh
     helm install redpoint-mdm redpoint-mdm/ --values values.yaml
  ```
