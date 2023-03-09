@@ -61,8 +61,8 @@ kubectl create namespace redpoint-mdm
 ```
  - ```docker-io``` | Secret that contains your docker hub credentials 
 ```
-kubectl create secret docker-registry dockerhub --docker-server='https://index.docker.io/v1/' \
---docker-username=$your_docker_username --docker-password=$your_docker_password --docker-email=$your_docker_email \ --namespace redpoint-mdm
+kubectl create secret docker-registry docker-io --docker-server='https://index.docker.io/v1/' \
+--docker-username=$your_docker_username --docker-password=$your_docker_password --docker-email=$your_docker_email --namespace redpoint-mdm
 ```
  - ```mdm-tls``` | Secret that contains your TLS certificate files (.crt and .key)
 ```
