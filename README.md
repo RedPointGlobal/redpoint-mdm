@@ -14,7 +14,7 @@ This documentation will show you how to Install or upgrade MDM in Kubernetes usi
 - [Install Procedure ](#install-procedure)
 - [Retrieve the MDM URL Endpoints ](#retrieve-the-mdm-url-endpoints)
 - [Install MDM License](#install-mdm-license)
-- [Connect MDM to Redpoint Data Management (RPDM)](#connect-mdm-to-redpoint-data-management-(rpdm))
+- [Connect MDM to Redpoint Data Management](#connect-mdm-to-redpoint-data-management)
 - [Installation Gotchas](#installation-gotchas)
 - [Get MDM Support](#get-mdm-support)
 
