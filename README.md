@@ -73,8 +73,8 @@ kubectl create secret tls mdm-tls --cert=$cert --key=$key --namespace redpoint-m
 ```
 5. For INGRESS and LDAP, edit the values.yaml file and update the following sections
 ```sh
-     - ldap :   Replace the example.com domain to your Active Directory domain
-     - ingress: Replace the host_domain value to the FQDN you want to use for your ingress URLs
+     - ldap :   Replace the example.com domain with your Active Directory domain
+     - ingress: Replace the host_domain value with the FQDN you want to use for your ingress URLs
  ```
 6. Make sure you are in the repo directory that you cloned in step 1 and then run the following command to insall MDM
 ```sh
