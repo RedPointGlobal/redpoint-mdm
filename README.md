@@ -46,16 +46,15 @@ Before you install MDM, you must:
 
 ### Install Procedure
 
-1. Clone this repository
+1. Clone this repository and connect to your target Kubernetes Cluster
 ```sh
 git clone https://github.com/RedPointGlobal/rp-mdm.git
  ```
-2. Connect to your Kubernetes Cluster
-3. Create a namespace for MDM (HELM expects a namespace named redpoint-mdm)
+2. Create a namespace for MDM (HELM expects a namespace named redpoint-mdm)
 ```sh
 kubectl create namespace redpoint-mdm
  ```
-4. Create the following kubernetes secrets that MDM needs
+3. Create the following kubernetes secrets that MDM needs
  - mongodb-conn-string      : Secret that contains the mongodb connection string
 ```
  kubectl create secret generic mongodb-conn-string \
@@ -71,12 +70,12 @@ kubectl create secret docker-registry dockerhub --docker-server='https://index.d
 ```
 kubectl create secret tls mdm-tls --cert=$cert --key=$key --namespace redpoint-mdm
 ```
-5. For INGRESS and LDAP, edit the values.yaml file and update the following sections
+4. For INGRESS and LDAP, edit the values.yaml file and update the following sections
 ```sh
      - ldap :   Replace the example.com domain with your Active Directory domain
      - ingress: Replace the host_domain value with the FQDN you want to use for your ingress URLs
  ```
-6. Make sure you are in the repo directory that you cloned in step 1 and then run the following command to insall MDM
+5. Make sure you are in the repo directory that you cloned in step 1 and then run the following command to insall MDM
 ```sh
     helm install redpoint-mdm redpoint-mdm/ --values values.yaml
  ```
@@ -90,7 +89,6 @@ If you prefer an internal load balancer, simply edit the ```nginx-redpoint-mdm``
 #    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
 #    service.beta.kubernetes.io/azure-load-balancer-internal-subnet: "<add your subnet name>"
 ```
-R
 7. Execute the command below to get the URL endpoints 
 ```sh
     kubectl get ingress
