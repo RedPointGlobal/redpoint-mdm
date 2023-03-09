@@ -15,7 +15,7 @@ This documentation will show you how to Install or upgrade MDM in Kubernetes usi
 - [Retrieve the MDM URL Endpoints ](#retrieve-the-mdm-url-endpoints)
 - [Install MDM License](#install-mdm-license)
 - [Connect MDM to Redpoint Data Management](#connect-mdm-to-redpoint-data-management)
-- [Installation Gotchas](#installation-gotchas)
+- [Troubleshooting](#troubleshooting)
 - [Get MDM Support](#get-mdm-support)
 
 ### System Requirements
@@ -125,7 +125,12 @@ The MDM tools will appear in the Master Data tool group.
 ``` 
  ![image](https://user-images.githubusercontent.com/42842390/223878996-04c82cf7-531e-4568-9e6f-8390181628fa.png)
 
-### Installation Gotchas
- After running the HELM install command, you may notice that the Pods are stuck in a "PENDING" state. This is because the helm chart expects your kubernetes nodepool to have the following label ```application: mdm```. If you want to use a different label be sure to update the NodeSelector section (line 114) in the ```values.yaml```file to match the labels that you have applied on your nodepool. Once this is done, the Pods will transition into the "RUNNING" state 
+### Troubleshooting
+ - Pods are stuck in a "PENDING" state
+```
+ After running the HELM install command, you may notice that the Pods are stuck in a "PENDING" state. This is because the helm chart expects your kubernetes nodepool to have the following label application: mdm. If you want to use a different label be sure to update the NodeSelector section (line 114) in the ```values.yaml```file to match the labels that you have applied on your nodepool. Once this is done, the Pods will transition into the "RUNNING" state 
+ ``
+ - Mongo Connectivity issue
+ 
 ### Get MDM Support 
 Contact support@redpointglobal.com for any application specific issues you may encounter. Note that Kubernetes specific or other network connectivity errors are out of scope.
