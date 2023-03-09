@@ -13,8 +13,8 @@ This documentation will show you how to Install or upgrade MDM in Kubernetes usi
 - [System Requirements ](#system-requirements)
 - [Install Procedure ](#install-procedure)
 - [Retrieve the MDM URL Endpoints ](#retrieve-the-mdm-url-endpoints)
-- [Connect MDM to Redpoint Data Management (RPDM)](#connect-mdm-to-redpoint-data-management-(rpdm))
 - [Install MDM License](#install-mdm-license)
+- [Connect MDM to Redpoint Data Management (RPDM)](#connect-mdm-to-redpoint-data-management-(rpdm))
 - [Installation Gotchas](#installation-gotchas)
 - [Get MDM Support](#get-mdm-support)
 
@@ -84,6 +84,21 @@ It may take a few minutes for the all the MDM services to start. Please wait abo
     - rp-mdm-auth.example.com (This is the authentication server endpoint)
     - rp-mdm-core.example.com (This is the core service endpoint )
  ```  
+### Install MDM License
+Once you obtain your activation key from Redpoint Support, access the MDM web UI and provide the information below
+```sh
+  - Activation Key: Contact Redpoint Global support for an activation key
+  - License URLs
+      - For trial/demo: trial-license
+      - For production: https://qlm1.net/redpointglobal/qlmlicenseserver/qlmservice.asmx
+  - Public Key:       : Same as the activation key
+  - Product ID:       : Prod or Trial depending on your activation key
+ ```
+![6f248329-95d0-4ac6-a99f-efc220e2ecb8](https://user-images.githubusercontent.com/42842390/157773834-f2fe34ed-afb5-4d5d-af22-2cc898158846.png)
+
+After successful activation, you should see the Welcome page below 
+
+![34ce4157-3c8c-43dc-8d00-85838237b1cb](https://user-images.githubusercontent.com/42842390/157773845-a1a972e6-f29b-4a20-a8d3-3560a9f84514.png)
 
 ### Connect MDM to Redpoint Data Management (RPDM)
 To connect MDM to RPDM, you simply install the MDM Tools in RPDM as follows
@@ -100,22 +115,6 @@ The MDM tools will appear in the Master Data tool group.
     - MDM Server URL:            https://rp-mdm-core.example.com/mdm
 ``` 
  ![image](https://user-images.githubusercontent.com/42842390/223878996-04c82cf7-531e-4568-9e6f-8390181628fa.png)
-
-### Install MDM License
-Once you obtain your activation key from Redpoint Support, access the MDM web UI and provide the information below
-```sh
-  - Activation Key: Contact Redpoint Global support for an activation key
-  - License URLs
-      - For trial/demo: trial-license
-      - For production: https://qlm1.net/redpointglobal/qlmlicenseserver/qlmservice.asmx
-  - Public Key:       : Same as the activation key
-  - Product ID:       : Prod or Trial depending on your activation key
- ```
-![6f248329-95d0-4ac6-a99f-efc220e2ecb8](https://user-images.githubusercontent.com/42842390/157773834-f2fe34ed-afb5-4d5d-af22-2cc898158846.png)
-
-After successful activation, you should see the Welcome page below 
-
-![34ce4157-3c8c-43dc-8d00-85838237b1cb](https://user-images.githubusercontent.com/42842390/157773845-a1a972e6-f29b-4a20-a8d3-3560a9f84514.png)
 
 ### Installation Gotchas
  1) After running the HELM install command, you may notice that the Pods are stuck in a "PENDING" state. This is because the helm chart expects your kubernetes nodepool to have the following label ```application: mdm```. If you want to use a different label be sure to update the NodeSelector section (line 114) in the ```values.yaml```file to match the labels that you have applied on your nodepool. Once this is done, the Pods will transition into the "RUNNING" state 
