@@ -128,9 +128,13 @@ The MDM tools will appear in the Master Data tool group.
 ### Troubleshooting
  - Pods are stuck in a "PENDING" state
 ```
- After running the HELM install command, you may notice that the Pods are stuck in a "PENDING" state. This is because the helm chart expects your kubernetes nodepool to have the following label application: mdm. If you want to use a different label be sure to update the NodeSelector section (line 114) in the ```values.yaml```file to match the labels that you have applied on your nodepool. Once this is done, the Pods will transition into the "RUNNING" state 
- ``
- - Mongo Connectivity issue
- 
+ After running the HELM install command, you may notice that the Pods are stuck in a "PENDING" state. This is because the helm chart expects your kubernetes nodepool to have the following label application: mdm. If you want to use a different label be sure to update the NodeSelector section (line 114) in the values.yaml file to match the labels that you have applied on your nodepool. Once this is done, the Pods will transition into the "RUNNING" state 
+ ```
+ - Unable to login to the UI
+ ```
+ This is alway caused by network connectivity issues like
+   - MDM pods unable to talk to the mongodb database server and can be identified by
+looking the container logs. Once you fix the connectivity, you should be able to login
+```
 ### Get MDM Support 
 Contact support@redpointglobal.com for any application specific issues you may encounter. Note that Kubernetes specific or other network connectivity errors are out of scope.
