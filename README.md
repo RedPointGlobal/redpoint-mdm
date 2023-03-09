@@ -40,7 +40,7 @@ Before you install MDM, you must:
 3. Have a Kubernetes solution available to use. ( https://kubernetes.io/docs/setup/production-environment/turnkey-solutions/ )
 4. Have a MongoDB database server available to use for the MDM application Databases. ( https://docs.mongodb.com/v4.4/installation/). This can also be a managed solution like mongo Atlas.
 5. Have a docker ID and provide it to Redpoint Support so they can grant you permissions to pull the MDM container images
-6. Have a license key to activate a Trial for Production License. Contact Redpoint support for an activation key
+6. Have a license key to activate MDM. Contact Redpoint support for an activation key
 
 ### Install Procedure
 
