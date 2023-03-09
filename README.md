@@ -140,9 +140,7 @@ If you followed this guide step by step and ensured all the prerequsites are in 
  ```
  - Unable to login to the UI
  ```
- This is alway caused by network connectivity issues like
-   - MDM pods unable to talk to the mongodb database server and can be identified by
-looking the container logs. Once you fix the connectivity, you should be able to login
+ This is alway caused by network connectivity issues when MDM pods are unable to communicate with the mongodb database server and can be identified by looking the container logs. Once you fix the connectivity, you should be able to login and also connect MDM to RPDM
 ```
 ### Get MDM Support 
-Contact support@redpointglobal.com for any application specific issues you may encounter. Note that Kubernetes specific or other network connectivity errors are out of scope.
+If you believe you need additional support with installation, Contact support@redpointglobal.com for any application specific issues you may encounter.Generally, Kubernetes specific or other network connectivity errors are out of scope but we may be able to assist where possible.
