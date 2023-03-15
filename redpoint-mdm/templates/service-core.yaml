@@ -32,4 +32,4 @@ spec:
       protocol: {{ .Values.service.protocol }}
   selector:
     app: {{ .Values.names.core}}
-#  type: LoadBalancer
+  type: LoadBalancer
