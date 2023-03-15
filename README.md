@@ -32,9 +32,9 @@ This documentation will show you how to Install or upgrade MDM in Kubernetes usi
     - 20 GB or more free disk space per node
 
 - Kubernetes Cluster Networking
-   - Azure CNI for cluster in Azure (AKS)
-   - VPC-Native for clusters in Google Cloud (GKE)
-   - Amazon VPC CNI for clusters in AWS (EKS)
+   - Azure CNI for cluster in Azure (https://learn.microsoft.com/en-us/azure/aks/configure-azure-cni) 
+   - VPC-Native for clusters in Google Cloud (https://cloud.google.com/kubernetes-engine/docs/concepts/alias-ips#:~:text=In%20GKE%2C%20clusters%20can%20be,called%20a%20routes%2Dbased%20cluster.) 
+   - Amazon VPC CNI for clusters in AWS (https://docs.aws.amazon.com/eks/latest/userguide/managing-vpc-cni.html)
 
 ### Prerequisites
 
