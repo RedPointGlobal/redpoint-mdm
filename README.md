@@ -31,6 +31,11 @@ This documentation will show you how to Install or upgrade MDM in Kubernetes usi
     - 8 vCPUs and 32 GB memory per node
     - 20 GB or more free disk space per node
 
+- Kubernetes Cluster Networking
+   - Azure CNI for cluster in Azure (AKS)
+   - VPC-Native for clusters in Google Cloud (GKE)
+   - Amazon VPC CNI for clusters in AWS (EKS)
+
 ### Prerequisites
 
 Before you install MDM, you must:
