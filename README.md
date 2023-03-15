@@ -88,11 +88,24 @@ It may take a few minutes for the all the MDM services to start. Please wait abo
 ### Retrieve the MDM URL endpoints
 The chart creates an NGINX ingress controller for you and configures all the ingress rules necesssary for accessing MDM endpoints externally. It deploys a public Load Balancer by default.
 
-If you prefer an internal load balancer, simply edit the ```nginx-redpoint-mdm``` load balancer service in ```redpoint-mdm/templates/nginx-deploy.yaml``` file and uncomment the annotations below and then upgrade the helm deployment like so ```helm upgrade redpoint-mdm redpoint-mdm/ --values values.yaml```
+If you prefer an internal load balancer, simply edit the ```nginx-redpoint-mdm``` load balancer service in ```redpoint-mdm/templates/nginx-deploy.yaml``` file and add the annotations below depending on the cloud provider
 ```
-#    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
-#    service.beta.kubernetes.io/azure-load-balancer-internal-subnet: "<add your subnet name>"
+AZURE (AKS)
+service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+service.beta.kubernetes.io/azure-load-balancer-internal-subnet: "<add your subnet name>"
+
+AWS (EKS)
+service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp
+service.beta.kubernetes.io/aws-load-balancer-internal: "true"    
+service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: 'true'    
+service.beta.kubernetes.io/aws-load-balancer-type: nlb    
+service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: "60"
+
+GCP (GKE)
+cloud.google.com/load-balancer-type: "Internal"
 ```
+Once that is done, upgrade the helm deployment like so ```helm upgrade redpoint-mdm redpoint-mdm/ --values values.yaml```
+
 7. Execute the command below to get the URL endpoints 
 ```sh
     kubectl get ingress
