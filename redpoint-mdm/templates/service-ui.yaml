@@ -27,8 +27,8 @@ metadata:
 #   service.beta.kubernetes.io/azure-load-balancer-internal-subnet: "snet-rgoc-nonprod-eus2-aks"
 spec:
   ports:
-    - port: 9902
-      targetPort: 9902
+    - port: 9090
+      targetPort: 9090
       protocol: {{ .Values.service.protocol }}
   selector:
     app: {{ .Values.names.ui}}
