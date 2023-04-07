@@ -20,10 +20,6 @@ spec:
       imagePullSecrets:
         - name: {{ .Values.imagePullSecrets }}
       serviceAccountName: {{ .Values.serviceAccount.names.core }}
-      {{ if .Values.securityContext -}}
-      securityContext:
-        {{- toYaml .Values.securityContext | nindent 12 }}
-      {{- end }}
       containers:
         - name: {{ .Values.names.core }}         
           image:  "{{ .Values.images.repository.core }}:{{ .Values.images.tag }}"
