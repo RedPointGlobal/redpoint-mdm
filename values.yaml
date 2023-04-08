@@ -1,3 +1,6 @@
+global:
+  namespace: redpoint-mdm
+
 replicaCount: 1
 
 app_name: redpoint-mdm
@@ -6,7 +9,12 @@ mongodb_connection_secret: mongodb-conn-string # A kubernetes secret containing 
 createTestMongo: true  # Set to false in production and provide a connection string to your production mongo cluster
 java_api_service: rp-mdm-core
 
-aad_pod_identity: {}
+mongodb:
+  enabled: true
+  connection_string: mongodb://mongoadmin:9vDR1p8Q1KEO@mongodb:27017/admin?authSource=admin
+
+nginx:
+  enabled: false
 
 names:
   ui: rp-mdm-ui
@@ -79,7 +87,9 @@ ldap:
   active_dir_domain: DC=example,DC=com # For enabling Active Directory authentication, update the value for your environment
 
 ingress:
-  host_domain: example.com
+  host_domain: rdpnt.dev
+  internal: false
+  subnet_name: snet-rgoc-nonprod-eus2-aks #<replace with your target subnet name>
   name:
     ui: rp-mdm-ui-ingress
     core: rp-mdm-core-ingress
@@ -94,22 +104,6 @@ ingress:
     nginx.ingress.kubernetes.io/rewrite-target: "/"
     nginx.ingress.kubernetes.io/connection-proxy-header: "keep-alive"
 
-resources_core:
-  limits:
-    cpu: "3000m"  
-    memory: 12Gi 
-  requests:
-    cpu: "2000m" # 1 core = 1000 millicores
-    memory: 8Gi
-
-resources_ui:
-  limits:
-    cpu: "1000m" 
-    memory: 1Gi
-  requests:
-    cpu: 500m
-    memory: 0.5Gi
-
 autoscaling:
   enabled: false
   minReplicas: 1
@@ -117,11 +111,5 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   targetMemoryUtilizationPercentage: 80
 
-nodeSelector:
-  key: application
-  value: mdm
-
-
 tolerations: []
-
 affinity: {}

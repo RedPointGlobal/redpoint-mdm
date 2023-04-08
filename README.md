@@ -31,13 +31,7 @@ This documentation will show you how to Install or upgrade MDM in Kubernetes usi
     - 8 vCPUs and 32 GB memory per node
     - 20 GB or more free disk space per node
 
-- Kubernetes Cluster Networking
-   - ```Azure CNI for cluster in Azure``` (https://learn.microsoft.com/en-us/azure/aks/configure-azure-cni) 
-   - ```VPC-Native for clusters in Google``` (https://cloud.google.com/kubernetes-engine/docs/concepts/alias-ips#:~:text=In%20GKE%2C%20clusters%20can%20be,called%20a%20routes%2Dbased%20cluster.) 
-   - ```Amazon VPC CNI for clusters in AWS``` (https://docs.aws.amazon.com/eks/latest/userguide/managing-vpc-cni.html)
-
 ### Prerequisites
-
 Before you install MDM, you must:
 
 1. Install kubectl. ( https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/ )
@@ -47,75 +41,66 @@ Before you install MDM, you must:
 5. Have a docker ID and provide it to Redpoint Support so they can grant you permissions to pull the MDM container images
 6. Have a license key to activate MDM. Contact Redpoint support for an activation key
 
-### Before you Install
+| **NOTE:** Before you Begin!           |
+|---------------------------------------|
+| This guide focuses on Microsoft Azure for the underlying Kubernetes infrastructure, and creates a container based MongoDB Server for the MDM system databases. This is only intended for use in a ```DEMO``` or ```DEV``` setting. However, we also show you how to customize the chart for deployment in a Production setting. Be sure to check out the ```Customize for Production``` section down below  |
+
+### Install Procedure
 
 1. Clone this repository and connect to your target Kubernetes Cluster
 ```sh
 git clone https://github.com/RedPointGlobal/rp-mdm.git
  ```
-2. Create a namespace for MDM (HELM expects a namespace named redpoint-mdm)
-```sh
-kubectl create namespace redpoint-mdm
- ```
-3. Create the following kubernetes secrets that MDM needs
- - ```mongodb-conn-string``` | Secret that contains your mongodb connection string 
+2. Make sure you are inside the redpoint-mdm directory
 ```
- kubectl create secret generic mongodb-conn-string \
---from-literal=MONGO_CONNECTION_STRING=$your_mongo_connection_string \
---namespace redpoint-mdm
+cd redpoint-mdm
 ```
- - ```docker-io``` | Secret that contains your docker hub credentials 
+3. Create a kubernetes secret that contains your docker hub credentials 
 ```
 kubectl create secret docker-registry docker-io --docker-server='https://index.docker.io/v1/' \
 --docker-username=$your_docker_username --docker-password=$your_docker_password --docker-email=$your_docker_email --namespace redpoint-mdm
 ```
- - ```mdm-tls``` | Secret that contains your TLS certificate files (.crt and .key)
+4. Run the following command to install MDM
 ```
-kubectl create secret tls mdm-tls --cert=$your_tls_cert --key=$your_tls_key --namespace redpoint-mdm
-```
-4. For INGRESS and LDAP, edit the values.yaml file and update the following sections
-```sh
-     - ldap :   Replace the example.com domain with your Active Directory domain
-     - ingress: Replace the host_domain value with the FQDN you want to use for your ingress URLs
+kubectl config set-context --current --namespace=redpoint-mdm \
+&& helm install redpoint-mdm redpoint-mdm/ --values values.yaml --create-namespace
  ```
-### Install
-Make sure you are in the repo directory that you cloned in step 1 and then run the following command to insall MDM
-```sh
-    helm install redpoint-mdm redpoint-mdm/ --values values.yaml
- ```
-It may take a few minutes for the all the MDM services to start. Please wait about 10 minutes before testing.
+If everything goes well, You should see the output below.
+``
+NAME: redpoint-mdm
+LAST DEPLOYED: Sat Apr  8 20:13:56 2023
+NAMESPACE: redpoint-mdm
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+********************************* SUCCESS! ************************************************************
+
+MDM has successfully been installed in your cluster.
+  - It may take a few minutes for the all the MDM services to start. Please wait about 10 minutes.
+``
 
 ### Retrieve the MDM URL endpoints
-The chart creates an NGINX ingress controller for you and configures all the ingress rules necesssary for accessing MDM endpoints externally. It deploys a public Load Balancer by default.
-
-If you prefer an internal load balancer, simply edit the ```nginx-redpoint-mdm``` load balancer service in ```redpoint-mdm/templates/nginx-deploy.yaml``` file and add the annotations below depending on the cloud provider
+The default installation includes an Nginx ingress controller that exposes the MDM UI endpoint based on the domain specified in the ingress section within the values.yaml. 
 ```
-AZURE (AKS)
-service.beta.kubernetes.io/azure-load-balancer-internal: "true"
-service.beta.kubernetes.io/azure-load-balancer-internal-subnet: "<add your subnet name>"
-
-AWS (EKS)
-service.beta.kubernetes.io/aws-load-balancer-backend-protocol: tcp
-service.beta.kubernetes.io/aws-load-balancer-internal: "true"    
-service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: 'true'    
-service.beta.kubernetes.io/aws-load-balancer-type: nlb    
-service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: "60"
-
-GCP (GKE)
-cloud.google.com/load-balancer-type: "Internal"
+ingress:
+  host_domain: example.com  # Replace with your custom domain
 ```
-Once that is done, upgrade the helm deployment like so ```helm upgrade redpoint-mdm redpoint-mdm/ --values values.yaml```
-
-7. Execute the command below to get the URL endpoints 
+If you prefer to use a different Ingress controller solution, you can disable the default nginx by modifying the sections beloq
+```
+nginx:
+  enabled: true # Change this to false
+```
+Run the command below to retrieve the MDM UI endpoint. This command will keep checking the ingress IP address every 10 seconds until it finds one. Once an IP address is found, it will display the IP and the corresponding ingress hostname
 ```sh
-    kubectl get ingress
+ NAMESPACE="redpoint-mdm"; INGRESS_IP=""; while true; do INGRESS_IP=$(kubectl get ingress --namespace $NAMESPACE -o jsonpath="{.items[0].status.loadBalancer.ingress[0].ip}"); if [ -n "$INGRESS_IP" ]; then echo "IP address found: $INGRESS_IP"; kubectl get ingress --namespace $NAMESPACE; break; else echo "No IP address found, waiting for 10 seconds before checking again..."; sleep 10; fi; done
  ```
-- The command returns the following URL endpoints
+- The command returns the following URL endpoint
 ```sh
     - rp-mdm-ui.example.com   (This is the Web UI endpoint)
-    - rp-mdm-auth.example.com (This is the authentication server endpoint)
-    - rp-mdm-core.example.com (This is the core service endpoint )
  ```  
+The chart also create a TCP service of type ```LoadBalancer``` for the MDM authentication service and one for the MDM Core service. These TCP services are needed to configure the connection between MDM and Redpoint Data Management (RPDM)
+
 ### Install MDM License
 Once you obtain your activation key from Redpoint Support, access the MDM web UI and provide the information below
 ```sh

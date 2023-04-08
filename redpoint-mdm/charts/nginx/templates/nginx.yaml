@@ -1,4 +1,86 @@
 ---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/instance: ingress-nginx
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/part-of: ingress-nginx
+    app.kubernetes.io/version: 1.5.1
+  name: nginx-{{ include "custom.namespace" . }}
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  - endpoints
+  - nodes
+  - pods
+  - secrets
+  - namespaces
+  verbs:
+  - list
+  - watch
+- apiGroups:
+  - coordination.k8s.io
+  resources:
+  - leases
+  verbs:
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - nodes
+  verbs:
+  - get
+- apiGroups:
+  - ""
+  resources:
+  - services
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - networking.k8s.io
+  resources:
+  - ingresses
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - events
+  verbs:
+  - create
+  - patch
+- apiGroups:
+  - networking.k8s.io
+  resources:
+  - ingresses/status
+  verbs:
+  - update
+- apiGroups:
+  - networking.k8s.io
+  resources:
+  - ingressclasses
+  verbs:
+  - get
+  - list
+  - watch
+- apiGroups:
+  - discovery.k8s.io
+  resources:
+  - endpointslices
+  verbs:
+  - list
+  - watch
+  - get
+  
+---
 apiVersion: networking.k8s.io/v1
 kind: IngressClass
 metadata:
@@ -9,7 +91,7 @@ metadata:
     app.kubernetes.io/version: 1.5.1
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
-  name: {{ .Values.namespace }}
+  name: {{ include "custom.namespace" . }}
 spec:
   controller: k8s.io/ingress-nginx
   
@@ -23,8 +105,8 @@ metadata:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/part-of: ingress-nginx
     app.kubernetes.io/version: 1.5.1
-  name: nginx-redpoint-mdm
-  namespace: {{ .Values.namespace }}
+  name: nginx-{{ include "custom.namespace" . }}
+  namespace: {{ include "custom.namespace" . }}
 rules:
 - apiGroups:
   - ""
@@ -129,16 +211,16 @@ metadata:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/part-of: ingress-nginx
     app.kubernetes.io/version: 1.5.1
-  name: nginx-redpoint-mdm
-  namespace: {{ .Values.namespace }}
+  name: nginx-{{ include "custom.namespace" . }}
+  namespace: {{ include "custom.namespace" . }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: nginx-redpoint-mdm
+  name: nginx-{{ include "custom.namespace" . }}
 subjects:
 - kind: ServiceAccount
-  name: nginx-redpoint-mdm
-  namespace: {{ .Values.namespace }}
+  name: nginx-{{ include "custom.namespace" . }}
+  namespace: {{ include "custom.namespace" . }}
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -149,16 +231,16 @@ metadata:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/part-of: ingress-nginx
     app.kubernetes.io/version: 1.5.1
-  name: nginx-redpoint-mdm
-  namespace: {{ .Values.namespace }}
+  name: nginx-{{ include "custom.namespace" . }}
+  namespace: {{ include "custom.namespace" . }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: nginx-redpoint-mdm
+  name: nginx-{{ include "custom.namespace" . }}
 subjects:
 - kind: ServiceAccount
-  name: nginx-redpoint-mdm
-  namespace: {{ .Values.namespace }}
+  name: nginx-{{ include "custom.namespace" . }}
+  namespace: {{ include "custom.namespace" . }}
 
 ---
 # Source: ingress-nginx/templates/controller-configmap.yaml
@@ -172,8 +254,8 @@ metadata:
     app.kubernetes.io/version: 1.5.1
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
-  name: nginx-redpoint-mdm
-  namespace: {{ .Values.namespace }}
+  name: nginx-{{ include "custom.namespace" . }}
+  namespace: {{ include "custom.namespace" . }}
 data:
   allow-snippet-annotations: 'true'
   use-http2: "true"
@@ -192,10 +274,10 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
   name: tcp-services
-  namespace: {{ .Values.namespace }}
+  namespace: {{ include "custom.namespace" . }}
 data:
-  9901: "{{ .Values.namespace }}/rp-mdm-auth-tcp:9901"
-  9902: "{{ .Values.namespace }}/rp-mdm-core-tcp:9902"
+  9901: "{{ include "custom.namespace" . }}/rp-mdm-auth-tcp:9901"
+  9902: "{{ include "custom.namespace" . }}/rp-mdm-core-tcp:9902"
 
 ---
 # Source: ingress-nginx/templates/controller-deployment.yaml
@@ -209,8 +291,8 @@ metadata:
     app.kubernetes.io/version: 1.5.1
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
-  name: nginx-redpoint-mdm
-  namespace: {{ .Values.namespace }}
+  name: nginx-{{ include "custom.namespace" . }}
+  namespace: {{ include "custom.namespace" . }}
 spec:
   selector:
     matchLabels:
@@ -238,13 +320,13 @@ spec:
                   - /wait-shutdown
           args:
             - /nginx-ingress-controller
-            - --publish-service={{ .Values.namespace }}/nginx-redpoint-mdm
+            - --publish-service={{ include "custom.namespace" . }}/nginx-{{ include "custom.namespace" . }}
             - --election-id=ingress-nginx-leader
             - --controller-class=k8s.io/ingress-nginx
-            - --configmap={{ .Values.namespace }}/nginx-redpoint-mdm
-            - --tcp-services-configmap={{ .Values.namespace }}/tcp-services
-            - --default-ssl-certificate={{ .Values.namespace }}/{{ .Values.ingress.tls_secret_name }}
-            - --watch-namespace={{ .Values.namespace }}
+            - --configmap={{ include "custom.namespace" . }}/nginx-{{ include "custom.namespace" . }}
+            - --tcp-services-configmap={{ include "custom.namespace" . }}/tcp-services
+            - --default-ssl-certificate={{ include "custom.namespace" . }}/mdm-tls
+            - --watch-namespace={{ include "custom.namespace" . }}
           securityContext:
             capabilities:
               drop:
@@ -297,7 +379,7 @@ spec:
               memory: 90Mi
       nodeSelector:
         kubernetes.io/os: linux
-      serviceAccountName: nginx-redpoint-mdm
+      serviceAccountName: nginx-{{ include "custom.namespace" . }}
       terminationGracePeriodSeconds: 300
 
 ---
@@ -315,8 +397,8 @@ metadata:
     app.kubernetes.io/version: 1.5.1
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
-  name: nginx-redpoint-mdm
-  namespace: {{ .Values.namespace }}
+  name: nginx-{{ include "custom.namespace" . }}
+  namespace: {{ include "custom.namespace" . }}
 spec:
   type: LoadBalancer
   externalTrafficPolicy: Local
@@ -356,7 +438,7 @@ metadata:
     app.kubernetes.io/version: 1.5.1
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
-  name: nginx-redpoint-mdm
-  namespace: {{ .Values.namespace }}
+  name: nginx-{{ include "custom.namespace" . }}
+  namespace: {{ include "custom.namespace" . }}
 automountServiceAccountToken: true
 

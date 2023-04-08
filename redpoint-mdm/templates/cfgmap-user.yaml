@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: rpmdm-user-properties
-  namespace: {{ .Values.namespace }}
+  namespace: {{ .Values.global.namespace }}
 data:
   mdm_user_service.properties: |
     user.port=9903

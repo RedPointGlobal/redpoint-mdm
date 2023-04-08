@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Values.names.core }}
-  namespace: {{ .Values.namespace }}
+  namespace: {{ .Values.global.namespace }}
   labels:
     app: {{ .Values.names.core }}
 spec:
@@ -14,8 +14,6 @@ spec:
     metadata:
       labels:
         app: {{ .Values.names.core }}
-      annotations:
-        container.apparmor.security.beta.kubernetes.io/rp-mdm-core: runtime/default
     spec:
       imagePullSecrets:
         - name: {{ .Values.imagePullSecrets }}
@@ -26,8 +24,6 @@ spec:
           imagePullPolicy: {{ .Values.images.pullPolicy }}
           ports:
             - containerPort: {{ .Values.service.port.core }}
-          resources:
-            {{- toYaml .Values.resources_core | nindent 12 }}
           env:
           - name: MDM_MONGO_URI
             valueFrom:
@@ -37,13 +33,6 @@ spec:
           volumeMounts:
             - name: rpmdm-core-properties
               mountPath: /usr/local/share/redpointmdm/
-      nodeSelector:
-        {{ .Values.nodeSelector.key }}: {{ .Values.nodeSelector.value }}
-      tolerations:
-        - effect: NoSchedule
-          key: {{ .Values.nodeSelector.key }}
-          operator: Equal 
-          value: {{ .Values.nodeSelector.value }}
       volumes:
         - name: rpmdm-core-properties
           configMap:

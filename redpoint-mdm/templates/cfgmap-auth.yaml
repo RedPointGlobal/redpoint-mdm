@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: rpmdm-auth-properties
-  namespace: {{ .Values.namespace }}
+  namespace: {{ .Values.global.namespace }}
 data:
   mdm_authentication_service.properties: |
     authentication.active_dir.url={{ .Values.ldap.active_dir_url }}

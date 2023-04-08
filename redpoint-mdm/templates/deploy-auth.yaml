@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Values.names.auth }}
-  namespace: {{ .Values.namespace }}
+  namespace: {{ .Values.global.namespace }}
   labels:
     app: {{ .Values.names.auth }}
 spec:
@@ -15,8 +15,6 @@ spec:
     metadata:
       labels:
         app: {{ .Values.names.auth }}
-      annotations:
-        container.apparmor.security.beta.kubernetes.io/rp-mdm-auth: runtime/default
     spec:
       imagePullSecrets:
         - name: {{ .Values.imagePullSecrets }}
@@ -27,8 +25,6 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: {{ .Values.service.port.auth }}
-          resources:
-            {{- toYaml .Values.resources_ui | nindent 12 }}
           env:
           - name: MDM_MONGO_URI
             valueFrom:
@@ -43,13 +39,6 @@ spec:
             - name: log4js-config
               mountPath: /usr/local/app/authentication-service/log4js_config.json
               subPath: log4js_config.json
-      nodeSelector:
-        {{ .Values.nodeSelector.key }}: {{ .Values.nodeSelector.value }}
-      tolerations:
-        - effect: NoSchedule
-          key: {{ .Values.nodeSelector.key }}
-          operator: Equal 
-          value: {{ .Values.nodeSelector.value }}
       volumes:
         - name: rpmdm-auth-properties
           configMap:

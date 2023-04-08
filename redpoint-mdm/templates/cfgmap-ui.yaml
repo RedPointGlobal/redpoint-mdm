@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: rpmdm-ui-properties
-  namespace: {{ .Values.namespace }}
+  namespace: {{ .Values.global.namespace }}
 data:
   mdm_web_service.properties: |
     mdm.port=9090
@@ -18,7 +18,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: log4js-config
-  namespace: {{ .Values.namespace }}
+  namespace: {{ .Values.global.namespace }}
 data:
   log4js_config.json: |
     {
