@@ -86,7 +86,7 @@ The default installation includes an Nginx ingress controller that exposes the M
 ingress:
   host_domain: example.com  # Replace with your custom domain
 ```
-If you prefer to use a different Ingress controller solution, you can disable the default nginx by modifying the sections beloq
+If you prefer to use a different Ingress controller solution, you can disable the default nginx by modifying the sections below
 ```
 nginx:
   enabled: true # Change this to false
