@@ -83,7 +83,6 @@ NOTES:
 MDM has successfully been installed in your cluster.
   - It may take a few minutes for the all the MDM services to start. Please wait about 10 minutes.
 ```
-
 ### MDM Ingress
 The default installation includes an Nginx ingress controller that exposes the MDM UI endpoint based on the domain specified in the ingress section within the values.yaml. 
 ```
@@ -103,8 +102,13 @@ Run the command below to retrieve the MDM UI endpoint. This command will keep ch
 ```sh
     - rp-mdm-ui.example.com   (This is the Web UI endpoint)
  ```  
-The chart also create a TCP service of type ```LoadBalancer``` for the MDM authentication service and one for the MDM Core service. These TCP services are needed to configure the connection between MDM and Redpoint Data Management (RPDM)
+The chart also creates two ```LoadBalancer``` required to expose MDM Core and Authentication services over ```TCP```. These will be required when configuring MDM to interact with Redpoint Data Management (RPDM)
 
+You can retrieve these two services using the command below
+```
+kubectl get service rp-mdm-core  # IP address of the MDM Core service
+kubectl get service rp-mdm-auth  # IP address of the MDM Authentication service
+```
 ### Install MDM License
 Once you obtain your activation key from Redpoint Support, access the MDM web UI and provide the information below
 ```sh
