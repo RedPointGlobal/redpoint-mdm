@@ -132,15 +132,20 @@ kubectl get service rp-mdm-core-tcp  # IP address of the MDM Core service
 kubectl get service rp-mdm-auth-tcp  # IP address of the MDM Authentication service
 ```
 2. Download the MDM tools JAR from a download url provided by Redpoint Support
-3. Place the JAR file into the ```\java_plugins``` folder in the Redpoint Data Management installation folder. The filename is of the form mdm-connectors-*-shaded.jar.
-4. In the Redpoint Data Management client, click the Palette menu button at the top of the tool palette and select Reset Palette. The tools will appear in the Master Data tool group.
+3. Place the JAR file into the ```\java_plugins``` folder in the Redpoint Data Management installation folder. The filename is of the form ```mdm-connectors-*-shaded.jar```.
+4. In the Redpoint Data Management client, click the Palette menu button at the top of the tool palette and select ```Reset Palette```. The tools will appear in the Master Data tool group.
 
- - Click the Repository tab and go to Settings > Tools.
+ - Click the Repository tab and go to ```Settings > Tools```.
  - Close and re-open any projects that were active before installing the MDM tools JAR file.
  - Click the MDM tab and enter your server and authentication credentials as shown below
 ```
 Authentication Server URL: http://<IP address of MDM Auth service>:9901/mdm
 MDM Server URL:            http://<IP address of MDM Core service>:9902/mdm
+
+Example:
+Authentication Server URL: http://10.60.0.20:9901/mdm
+MDM Server URL:            http://10.60.0.30:9902/mdm
+
 ``` 
  ![image](https://user-images.githubusercontent.com/42842390/223878996-04c82cf7-531e-4568-9e6f-8390181628fa.png)
 
