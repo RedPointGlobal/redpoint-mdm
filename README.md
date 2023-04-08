@@ -14,9 +14,9 @@ This documentation will show you how to Install or upgrade MDM in Kubernetes usi
 - [Install Procedure ](#install-procedure)
 - [MDM Ingress ](#mdm-ingress)
 - [MDM Activation](#mdm-activation)
-- [Connect MDM to Redpoint Data Management](#connect-mdm-to-redpoint-data-management)
+    - [Connect MDM to Redpoint Data Management](#connect-mdm-to-redpoint-data-management)
 - [Troubleshooting](#troubleshooting)
-- [Get MDM Support](#get-mdm-support)
+- [MDM Support](#mdm-support)
 
 ### System Requirements
 
