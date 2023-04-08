@@ -156,6 +156,7 @@ If you followed this guide step by step, then things should just work out of the
  This is always caused by network connectivity issues. If MDM is unable to communicate with the mongodb database server, you wont be able to login. You can confirm this by looking at the container logs for the ```rp-mdm-core``` and ```rp-mdm-auth``` pods. Once you fix the connectivity issues, you should be able to login and also connect MDM to RPDM
 
  ```Nginx 502 Bad Gateway when accessing the Web UI```
+ 
 The default installation requires that you create a kubernetes ```tls``` secret for you certificate data. The secret must be named ```mdm-tls```. If this secret is missing, Nginx wont know how to route the requests for the Web UI. Creating this secret with the relevant certficate data should resolve this issue
 
 ### Get MDM Support 
