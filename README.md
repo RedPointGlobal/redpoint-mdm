@@ -61,11 +61,11 @@ kubectl create secret docker-registry docker-io --docker-server='https://index.d
 --docker-username=$your_docker_username --docker-password=$your_docker_password --docker-email=$your_docker_email --namespace redpoint-mdm
 ```
 4. Create a secret that contains the certificate files for your custom domain. This is required by the default installation which deploys and configures an Nginx ingress controller. 
-
-If you prefer to use a different Ingress solution, disable the default ingress in the ```values.yaml``` file as described in the ```MDM Ingress Section```
 ```
 kubectl create secret tls mdm-tls --cert=$your_tls_cert --key=$your_tls_key --namespace redpoint-mdm
 ```
+If you prefer to use a different Ingress solution, disable the default ingress in the ```values.yaml``` file as described in the ```MDM Ingress Section```
+
 5. Run the following command to install MDM
 ```
 kubectl config set-context --current --namespace=redpoint-mdm \
