@@ -145,26 +145,15 @@ MDM Server URL:            http://<IP address of MDM Core service>:9902/mdm
 Example:
 Authentication Server URL: http://10.60.0.20:9901/mdm
 MDM Server URL:            http://10.60.0.30:9902/mdm
-
 ``` 
  ![image](https://user-images.githubusercontent.com/42842390/223878996-04c82cf7-531e-4568-9e6f-8390181628fa.png)
 
 ### Troubleshooting
 If you followed this guide step by step, then things should just work out of the box. However, the most common issues we have seen our customers encounter with installation are mentioned below;
-
- - ```Pods are stuck in a "PENDING" state```
  
- You may notice that the Pods are stuck in a "PENDING" state. This is because the helm chart expects your kubernetes nodepool to have the following label ```application: mdm```. If you want to use a different label, update the NodeSelector section in the ```values.yaml``` file to match the labels that you have assigned to your nodepool.
-```
- nodeSelector:
-  key: application
-  value: mdm
-```
- Once this is done, the Pods will transition into the "RUNNING" state 
+```Unable to login to the Web UI```
  
- - ```Unable to login to the UI```
- 
- This is always caused by network connectivity issues when MDM pods are unable to communicate with the mongodb database server. You can confirm this by looking the container logs. Once you fix the connectivity issues, you should be able to login and also connect MDM to RPDM
+ This is always caused by network connectivity issues. If MDM is unable to communicate with the mongodb database server, you wont be able to login. You can confirm this by looking at the container logs for the ```rp-mdm-core``` and ```rp-mdm-auth``` pods. Once you fix the connectivity issues, you should be able to login and also connect MDM to RPDM
 
 ### Get MDM Support 
 If you believe you need additional support with installation, Contact support@redpointglobal.com for any application specific issues you may encounter. 
