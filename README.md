@@ -58,7 +58,8 @@ cd redpoint-mdm
 3. Create a kubernetes secret that contains your docker hub credentials 
 ```
 kubectl create secret docker-registry docker-io --docker-server='https://index.docker.io/v1/' \
---docker-username=$your_docker_username --docker-password=$your_docker_password --docker-email=$your_docker_email --namespace redpoint-mdm
+--docker-username=$your_docker_username --docker-password=$your_docker_password \
+--namespace redpoint-mdm
 ```
 4. Create a secret that contains the certificate files for your custom domain. This is required by the default installation which deploys and configures an Nginx ingress controller. 
 ```
