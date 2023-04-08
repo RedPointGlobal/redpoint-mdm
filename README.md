@@ -100,9 +100,9 @@ Run the command below to retrieve the MDM UI endpoint. This command will keep ch
  ```
 - The command returns the following URL endpoint
 ```sh
-    - rp-mdm-ui.example.com   (This is the Web UI endpoint)
+rp-mdm-ui.example.com
  ```  
-The chart also creates two ```LoadBalancer``` required to expose MDM Core and Authentication services over ```TCP```. These will be required when configuring MDM to interact with Redpoint Data Management (RPDM)
+The chart also creates two ```LoadBalancer``` services required to expose MDM Core and Authentication services over ```TCP```. These will be required when configuring MDM to interact with Redpoint Data Management (RPDM)
 
 You can retrieve these two services using the command below
 ```
