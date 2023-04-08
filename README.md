@@ -159,10 +159,8 @@ If you followed this guide step by step, then things should just work out of the
 
 The default installation requires that you create a kubernetes ```tls``` secret for you certificate data. The secret must be named ```mdm-tls```. If this secret is missing, Nginx wont know how to route the requests for the Web UI. Creating this secret with the relevant certficate data should resolve this issue
 
-### Get MDM Support 
-If you believe you need additional support with installation, Contact support@redpointglobal.com for any application specific issues you may encounter. 
-
-Generally, Kubernetes specific or other network connectivity errors are out of scope but we may be able to assist and guide where possible.
+### MDM Support 
+If you believe you need additional support with installation, Contact support@redpointglobal.com for any application specific issues you may encounter. Kubernetes specific or other network connectivity errors are out of scope
 
 
 
