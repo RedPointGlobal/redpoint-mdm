@@ -110,7 +110,7 @@ kubectl get service rp-mdm-core-tcp  # IP address of the MDM Core service
 kubectl get service rp-mdm-auth-tcp  # IP address of the MDM Authentication service
 ```
 ### Install MDM License
-Once you have MDM installed and obtained your activation key from Redpoint Support, you can proceed to activate MDM. Login to the Web UI using the default ```system/system``` username and password and provide the activation license as shown below.
+Once you have MDM installed and obtained your activation key from Redpoint Support, you can proceed to activate MDM. Login to the Web UI using the default username```system``` and password ```system```. Then input the activation license as shown below.
 ```sh
   - License URLs
       - For trial/demo: trial-license
