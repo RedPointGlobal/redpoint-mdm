@@ -12,7 +12,7 @@ This documentation will show you how to Install or upgrade MDM in Kubernetes usi
 - [Prerequisites ](#prerequisites)
 - [System Requirements ](#system-requirements)
 - [Install Procedure ](#install-procedure)
-- [Retrieve the MDM URL Endpoints ](#retrieve-the-mdm-url-endpoints)
+- [MDM Ingress ](#mdm-ingress)
 - [Install MDM License](#install-mdm-license)
 - [Connect MDM to Redpoint Data Management](#connect-mdm-to-redpoint-data-management)
 - [Troubleshooting](#troubleshooting)
@@ -60,7 +60,11 @@ cd redpoint-mdm
 kubectl create secret docker-registry docker-io --docker-server='https://index.docker.io/v1/' \
 --docker-username=$your_docker_username --docker-password=$your_docker_password --docker-email=$your_docker_email --namespace redpoint-mdm
 ```
-4. Run the following command to install MDM
+4. Create a secret that contains the certificate files (.crt and .key) used by your custom domain. This secret is required if you opt to use the default Nginx ingress solution deployed by the chart. If you prefer to use a different Ingress solution, disable the default ingress in the ```values.yaml``` file as described in the ```MDM Ingress Section``` below
+```
+kubectl create secret tls mdm-tls --cert=$your_tls_cert --key=$your_tls_key --namespace redpoint-mdm
+```
+5. Run the following command to install MDM
 ```
 kubectl config set-context --current --namespace=redpoint-mdm \
 && helm install redpoint-mdm redpoint-mdm/ --values values.yaml --create-namespace
@@ -80,7 +84,7 @@ MDM has successfully been installed in your cluster.
   - It may take a few minutes for the all the MDM services to start. Please wait about 10 minutes.
 ```
 
-### Retrieve the MDM URL endpoints
+### MDM Ingress
 The default installation includes an Nginx ingress controller that exposes the MDM UI endpoint based on the domain specified in the ingress section within the values.yaml. 
 ```
 ingress:
