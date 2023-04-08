@@ -159,6 +159,6 @@ If you followed this guide step by step, then things should just work out of the
 If you believe you need additional support with installation, Contact support@redpointglobal.com for any application specific issues you may encounter. 
 
 Generally, Kubernetes specific or other network connectivity errors are out of scope but we may be able to assist and guide where possible.
-![argo-icon-small](https://user-images.githubusercontent.com/42842390/230259718-6f3eb5c5-259b-49c3-9591-50d91118e1bc.png)
+
 
 
