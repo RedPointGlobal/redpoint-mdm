@@ -64,7 +64,7 @@ kubectl create secret docker-registry docker-io --docker-server='https://index.d
 ```
 kubectl create secret tls mdm-tls --cert=$your_tls_cert --key=$your_tls_key --namespace redpoint-mdm
 ```
-If you prefer to use a different Ingress solution, disable the default ingress in the ```values.yaml``` file as described in the [MDM Ingress ](#mdm-ingress) section
+If you prefer to use a different Ingress solution, disable the default ingress as described here [MDM Ingress ](#mdm-ingress) 
 
 5. Run the following command to install MDM
 ```
