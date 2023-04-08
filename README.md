@@ -106,8 +106,8 @@ The chart also creates two ```LoadBalancer``` services required to expose MDM Co
 
 You can retrieve these two services using the command below
 ```
-kubectl get service rp-mdm-core  # IP address of the MDM Core service
-kubectl get service rp-mdm-auth  # IP address of the MDM Authentication service
+kubectl get service rp-mdm-core-tcp  # IP address of the MDM Core service
+kubectl get service rp-mdm-auth-tcp  # IP address of the MDM Authentication service
 ```
 ### Install MDM License
 Once you obtain your activation key from Redpoint Support, access the MDM web UI and provide the information below
