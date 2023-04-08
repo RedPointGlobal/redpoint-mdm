@@ -13,7 +13,7 @@ This documentation will show you how to Install or upgrade MDM in Kubernetes usi
 - [System Requirements ](#system-requirements)
 - [Install Procedure ](#install-procedure)
 - [MDM Ingress ](#mdm-ingress)
-- [Install MDM License](#install-mdm-license)
+- [MDM Activation](#mdm-activation)
 - [Connect MDM to Redpoint Data Management](#connect-mdm-to-redpoint-data-management)
 - [Troubleshooting](#troubleshooting)
 - [Get MDM Support](#get-mdm-support)
@@ -109,7 +109,7 @@ You can retrieve these two services using the command below
 kubectl get service rp-mdm-core-tcp  # IP address of the MDM Core service
 kubectl get service rp-mdm-auth-tcp  # IP address of the MDM Authentication service
 ```
-### Install MDM License
+### MDM Activation
 Once you have MDM installed and obtained your activation key from Redpoint Support, you can proceed to activate MDM. Login to the Web UI using the default username```system``` and password ```system```. Then input the activation license as shown below.
 ```sh
   Demo license url:        trial-license
@@ -156,7 +156,7 @@ If you followed this guide step by step, then things should just work out of the
  This is always caused by network connectivity issues. If MDM is unable to communicate with the mongodb database server, you wont be able to login. You can confirm this by looking at the container logs for the ```rp-mdm-core``` and ```rp-mdm-auth``` pods. Once you fix the connectivity issues, you should be able to login and also connect MDM to RPDM
 
  ```Nginx 502 Bad Gateway when accessing the Web UI```
- 
+
 The default installation requires that you create a kubernetes ```tls``` secret for you certificate data. The secret must be named ```mdm-tls```. If this secret is missing, Nginx wont know how to route the requests for the Web UI. Creating this secret with the relevant certficate data should resolve this issue
 
 ### Get MDM Support 
