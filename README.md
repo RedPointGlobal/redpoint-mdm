@@ -66,7 +66,7 @@ kubectl config set-context --current --namespace=redpoint-mdm \
 && helm install redpoint-mdm redpoint-mdm/ --values values.yaml --create-namespace
  ```
 If everything goes well, You should see the output below.
-``
+```
 NAME: redpoint-mdm
 LAST DEPLOYED: Sat Apr  8 20:13:56 2023
 NAMESPACE: redpoint-mdm
@@ -78,7 +78,7 @@ NOTES:
 
 MDM has successfully been installed in your cluster.
   - It may take a few minutes for the all the MDM services to start. Please wait about 10 minutes.
-``
+```
 
 ### Retrieve the MDM URL endpoints
 The default installation includes an Nginx ingress controller that exposes the MDM UI endpoint based on the domain specified in the ingress section within the values.yaml. 
