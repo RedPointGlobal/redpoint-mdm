@@ -12,9 +12,12 @@ This documentation will show you how to Install or upgrade MDM in Kubernetes usi
 - [Prerequisites ](#prerequisites)
 - [System Requirements ](#system-requirements)
 - [Install Procedure ](#install-procedure)
-- [MDM Ingress ](#mdm-ingress)
-- [MDM Activation](#mdm-activation)
-    - [Connect MDM to Redpoint Data Management](#connect-mdm-to-redpoint-data-management)
+   - [MDM Endpoints ](#mdm-endpoints)
+   - [MDM Activation](#mdm-activation)
+   - [Connect MDM to Redpoint Data Management](#connect-mdm-to-redpoint-data-management)
+- [Customize for Production ](#customize-for-production)
+   - [MongoDB ](#mongodb)
+   - [Ingress ](#ingress)
 - [Troubleshooting](#troubleshooting)
 - [MDM Support](#mdm-support)
 
@@ -46,7 +49,6 @@ Before you install MDM, you must:
 | This guide focuses on Microsoft Azure for the underlying Kubernetes infrastructure, and creates a container based MongoDB Server for the MDM system databases. This is only intended for use in a ```DEMO``` or ```DEV``` setting. However, we also show you how to customize the chart for deployment in a Production setting. Be sure to check out the ```Customize for Production``` section down below  |
 
 ### Install Procedure
-
 1. Clone this repository and connect to your target Kubernetes Cluster
 ```sh
 git clone https://github.com/RedPointGlobal/rp-mdm.git
@@ -85,17 +87,7 @@ NOTES:
 MDM has successfully been installed in your cluster.
   - It may take a few minutes for the all the MDM services to start. Please wait about 10 minutes.
 ```
-### MDM Ingress
-The default installation includes an Nginx ingress controller that exposes the MDM UI endpoint based on the domain specified in the ingress section within the values.yaml. 
-```
-ingress:
-  host_domain: example.com  # Replace with your custom domain
-```
-If you prefer to use a different Ingress controller solution, you can disable the default nginx by modifying the sections below
-```
-nginx:
-  enabled: true # Change this to false
-```
+### MDM Endpoints
 Run the command below to retrieve the MDM UI endpoint. This command will keep checking the ingress IP address every 10 seconds until it finds one. Once an IP address is found, it will display the IP and the corresponding ingress hostname
 ```
 kubectl get ingress --namespace redpoint-mdm
@@ -111,19 +103,6 @@ You can retrieve these two services using the command below
 kubectl get service rp-mdm-core-tcp  # IP address of the MDM Core service
 kubectl get service rp-mdm-auth-tcp  # IP address of the MDM Authentication service
 ```
-### Customize for Production
-  ### MongoDB
-In a Production setting, you will need to use a production-grade database server.
-- Disable the default Mongodb creation in the ```values.yaml``` file
-```
-mongodb:
-  enabled: true # Change this to false
-```
-Provide a the connection sting for your production server.
-```
-  mongodb:
-   connection_string: mongodb://<root user>:<password>@<server name>:27017/admin?authSource=admin
-```
 ### MDM Activation
 Once you have MDM installed and obtained your activation key from Redpoint Support, you can proceed to activate MDM. Login to the Web UI using the default username```system``` and password ```system```. Then input the activation license as shown below.
 ```sh
@@ -133,11 +112,8 @@ Once you have MDM installed and obtained your activation key from Redpoint Suppo
   Product ID:              Prod or Trial depending on your activation key
  ```
 ![6f248329-95d0-4ac6-a99f-efc220e2ecb8](https://user-images.githubusercontent.com/42842390/157773834-f2fe34ed-afb5-4d5d-af22-2cc898158846.png)
-
 After successful activation, you should see the Welcome page below 
-
 ![34ce4157-3c8c-43dc-8d00-85838237b1cb](https://user-images.githubusercontent.com/42842390/157773845-a1a972e6-f29b-4a20-a8d3-3560a9f84514.png)
-
 ### Connect MDM to Redpoint Data Management (RPDM)
 To connect MDM to RPDM, you need the IP address of the Core and Authentication service. 
 
@@ -162,7 +138,26 @@ Authentication Server URL: http://10.60.0.20:9901/mdm
 MDM Server URL:            http://10.60.0.30:9902/mdm
 ``` 
  ![image](https://user-images.githubusercontent.com/42842390/223878996-04c82cf7-531e-4568-9e6f-8390181628fa.png)
-
+### Customize for Production
+  ### MongoDB
+In a Production setting, you will need to use a production-grade database server.
+- Disable the default Mongodb creation in the ```values.yaml``` file
+```
+mongodb:
+  enabled: true # Change this to false
+```
+Provide a the connection sting for your production server.
+```
+  mongodb:
+   connection_string: mongodb://<root user>:<password>@<server name>:27017/admin?authSource=admin
+```
+  ### Ingress
+The default installation includes an Nginx ingress controller that exposes the MDM UI endpoint based on the domain specified in the ingress section within the values.yaml. If you prefer to use a different Ingress controller solution, you can disable the default nginx by modifying the sections below
+```
+nginx:
+  enabled: true             # Change this to false 
+  host_domain: example.com  # Replace with your custom domain
+```
 ### Troubleshooting
 If you followed this guide step by step, then things should just work out of the box. However, the most common issues we have seen our customers encounter with installation are mentioned below;
  
