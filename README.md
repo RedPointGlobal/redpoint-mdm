@@ -122,10 +122,7 @@ mongodb:
 Provide a the connection sting for your production server.
 ```
   mongodb:
-   connection_string: <replace with your mongodb server connection string>
-
-Example connection strings
-  mongodb://<ADMINusername>:<admin password>@<server name or IP>:27017/admin?authSource=admin
+   connection_string: mongodb://<admin username>:<admin password>@<server name or IP>:27017/admin?authSource=admin
 ```
 ### MDM Activation
 Once you have MDM installed and obtained your activation key from Redpoint Support, you can proceed to activate MDM. Login to the Web UI using the default username```system``` and password ```system```. Then input the activation license as shown below.
