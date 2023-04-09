@@ -88,7 +88,7 @@ MDM has successfully been installed in your cluster.
   - It may take a few minutes for the all the MDM services to start. Please wait about 10 minutes.
 ```
 ### MDM Endpoints
-Run the command below to retrieve the MDM UI endpoint. This command will keep checking the ingress IP address every 10 seconds until it finds one. Once an IP address is found, it will display the IP and the corresponding ingress hostname
+The default installation exposes the MDM Web UI using an Nginx ingress controller that is deployed by default. To retrieve the Web UI endpoint, run the command below.
 ```
 kubectl get ingress --namespace redpoint-mdm
  ```
@@ -96,7 +96,7 @@ kubectl get ingress --namespace redpoint-mdm
 ```sh
 rp-mdm-ui.example.com
  ```  
-The chart also creates two ```LoadBalancer``` services required to expose MDM Core and Authentication services over ```TCP```. These will be required when configuring MDM to interact with Redpoint Data Management (RPDM)
+In addition to the Web UI, the default installation exposed two ```LoadBalancer``` services required to expose MDM Core and Authentication services over ```TCP```. These will be required when configuring MDM to interact with Redpoint Data Management (RPDM)
 
 You can retrieve these two services using the command below
 ```
