@@ -2,15 +2,18 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: mdm-ui-ingress
-  namespace: {{ .Values.namespace }}
+  namespace: {{ .Values.global.namespace }}
   annotations:
-    {{- toYaml .Values.ingress.annotations | nindent 4 }}
+{{- if eq .Values.global.cloudProvider "azure" }}
+    nginx.ingress.kubernetes.io/rewrite-target: "/"
+    nginx.ingress.kubernetes.io/connection-proxy-header: "keep-alive"
+{{- end }}
 spec:
   tls:
   - hosts:
       - {{ .Values.ingress.host.ui }}.{{ .Values.ingress.host_domain }}
     secretName: mdm-tls
-  ingressClassName: {{ .Values.namespace }}
+  ingressClassName: {{ .Values.global.namespace }}
   rules:
   - host: {{ .Values.ingress.host.ui }}.{{ .Values.ingress.host_domain }}
     http:

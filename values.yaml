@@ -1,5 +1,6 @@
 global:
   namespace: redpoint-mdm
+  cloudProvider: azure # or google or amazon 
 
 replicaCount: 1
 
@@ -14,7 +15,7 @@ mongodb:
   connection_string: mongodb://mongoadmin:9vDR1p8Q1KEO@mongodb:27017/admin?authSource=admin
 
 nginx:
-  enabled: false
+  enabled: true
 
 names:
   ui: rp-mdm-ui
