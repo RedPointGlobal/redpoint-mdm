@@ -1,6 +1,6 @@
 global:
   namespace: redpoint-mdm
-  cloudProvider: azure # or google or amazon 
+  cloudProvider: amazon # or google or amazon 
 
 replicaCount: 1
 
@@ -101,9 +101,7 @@ ingress:
     core: rp-mdm-core
     auth: rp-mdm-auth
   tls_secret_name: mdm-tls # Kubernetes secret containing your TLS certificates
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: "/"
-    nginx.ingress.kubernetes.io/connection-proxy-header: "keep-alive"
+  acm_cert_arn: 
 
 autoscaling:
   enabled: false

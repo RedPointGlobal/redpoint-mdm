@@ -1,13 +1,12 @@
+{{- if eq .Values.global.cloudProvider "azure" }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: mdm-ui-ingress
   namespace: {{ .Values.global.namespace }}
   annotations:
-{{- if eq .Values.global.cloudProvider "azure" }}
     nginx.ingress.kubernetes.io/rewrite-target: "/"
     nginx.ingress.kubernetes.io/connection-proxy-header: "keep-alive"
-{{- end }}
 spec:
   tls:
   - hosts:
@@ -24,4 +23,33 @@ spec:
           service:
             name: {{ .Values.service.names.ui }}
             port:
-              number: {{ .Values.service.port.https }}
+              number: 80
+{{- end }}
+
+---
+{{- if eq .Values.global.cloudProvider "amazon" }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mdm-ui-ingress
+  namespace: {{ .Values.global.namespace }}
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: "/"
+    nginx.ingress.kubernetes.io/connection-proxy-header: "keep-alive"
+spec:
+  tls:
+  - hosts:
+      - {{ .Values.ingress.host.ui }}.{{ .Values.ingress.host_domain }}
+  ingressClassName: {{ .Values.global.namespace }}
+  rules:
+  - host: {{ .Values.ingress.host.ui }}.{{ .Values.ingress.host_domain }}
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: {{ .Values.service.names.ui }}
+            port:
+              number: 80
+{{- end }}

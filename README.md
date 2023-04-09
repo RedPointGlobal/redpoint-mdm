@@ -97,8 +97,8 @@ nginx:
   enabled: true # Change this to false
 ```
 Run the command below to retrieve the MDM UI endpoint. This command will keep checking the ingress IP address every 10 seconds until it finds one. Once an IP address is found, it will display the IP and the corresponding ingress hostname
-```sh
- NAMESPACE="redpoint-mdm"; INGRESS_IP=""; while true; do INGRESS_IP=$(kubectl get ingress --namespace $NAMESPACE -o jsonpath="{.items[0].status.loadBalancer.ingress[0].ip}"); if [ -n "$INGRESS_IP" ]; then echo "IP address found: $INGRESS_IP"; kubectl get ingress --namespace $NAMESPACE; break; else echo "No IP address found, waiting for 10 seconds before checking again..."; sleep 10; fi; done
+```
+kubectl get ingress --namespace redpoint-mdm
  ```
 - The command returns the following URL endpoint
 ```sh
