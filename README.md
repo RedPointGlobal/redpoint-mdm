@@ -46,8 +46,11 @@ Before you install MDM, you must:
 
 | **NOTE:** Before you Begin!           |
 |---------------------------------------|
-| This guide focuses on Microsoft Azure for the underlying Kubernetes infrastructure, and creates a container based MongoDB Server for the MDM system databases. This is only intended for use in a ```DEMO``` or ```DEV``` setting. However, we also show you how to customize the chart for deployment in a Production setting. Be sure to check out the ```Customize for Production``` section down below  |
-
+| This guide focuses on Microsoft Azure for the underlying Kubernetes infrastructure, and creates a container based MongoDB Server for the MDM system databases. This is only intended for use in a ```DEMO``` or ```DEV``` setting. If you are deploying in Amazon or Google Cloud, modify the section below in the ```values.yaml```
+```
+global:
+  cloudProvider: amazon # or google or amazon 
+```  |
 ### Install Procedure
 1. Clone this repository and connect to your target Kubernetes Cluster
 ```sh
