@@ -82,7 +82,6 @@ REVISION: 1
 TEST SUITE: None
 NOTES:
 ********************************* SUCCESS! ************************************************************
-
 MDM has successfully been installed in your cluster.
   - It may take a few minutes for the all the MDM services to start. Please wait about 10 minutes.
 ```
