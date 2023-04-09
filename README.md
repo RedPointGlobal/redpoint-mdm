@@ -63,7 +63,7 @@ kubectl create secret docker-registry docker-io --docker-server='https://index.d
 --docker-username=$your_docker_username --docker-password=$your_docker_password \
 --namespace redpoint-mdm
 ```
-4. Create a secret that contains the certificate files for your custom domain. This is required by the default installation which deploys and configures an Nginx ingress controller. 
+4. Create a kubernetes secret that contains the certificate files for your custom domain. This is used by the default nginx ingress controller to terminate TLS for your custom domain. If this secret is not created, you will get a ```502 Bad Gateway``` when you try to access the MDM Web UI
 ```
 kubectl create secret tls mdm-tls --cert=$your_tls_cert --key=$your_tls_key --namespace redpoint-mdm
 ```
