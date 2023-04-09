@@ -18,6 +18,7 @@ This documentation will show you how to Install or upgrade MDM in Kubernetes usi
 - [Customize for Production ](#customize-for-production)
    - [MongoDB ](#mongodb)
    - [Ingress ](#ingress)
+- [Customize for Cloud Provider ](#customize-for-cloud-provider)
 - [Troubleshooting](#troubleshooting)
 - [MDM Support](#mdm-support)
 
@@ -46,11 +47,8 @@ Before you install MDM, you must:
 
 | **NOTE:** Before you Begin!           |
 |---------------------------------------|
-| This guide focuses on Microsoft Azure for the underlying Kubernetes infrastructure, and creates a container based MongoDB Server for the MDM system databases. This is only intended for use in a ```DEMO``` or ```DEV``` setting. If you are deploying in Amazon or Google Cloud, modify the section below in the ```values.yaml```
-```
-global:
-  cloudProvider: amazon # or google or amazon 
-```  |
+| This guide focuses on Microsoft Azure for the underlying Kubernetes infrastructure, and creates a container based MongoDB Server for the MDM system databases. This is only intended for use in a ```DEMO``` or ```DEV``` setting.|
+
 ### Install Procedure
 1. Clone this repository and connect to your target Kubernetes Cluster
 ```sh
@@ -160,6 +158,12 @@ The default installation includes an Nginx ingress controller that exposes the M
 nginx:
   enabled: true             # Change this to false 
   host_domain: example.com  # Replace with your custom domain
+```
+### Customize for Production
+If you are deploying in Amazon or Google Cloud, make the following adjustments in the ```values.yaml``` file. This ensures that the cloud specific annotations and configurations are set for the MDM Ingress and Service Objects.
+```
+global:
+  cloudProvider: azure # or google or amazon 
 ```
 ### Troubleshooting
 If you followed this guide step by step, then things should just work out of the box. However, the most common issues we have seen our customers encounter with installation are mentioned below;
