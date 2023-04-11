@@ -1,11 +1,6 @@
 global:
   namespace: redpoint-mdm
   cloudProvider: azure # or google or amazon 
-<<<<<<< HEAD
-  ingress:
-    subnet_name: snet-rgoc-nonprod-eus2-aks
-=======
->>>>>>> 9e393863c1cbaf2b2e226bd69b52bbfac83f910a
 
 replicaCount: 1
 
