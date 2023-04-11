@@ -389,7 +389,7 @@ kind: Service
 metadata:
   annotations:
     service.beta.kubernetes.io/azure-load-balancer-internal: "true"
-    service.beta.kubernetes.io/azure-load-balancer-internal-subnet: {{ .Values.ingress.subnet_name }}
+    service.beta.kubernetes.io/azure-load-balancer-internal-subnet: {{ .Values.global.ingress.subnet_name }}
   labels:
     helm.sh/chart: ingress-nginx-4.4.0
     app.kubernetes.io/name: ingress-nginx
