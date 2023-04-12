@@ -19,8 +19,8 @@ This documentation will show you how to Install or upgrade MDM in Kubernetes usi
    - [MongoDB ](#mongodb)
    - [Ingress ](#ingress)
 - [Customize for Cloud Provider ](#customize-for-cloud-provider)
-- [Troubleshooting](#troubleshooting)
 - [Migrate MDM from Docker to Kubernetes ](#migrate-mdm-from-docker-to-kubernetes)
+- [Troubleshooting](#troubleshooting)
 - [MDM Support](#mdm-support)
 
 ### System Requirements
@@ -166,17 +166,6 @@ If you are deploying in Amazon or Google Cloud, make the following adjustments i
 global:
   cloudProvider: azure # or google or amazon 
 ```
-### Troubleshooting
-If you followed this guide step by step, then things should just work out of the box. However, the most common issues we have seen our customers encounter with installation are mentioned below;
- 
-```Unable to login to the Web UI```
- 
- This is always caused by network connectivity issues. If MDM is unable to communicate with the mongodb database server, you wont be able to login. You can confirm this by looking at the container logs for the ```rp-mdm-core``` and ```rp-mdm-auth``` pods. Once you fix the connectivity issues, you should be able to login and also connect MDM to RPDM
-
- ```Nginx 502 Bad Gateway when accessing the Web UI```
-
-The default installation requires that you create a kubernetes ```tls``` secret for you certificate data. The secret must be named ```mdm-tls```. If this secret is missing, Nginx wont know how to route the requests for the Web UI. Creating this secret with the relevant certficate data should resolve this issue
-
 ### Migrate MDM from Docker to Kubernetes
 While you can still install and operate MDM on virtual machines using docker, Redpoint does not recommend this approach. Redpoint recommends you migrate your MDM production workloads to Kubernetes. Redpoint does not support MDM production workloads installed on docker.
 
@@ -190,6 +179,17 @@ Redpoint recommends migrating your MDM workloads from Docker virtual machines to
 6. Test the new MDM version: Once the new version is deployed, thoroughly test it to ensure it's functioning correctly and meets your expectations. 
 7. Switch traffic to the new version: If the new version passes all tests and is ready for production
 8. Cleanup: Once you're confident that the new version is running smoothly, you can clean up the old version from the Docker virtual machines and decommission them.
+
+### Troubleshooting
+If you followed this guide step by step, then things should just work out of the box. However, the most common issues we have seen our customers encounter with installation are mentioned below;
+ 
+```Unable to login to the Web UI```
+ 
+ This is always caused by network connectivity issues. If MDM is unable to communicate with the mongodb database server, you wont be able to login. You can confirm this by looking at the container logs for the ```rp-mdm-core``` and ```rp-mdm-auth``` pods. Once you fix the connectivity issues, you should be able to login and also connect MDM to RPDM
+
+ ```Nginx 502 Bad Gateway when accessing the Web UI```
+
+The default installation requires that you create a kubernetes ```tls``` secret for you certificate data. The secret must be named ```mdm-tls```. If this secret is missing, Nginx wont know how to route the requests for the Web UI. Creating this secret with the relevant certficate data should resolve this issue
 
 ### MDM Support 
 If you believe you need additional support with installation, Contact support@redpointglobal.com for any application specific issues you may encounter. Kubernetes specific or other network connectivity errors are out of scope
