@@ -20,6 +20,7 @@ This documentation will show you how to Install or upgrade MDM in Kubernetes usi
    - [Ingress ](#ingress)
 - [Customize for Cloud Provider ](#customize-for-cloud-provider)
 - [Troubleshooting](#troubleshooting)
+- [Migrate MDM from Docker to Kubernetes ](#migrate-mdm-from-docker-to-kubernetes)
 - [MDM Support](#mdm-support)
 
 ### System Requirements
@@ -175,6 +176,20 @@ If you followed this guide step by step, then things should just work out of the
  ```Nginx 502 Bad Gateway when accessing the Web UI```
 
 The default installation requires that you create a kubernetes ```tls``` secret for you certificate data. The secret must be named ```mdm-tls```. If this secret is missing, Nginx wont know how to route the requests for the Web UI. Creating this secret with the relevant certficate data should resolve this issue
+
+### Migrate MDM from Docker to Kubernetes
+While you can still install and operate MDM on virtual machines using docker, Redpoint does not recommend this approach. Redpoint recommends you migrate your MDM production workloads to Kubernetes. Redpoint does not support MDM production workloads installed on docker.
+
+Redpoint recommends migrating your MDM workloads from Docker virtual machines to Kubernetes using a blue/green approach to ensure a smooth transition with minimal downtime. Here are the general steps you can follow:
+
+1. Set up a Kubernetes cluster: As described in the ```Prerequisites``` section above
+2. Set up a new MongoDB server: As described in the ```Prerequisites``` section above
+3. Deploy MDM to the Kubernetes cluster as described in the ```Install Procedure``` section above
+4. Copy all Mongo collections from the ```rpmdm_system``` database to the ```rpmdm_system``` on the new MongoDB server
+5. Copy all User created MDM databases from the old MongoDB server to the new MongoDB server. You can use a tool like ```Studio 3T``` to do the copy operations. Tool can be downloaded from here https://studio3t.com/
+6. Test the new MDM version: Once the new version is deployed, thoroughly test it to ensure it's functioning correctly and meets your expectations. 
+7. Switch traffic to the new version: If the new version passes all tests and is ready for production
+8. Cleanup: Once you're confident that the new version is running smoothly, you can clean up the old version from the Docker virtual machines and decommission them.
 
 ### MDM Support 
 If you believe you need additional support with installation, Contact support@redpointglobal.com for any application specific issues you may encounter. Kubernetes specific or other network connectivity errors are out of scope
