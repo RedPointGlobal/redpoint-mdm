@@ -21,6 +21,7 @@ This documentation will show you how to Install or upgrade MDM in Kubernetes usi
 - [Customize for Cloud Provider ](#customize-for-cloud-provider)
 - [Migrate MDM from Docker to Kubernetes ](#migrate-mdm-from-docker-to-kubernetes)
 - [Troubleshooting](#troubleshooting)
+- [Upgrading MDM](#upgrading-mdm)
 - [MDM Support](#mdm-support)
 
 ### System Requirements
@@ -191,6 +192,15 @@ If you followed this guide step by step, then things should just work out of the
 
 The default installation requires that you create a kubernetes ```tls``` secret for you certificate data. The secret must be named ```mdm-tls```. If this secret is missing, Nginx wont know how to route the requests for the Web UI. Creating this secret with the relevant certficate data should resolve this issue
 
+### Upgrading MDM
+If you installed MDM using this helm chart, upgrading to a new version can be accomplished in just a few steps as described below
+- Pull the latest chart manifests
+ ```git pull to get the latest chart manifests
+```
+- Upgrade your installation
+```
+helm upgrade redpoint-mdm redpoint-mdm/ --values values.yaml
+```
 ### MDM Support 
 If you believe you need additional support with installation, Contact support@redpointglobal.com for any application specific issues you may encounter. Kubernetes specific or other network connectivity errors are out of scope
 
