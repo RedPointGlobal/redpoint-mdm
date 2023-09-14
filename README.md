@@ -192,7 +192,7 @@ If you followed this guide step by step, then things should just work out of the
 
 The default installation requires that you create a kubernetes ```tls``` secret for you certificate data. The secret must be named ```mdm-tls```. If this secret is missing, Nginx wont know how to route the requests for the Web UI. Creating this secret with the relevant certficate data should resolve this issue
 
-###Upgrading MDM
+### Upgrading MDM
 If you initially deployed MDM using the Helm chart, upgrading to a newer version is a straightforward process. Follow these steps for a seamless upgrade:
 
 - Fetch the Latest Chart Manifests:
