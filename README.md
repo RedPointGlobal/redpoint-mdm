@@ -192,16 +192,24 @@ If you followed this guide step by step, then things should just work out of the
 
 The default installation requires that you create a kubernetes ```tls``` secret for you certificate data. The secret must be named ```mdm-tls```. If this secret is missing, Nginx wont know how to route the requests for the Web UI. Creating this secret with the relevant certficate data should resolve this issue
 
-### Upgrading MDM
-If you installed MDM using this helm chart, upgrading to a new version can be accomplished in just a few steps as described below
-- Pull the latest chart manifests
+###Upgrading MDM
+If you initially deployed MDM using the Helm chart, upgrading to a newer version is a straightforward process. Follow these steps for a seamless upgrade:
+
+- Fetch the Latest Chart Manifests:
+To ensure you have the latest version of the Helm chart, navigate to your Helm chart repository or directory and execute the following command Upgrading MDM
 ```
-git pull to get the latest chart manifests
+git pull
 ```
-- Upgrade your installation
+This command fetches any updates to the chart and ensures you are working with the most recent version.
+- Execute the Upgrade
+With the updated chart in place, you can proceed to upgrade your MDM installation. Use the helm upgrade command, specifying your release name and the chart directory. Additionally, you may want to provide a custom values.yaml file if you have configuration changes specific to your deployment:
 ```
-helm upgrade redpoint-mdm redpoint-mdm/ --values values.yaml
+helm upgrade <release-name> redpoint-mdm/ --values <custom-values.yaml>
 ```
+Replace <release-name> with the name of your existing MDM release, and <custom-values.yaml> with the path to your custom configuration file, if needed.
+This command will apply the new chart version and any configuration changes, ensuring your MDM deployment is up-to-date.
+
+By following these steps, you can easily keep your MDM system current with the latest features and improvements.
 ### MDM Support 
 If you believe you need additional support with installation, Contact support@redpointglobal.com for any application specific issues you may encounter. Kubernetes specific or other network connectivity errors are out of scope
 
