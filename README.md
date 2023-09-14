@@ -195,7 +195,8 @@ The default installation requires that you create a kubernetes ```tls``` secret 
 ### Upgrading MDM
 If you installed MDM using this helm chart, upgrading to a new version can be accomplished in just a few steps as described below
 - Pull the latest chart manifests
- ```git pull to get the latest chart manifests
+```
+git pull to get the latest chart manifests
 ```
 - Upgrade your installation
 ```
