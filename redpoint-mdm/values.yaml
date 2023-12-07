@@ -1,7 +1,9 @@
 global:
   namespace: redpoint-mdm
   cloudProvider: azure # or google or amazon 
-
+  ingress:
+    subnet_name: snet-rgoc-nonprod-eus2-aks
+   
 replicaCount: 1
 
 app_name: redpoint-mdm
@@ -33,7 +35,7 @@ images:
     perm: redpointglobal/rp-mdm-permission
     user: redpointglobal/rp-mdm-user
     log: redpointglobal/rp-mdm-log
-  tag: v1.5.1-RELEASE
+  tag: v1.5.2-RELEASE
   pullPolicy: Always
 
 imagePullSecrets: docker-io # # A kubernetes secret containing your docker hub credentials
@@ -101,10 +103,7 @@ ingress:
     core: rp-mdm-core
     auth: rp-mdm-auth
   tls_secret_name: mdm-tls # Kubernetes secret containing your TLS certificates
-  acm_cert_arn: arn:aws:acm:us-east-1:005309590283:certificate/285b5562-94c1-4847-8761-38f7dda5533c
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: "/"
-    nginx.ingress.kubernetes.io/connection-proxy-header: "keep-alive"
+  acm_cert_arn: 
 
 autoscaling:
   enabled: false
