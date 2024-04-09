@@ -1,9 +1,9 @@
-{{- if eq .Values.global.cloudProvider "azure" }}
+{{- if eq .Values.nginx.cloudProvider "azure" }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: rp-mdm-ui
-  namespace: {{ .Values.global.namespace }}
+  namespace: {{ .Values.nginx.namespace }}
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: "/"
     nginx.ingress.kubernetes.io/connection-proxy-header: "keep-alive"
@@ -16,7 +16,7 @@ spec:
   - hosts:
       - {{ .Values.ingress.host.ui }}.{{ .Values.ingress.host_domain }}
     secretName: mdm-tls
-  ingressClassName: {{ .Values.global.namespace }}
+  ingressClassName: {{ .Values.nginx.namespace }}
   rules:
   - host: {{ .Values.ingress.host.ui }}.{{ .Values.ingress.host_domain }}
     http:
@@ -31,12 +31,12 @@ spec:
 {{- end }}
 
 ---
-{{- if eq .Values.global.cloudProvider "amazon" }}
+{{- if eq .Values.nginx.cloudProvider "amazon" }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: rp-mdm-ui
-  namespace: {{ .Values.global.namespace }}
+  namespace: {{ .Values.nginx.namespace }}
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: "/"
     nginx.ingress.kubernetes.io/connection-proxy-header: "keep-alive"
@@ -48,7 +48,7 @@ spec:
   tls:
   - hosts:
       - {{ .Values.ingress.host.ui }}.{{ .Values.ingress.host_domain }}
-  ingressClassName: {{ .Values.global.namespace }}
+  ingressClassName: {{ .Values.nginx.namespace }}
   rules:
   - host: {{ .Values.ingress.host.ui }}.{{ .Values.ingress.host_domain }}
     http:
