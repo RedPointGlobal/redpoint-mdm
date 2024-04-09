@@ -1,13 +1,16 @@
-********************************* SUCCESS! ************************************************************
+********************************* INSTALLATION SUCCESSFUL! ************************************************************
 
-MDM has successfully been installed in your cluster.
-  - It may take a few minutes for the all the MDM services to start. Please wait about 10 minutes.
+MDM has been successfully installed in your cluster.
+  - Please allow a few minutes for all MDM services to start. Kindly wait for approximately 10 minutes.
 
-1. To retrieve the MDM UI, Auth and Core service endpoints run the command below. The command will keep checking the ingress IP address every 10 seconds until it finds one. Once an IP address is found, it will display the IP and corresponding ingress endpoints.
+To retrieve the MDM UI endpoints, execute the following command:
 
-NAMESPACE="redpoint-mdm"; INGRESS_IP=""; while true; do INGRESS_IP=$(kubectl get ingress --namespace $NAMESPACE -o jsonpath="{.items[0].status.loadBalancer.ingress[0].ip}"); if [ -n "$INGRESS_IP" ]; then echo "IP address found: $INGRESS_IP"; kubectl get ingress --namespace $NAMESPACE; break; else echo "No IP address found, waiting for 10 seconds before checking again..."; sleep 10; fi; done
+kubectl get ingress --namespace redpoint-mdm
 
-2. For application support, please contact support@redpointglobal.com
+To retrieve the MDM Core and Authentication Server endpoints, execute the following command:
 
-********************************* SUCCESS! ************************************************************
+kubectl get service --namespace redpoint-mdm
 
+For application support, please contact support@redpointglobal.com
+
+********************************* INSTALLATION SUCCESSFUL! ************************************************************
