@@ -16,7 +16,7 @@ spec:
   - hosts:
       - {{ .Values.ingress.host.ui }}.{{ .Values.ingress.host_domain }}
     secretName: ingress-tls
-  ingressClassName: {{ .Values.nginx.namespace }}
+  ingressClassName: {{ .Values.global.namespace }}
   rules:
   - host: {{ .Values.ingress.host.ui }}.{{ .Values.ingress.host_domain }}
     http:
@@ -48,7 +48,7 @@ spec:
   tls:
   - hosts:
       - {{ .Values.ingress.host.ui }}.{{ .Values.ingress.host_domain }}
-  ingressClassName: {{ .Values.nginx.namespace }}
+  ingressClassName: {{ .Values.global.namespace }}
   rules:
   - host: {{ .Values.ingress.host.ui }}.{{ .Values.ingress.host_domain }}
     http:
