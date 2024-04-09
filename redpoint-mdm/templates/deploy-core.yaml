@@ -28,7 +28,7 @@ spec:
           - name: MDM_MONGO_URI
             valueFrom:
               secretKeyRef:
-                name: {{ .Values.mongodb_connection_secret }}
+                name: "mongodb-conn-string"
                 key: MONGO_CONNECTION_STRING
           volumeMounts:
             - name: rpmdm-core-properties

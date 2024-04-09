@@ -1,25 +1,33 @@
 global:
-  namespace: redpoint-mdm
+  # Namespace where the application will be deployed
+  namespace: jim-temp #redpoint-mdm
 
 replicaCount: 1
 
+# Name of the application
 app_name: redpoint-mdm
-namespace: redpoint-mdm
-mongodb_connection_secret: mongodb-conn-string # A kubernetes secret containing the mongodb connection string.
-createTestMongo: true  # Set to false in production and provide a connection string to your production mongo cluster
+
+# Service name for Java API
 java_api_service: rp-mdm-core
 
 mongodb:
+  # Enable MongoDB
   enabled: true
+  # Connection string for MongoDB
   connection_string: mongodb://mongoadmin:9vDR1p8Q1KEO@mongodb:27017/admin?authSource=admin
 
 nginx:
+  # Enable Nginx
   enabled: true
+  # Internal Nginx flag
   internal: true 
+  # Name of the subnet
   subnet_name: snet-rgoc-nonprod-eus2-aks
+  # Cloud provider where Nginx is deployed
   cloudProvider: azure
 
 names:
+  # Service names for different components
   ui: rp-mdm-ui
   core: rp-mdm-core
   auth: rp-mdm-auth
@@ -29,6 +37,7 @@ names:
 
 images:
   repository:
+    # Docker image repositories for different components
     ui: redpointglobal/rp-mdm-ui
     core: redpointglobal/rp-mdm-core
     auth: redpointglobal/rp-mdm-authentication
@@ -38,7 +47,7 @@ images:
   tag: v1.5.3-RELEASE
   pullPolicy: Always
 
-imagePullSecrets: docker-io # # A kubernetes secret containing your docker hub credentials
+imagePullSecrets: docker-io 
 nameOverride: ""
 fullnameOverride: ""
 
@@ -46,6 +55,7 @@ serviceAccount:
   create: true
   annotations: {}
   names:
+    # Service account names for different components
     ui: rp-mdm-ui
     core: rp-mdm-core
     auth: rp-mdm-auth
@@ -58,6 +68,7 @@ podAnnotations: {}
 podSecurityContext: {}
 
 securityContext: 
+   # Security context settings for pods
    seccompProfile:
      type: RuntimeDefault
    runAsNonRoot: true
@@ -67,6 +78,7 @@ securityContext:
 
 service:
   names:
+    # Service names for different components
     ui: rp-mdm-ui
     core: rp-mdm-core
     auth: rp-mdm-auth
@@ -75,6 +87,7 @@ service:
     log: rp-mdm-log
   type: ClusterIP
   port:
+    # Port mappings for different services
     ui: 9090
     core: 9902
     auth: 9901
@@ -84,39 +97,44 @@ service:
     https: 80
   protocol: TCP
 
-
 ldap:
-  active_dir_url: ldap://example.com # For enabling Active Directory authentication, update the value for your environment
-  active_dir_domain: DC=example,DC=com # For enabling Active Directory authentication, update the value for your environment
+  # LDAP configuration
+  active_dir_url: ldap://example.com 
+  active_dir_domain: DC=example,DC=com 
 
 ingress:
+  # Ingress settings
   host_domain: rg1cloud.com
   internal: false
-  subnet_name: snet-rgoc-nonprod-eus2-aks #<replace with your target subnet name>
+  subnet_name: snet-rgoc-nonprod-eus2-aks 
   name:
+    # Ingress names for different components
     ui: rp-mdm-ui
     core: rp-mdm-core
     auth: rp-mdm-auth
   enabled: true
   host:
+    # Hostnames for different components
     ui: rp-mdm-ui
     core: rp-mdm-core
     auth: rp-mdm-auth
-  tls_secret_name: ingress-tls # Kubernetes secret containing your TLS certificates
+  tls_secret_name: ingress-tls 
   acm_cert_arn: 
 
 autoscaling:
+  # Autoscaling settings
   enabled: false
   minReplicas: 1
   maxReplicas: 100
   targetCPUUtilizationPercentage: 80
   targetMemoryUtilizationPercentage: 80
 
-
 nodeConstraint: enabled
 nodeSelector:
+  # Node selector settings
   pool: rgoc-eus2
 tolerations:
+  # Tolerations settings
   - effect: NoSchedule
     key: pool
     operator: Equal

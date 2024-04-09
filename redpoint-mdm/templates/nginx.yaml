@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/version: 1.10.0
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
-  name: nginx-{{ .Values.global.namespace }}
+  name: {{ .Values.global.namespace }}
   namespace: {{ .Values.global.namespace }}
 automountServiceAccountToken: true
 
@@ -21,7 +21,7 @@ metadata:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/part-of: ingress-nginx
     app.kubernetes.io/version: 1.10.0
-  name: nginx-{{ .Values.global.namespace }}
+  name: {{ .Values.global.namespace }}
 rules:
 - apiGroups:
   - ""
@@ -119,7 +119,7 @@ metadata:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/part-of: ingress-nginx
     app.kubernetes.io/version: 1.10.0
-  name: nginx-{{ .Values.global.namespace }}
+  name: {{ .Values.global.namespace }}
   namespace: {{ .Values.global.namespace }}
 rules:
 - apiGroups:
@@ -225,15 +225,15 @@ metadata:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/part-of: ingress-nginx
     app.kubernetes.io/version: 1.10.0
-  name: nginx-{{ .Values.global.namespace }}
+  name: {{ .Values.global.namespace }}
   namespace: {{ .Values.global.namespace }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: nginx-{{ .Values.global.namespace }}
+  name: {{ .Values.global.namespace }}
 subjects:
 - kind: ServiceAccount
-  name: nginx-{{ .Values.global.namespace }}
+  name: {{ .Values.global.namespace }}
   namespace: {{ .Values.global.namespace }}
 
 ---
@@ -245,15 +245,15 @@ metadata:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/part-of: ingress-nginx
     app.kubernetes.io/version: 1.10.0
-  name: nginx-{{ .Values.global.namespace }}
+  name: {{ .Values.global.namespace }}
   namespace: {{ .Values.global.namespace }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: nginx-{{ .Values.global.namespace }}
+  name: {{ .Values.global.namespace }}
 subjects:
 - kind: ServiceAccount
-  name: nginx-{{ .Values.global.namespace }}
+  name: {{ .Values.global.namespace }}
   namespace: {{ .Values.global.namespace }}
 
 ---
@@ -268,7 +268,7 @@ metadata:
     app.kubernetes.io/version: 1.10.0
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
-  name: nginx-{{ .Values.global.namespace }}
+  name: {{ .Values.global.namespace }}
   namespace: {{ .Values.global.namespace }}
 data:
   allow-snippet-annotations: 'true'
@@ -303,7 +303,7 @@ metadata:
     app.kubernetes.io/version: 1.10.0
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
-  name: nginx-{{ .Values.global.namespace }}
+  name: {{ .Values.global.namespace }}
   namespace: {{ .Values.global.namespace }}
 spec:
   selector:
@@ -332,10 +332,10 @@ spec:
                   - /wait-shutdown
           args:
             - /nginx-ingress-controller
-            - --publish-service={{ .Values.global.namespace }}/nginx-{{ .Values.global.namespace }}
+            - --publish-service={{ .Values.global.namespace }}/{{ .Values.global.namespace }}
             - --election-id=ingress-nginx-leader
             - --controller-class=k8s.io/ingress-nginx
-            - --configmap={{ .Values.global.namespace }}/nginx-{{ .Values.global.namespace }}
+            - --configmap={{ .Values.global.namespace }}/{{ .Values.global.namespace }}
             - --tcp-services-configmap={{ .Values.global.namespace }}/tcp-services
             - --default-ssl-certificate={{ .Values.global.namespace }}/ingress-tls
             - --watch-namespace={{ .Values.global.namespace }}
@@ -393,7 +393,7 @@ spec:
               protocol: TCP
       nodeSelector:
         kubernetes.io/os: linux
-      serviceAccountName: nginx-{{ .Values.global.namespace }}
+      serviceAccountName: {{ .Values.global.namespace }}
       terminationGracePeriodSeconds: 300
 {{- end }}
 
@@ -417,7 +417,7 @@ metadata:
     app.kubernetes.io/version: 1.10.0
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
-  name: nginx-{{ .Values.global.namespace }}
+  name: {{ .Values.global.namespace }}
   namespace: {{ .Values.global.namespace }}
 spec:
   type: LoadBalancer
@@ -464,7 +464,7 @@ metadata:
     app.kubernetes.io/version: 1.10.0
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
-  name: nginx-{{ .Values.global.namespace }}
+  name: {{ .Values.global.namespace }}
   namespace: {{ .Values.global.namespace }}
 spec:
   type: LoadBalancer

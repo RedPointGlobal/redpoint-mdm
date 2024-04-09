@@ -1,8 +1,9 @@
+{{- if .Values.mongodb.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mongodb
-  namespace: {{ include "custom.namespace" . }}
+  namespace: {{ .Values.global.namespace }}
 spec:
   replicas: 1
   selector:
@@ -31,13 +32,19 @@ spec:
           hostPath:
             path: /mongo
             type: DirectoryOrCreate
+      {{- if eq .Values.global.nodeConstraint "enabled" }}
+      nodeSelector:
+        {{- toYaml .Values.nodeSelector | nindent 8 }}
+      tolerations:
+        {{- toYaml .Values.tolerations | nindent 8 }}
+      {{- end }}
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: mongodb
-  namespace: {{ include "custom.namespace" . }}
+  namespace: {{ .Values.global.namespace }}
 spec:
   selector:
     app: mongodb
@@ -46,3 +53,4 @@ spec:
       port: 27017
       targetPort: 27017
   type: ClusterIP
+{{- end }}

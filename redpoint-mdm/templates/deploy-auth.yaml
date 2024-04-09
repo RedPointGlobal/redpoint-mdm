@@ -29,7 +29,7 @@ spec:
           - name: MDM_MONGO_URI
             valueFrom:
               secretKeyRef:
-                name: {{ .Values.mongodb_connection_secret }}
+                name: "mongodb-conn-string"
                 key: MONGO_CONNECTION_STRING
           - name: JAVA_API_SERVICE
             value: {{ .Values.java_api_service }}          

@@ -1,15 +1,8 @@
-apiVersion: v2
+apiVersion: 1.5
 name: redpoint-mdm
 
 description: A Helm chart for Redpoint Master Data Management (MDM)
 
 type: application
-version: 1.4.1
-appVersion: "1.4.1"
-
-
-dependencies:
-  - name: mongodb
-    version: 0.1.0
-    repository: "redpoint-mdm/charts/mongodb"
-    condition: mongodb.enabled
+version: 1.5.3
+appVersion: "1.5.3"
