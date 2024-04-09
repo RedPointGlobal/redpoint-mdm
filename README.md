@@ -60,27 +60,31 @@ git clone https://github.com/RedPointGlobal/rp-mdm.git
 ```
 cd redpoint-mdm
 ```
-3. Create a kubernetes secret that contains your docker hub credentials 
+3. Create a kubernetes namespace where MDM will be installed
+```
+kubectl create namespace redpoint-mdm
+```
+4. Create a kubernetes secret that contains your docker hub credentials 
 ```
 kubectl create secret docker-registry docker-io --docker-server='https://index.docker.io/v1/' \
 --docker-username=$your_docker_username --docker-password=$your_docker_password \
 --namespace redpoint-mdm
 ```
-4. Create a kubernetes secret that contains the certificate files for your custom domain. This is used by the default nginx ingress controller to terminate TLS for your custom domain. If this secret is not created, you will get a ```502 Bad Gateway``` when you try to access the MDM Web UI
+5. Create a kubernetes secret that contains the certificate files for your custom domain. This is used by the default nginx ingress controller to terminate TLS for your custom domain. If this secret is not created, you will get a ```502 Bad Gateway``` when you try to access the MDM Web UI
 ```
 kubectl create secret tls ingress-tls --cert=$your_tls_cert --key=$your_tls_key --namespace redpoint-mdm
 ```
 If you prefer to use a different Ingress solution, disable the default ingress as described here [MDM Ingress ](#mdm-ingress) 
 
-5. Run the following command to install MDM
+6. Run the following command to install MDM
 ```
 kubectl config set-context --current --namespace=redpoint-mdm \
-&& helm install redpoint-mdm redpoint-mdm/ --values values.yaml --create-namespace
+&& helm install redpoint-mdm redpoint-mdm/ --values values.yaml 
  ```
 If everything goes well, You should see the output below.
 ```
 NAME: redpoint-mdm
-LAST DEPLOYED: Sat Apr  8 20:13:56 2023
+LAST DEPLOYED: Sat Apr  8 20:13:56 2024
 NAMESPACE: redpoint-mdm
 STATUS: deployed
 REVISION: 1
