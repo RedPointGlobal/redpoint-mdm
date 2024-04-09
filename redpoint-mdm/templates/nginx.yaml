@@ -289,8 +289,8 @@ metadata:
   name: tcp-services
   namespace: {{ .Values.global.namespace }}
 data:
-  9901: "{{ .Values.global.namespace }}/rp-mdm-auth:9901"
-  9902: "{{ .Values.global.namespace }}/rp-mdm-core:9902"
+  9901: "{{ .Values.global.namespace }}/rp-mdm-auth-tcp:9901"
+  9902: "{{ .Values.global.namespace }}/rp-mdm-core-tcp:9902"
 
 ---
 apiVersion: apps/v1
