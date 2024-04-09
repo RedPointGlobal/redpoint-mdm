@@ -13,7 +13,3 @@ dependencies:
     version: 0.1.0
     repository: "redpoint-mdm/charts/mongodb"
     condition: mongodb.enabled
-  - name: nginx
-    version: 0.1.0
-    repository: "redpoint-mdm/charts/nginx"
-    condition: nginx.enabled

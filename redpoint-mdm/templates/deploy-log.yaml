@@ -37,5 +37,10 @@ spec:
         - name: rpmdm-log-properties
           configMap:
             name: rpmdm-log-properties
-
+      {{- if eq .Values.global.nodeConstraint "enabled" }}
+      nodeSelector:
+        {{- toYaml .Values.nodeSelector | nindent 8 }}
+      tolerations:
+        {{- toYaml .Values.tolerations | nindent 8 }}
+      {{- end }}
 

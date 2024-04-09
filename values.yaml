@@ -1,9 +1,6 @@
 global:
   namespace: redpoint-mdm
-  cloudProvider: azure # or google or amazon 
-  ingress:
-    subnet_name: snet-rgoc-nonprod-eus2-aks
-   
+
 replicaCount: 1
 
 app_name: redpoint-mdm
@@ -18,6 +15,9 @@ mongodb:
 
 nginx:
   enabled: true
+  internal: true 
+  subnet_name: snet-rgoc-nonprod-eus2-aks
+  cloudProvider: azure
 
 names:
   ui: rp-mdm-ui
@@ -90,19 +90,19 @@ ldap:
   active_dir_domain: DC=example,DC=com # For enabling Active Directory authentication, update the value for your environment
 
 ingress:
-  host_domain: rdpnt.dev
+  host_domain: rg1cloud.com
   internal: false
   subnet_name: snet-rgoc-nonprod-eus2-aks #<replace with your target subnet name>
   name:
-    ui: rp-mdm-ui-ingress
-    core: rp-mdm-core-ingress
-    auth: rp-mdm-auth-ingress
+    ui: rp-mdm-ui
+    core: rp-mdm-core
+    auth: rp-mdm-auth
   enabled: true
   host:
     ui: rp-mdm-ui
     core: rp-mdm-core
     auth: rp-mdm-auth
-  tls_secret_name: mdm-tls # Kubernetes secret containing your TLS certificates
+  tls_secret_name: ingress-tls # Kubernetes secret containing your TLS certificates
   acm_cert_arn: 
 
 autoscaling:
@@ -112,5 +112,12 @@ autoscaling:
   targetCPUUtilizationPercentage: 80
   targetMemoryUtilizationPercentage: 80
 
-tolerations: []
-affinity: {}
+
+nodeConstraint: enabled
+nodeSelector:
+  pool: rgoc-eus2
+tolerations:
+  - effect: NoSchedule
+    key: pool
+    operator: Equal
+    value: rgoc-eus2

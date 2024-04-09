@@ -1,3 +1,17 @@
+{{- if .Values.nginx.enabled }}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/instance: ingress-nginx
+    app.kubernetes.io/version: 1.10.0
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: controller
+  name: nginx-{{ .Values.global.namespace }}
+  namespace: {{ .Values.global.namespace }}
+automountServiceAccountToken: true
+
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -6,8 +20,8 @@ metadata:
     app.kubernetes.io/instance: ingress-nginx
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/part-of: ingress-nginx
-    app.kubernetes.io/version: 1.9.3
-  name: nginx-{{ include "custom.namespace" . }}
+    app.kubernetes.io/version: 1.10.0
+  name: nginx-{{ .Values.global.namespace }}
 rules:
 - apiGroups:
   - ""
@@ -85,13 +99,13 @@ apiVersion: networking.k8s.io/v1
 kind: IngressClass
 metadata:
   labels:
-    helm.sh/chart: ingress-nginx-4.4.0
+    helm.sh/chart: ingress-nginx-1.10.0
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/instance: ingress-nginx
-    app.kubernetes.io/version: 1.9.3
+    app.kubernetes.io/version: 1.10.0
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
-  name: {{ include "custom.namespace" . }}
+  name: {{ .Values.global.namespace }}
 spec:
   controller: k8s.io/ingress-nginx
   
@@ -104,9 +118,9 @@ metadata:
     app.kubernetes.io/instance: ingress-nginx
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/part-of: ingress-nginx
-    app.kubernetes.io/version: 1.9.3
-  name: nginx-{{ include "custom.namespace" . }}
-  namespace: {{ include "custom.namespace" . }}
+    app.kubernetes.io/version: 1.10.0
+  name: nginx-{{ .Values.global.namespace }}
+  namespace: {{ .Values.global.namespace }}
 rules:
 - apiGroups:
   - ""
@@ -210,17 +224,17 @@ metadata:
     app.kubernetes.io/instance: ingress-nginx
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/part-of: ingress-nginx
-    app.kubernetes.io/version: 1.9.3
-  name: nginx-{{ include "custom.namespace" . }}
-  namespace: {{ include "custom.namespace" . }}
+    app.kubernetes.io/version: 1.10.0
+  name: nginx-{{ .Values.global.namespace }}
+  namespace: {{ .Values.global.namespace }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: nginx-{{ include "custom.namespace" . }}
+  name: nginx-{{ .Values.global.namespace }}
 subjects:
 - kind: ServiceAccount
-  name: nginx-{{ include "custom.namespace" . }}
-  namespace: {{ include "custom.namespace" . }}
+  name: nginx-{{ .Values.global.namespace }}
+  namespace: {{ .Values.global.namespace }}
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -230,17 +244,17 @@ metadata:
     app.kubernetes.io/instance: ingress-nginx
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/part-of: ingress-nginx
-    app.kubernetes.io/version: 1.9.3
-  name: nginx-{{ include "custom.namespace" . }}
-  namespace: {{ include "custom.namespace" . }}
+    app.kubernetes.io/version: 1.10.0
+  name: nginx-{{ .Values.global.namespace }}
+  namespace: {{ .Values.global.namespace }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: nginx-{{ include "custom.namespace" . }}
+  name: nginx-{{ .Values.global.namespace }}
 subjects:
 - kind: ServiceAccount
-  name: nginx-{{ include "custom.namespace" . }}
-  namespace: {{ include "custom.namespace" . }}
+  name: nginx-{{ .Values.global.namespace }}
+  namespace: {{ .Values.global.namespace }}
 
 ---
 # Source: ingress-nginx/templates/controller-configmap.yaml
@@ -248,21 +262,20 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   labels:
-    helm.sh/chart: ingress-nginx-4.4.0
+    helm.sh/chart: ingress-nginx-1.10.0
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/instance: ingress-nginx
-    app.kubernetes.io/version: 1.9.3
+    app.kubernetes.io/version: 1.10.0
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
-  name: nginx-{{ include "custom.namespace" . }}
-  namespace: {{ include "custom.namespace" . }}
+  name: nginx-{{ .Values.global.namespace }}
+  namespace: {{ .Values.global.namespace }}
 data:
   allow-snippet-annotations: 'true'
   use-http2: "true"
   proxy-body-size: "99m"
 
 ---
-# Source: ingress-nginx/templates/controller-configmap.yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -270,17 +283,16 @@ metadata:
     helm.sh/chart: ingress-nginx-4.4.0
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/instance: ingress-nginx
-    app.kubernetes.io/version: 1.9.3
+    app.kubernetes.io/version: 1.10.0
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
   name: tcp-services
-  namespace: {{ include "custom.namespace" . }}
+  namespace: {{ .Values.global.namespace }}
 data:
-  9901: "{{ include "custom.namespace" . }}/rp-mdm-auth-tcp:9901"
-  9902: "{{ include "custom.namespace" . }}/rp-mdm-core-tcp:9902"
+  9901: "{{ .Values.global.namespace }}/rp-mdm-auth:9901"
+  9902: "{{ .Values.global.namespace }}/rp-mdm-core:9902"
 
 ---
-# Source: ingress-nginx/templates/controller-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -288,11 +300,11 @@ metadata:
     helm.sh/chart: ingress-nginx-4.4.0
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/instance: ingress-nginx
-    app.kubernetes.io/version: 1.9.3
+    app.kubernetes.io/version: 1.10.0
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
-  name: nginx-{{ include "custom.namespace" . }}
-  namespace: {{ include "custom.namespace" . }}
+  name: nginx-{{ .Values.global.namespace }}
+  namespace: {{ .Values.global.namespace }}
 spec:
   selector:
     matchLabels:
@@ -311,7 +323,7 @@ spec:
       dnsPolicy: ClusterFirst
       containers:
         - name: controller
-          image: registry.k8s.io/ingress-nginx/controller:v1.9.3@sha256:8fd21d59428507671ce0fb47f818b1d859c92d2ad07bb7c947268d433030ba98
+          image: registry.k8s.io/ingress-nginx/controller:v1.10.0@sha256:42b3f0e5d0846876b1791cd3afeb5f1cbbe4259d6f35651dcc1b5c980925379c
           imagePullPolicy: Always
           lifecycle:
             preStop:
@@ -320,13 +332,13 @@ spec:
                   - /wait-shutdown
           args:
             - /nginx-ingress-controller
-            - --publish-service={{ include "custom.namespace" . }}/nginx-{{ include "custom.namespace" . }}
+            - --publish-service={{ .Values.global.namespace }}/nginx-{{ .Values.global.namespace }}
             - --election-id=ingress-nginx-leader
             - --controller-class=k8s.io/ingress-nginx
-            - --configmap={{ include "custom.namespace" . }}/nginx-{{ include "custom.namespace" . }}
-            - --tcp-services-configmap={{ include "custom.namespace" . }}/tcp-services
-            - --default-ssl-certificate={{ include "custom.namespace" . }}/mdm-tls
-            - --watch-namespace={{ include "custom.namespace" . }}
+            - --configmap={{ .Values.global.namespace }}/nginx-{{ .Values.global.namespace }}
+            - --tcp-services-configmap={{ .Values.global.namespace }}/tcp-services
+            - --default-ssl-certificate={{ .Values.global.namespace }}/ingress-tls
+            - --watch-namespace={{ .Values.global.namespace }}
           securityContext:
             capabilities:
               drop:
@@ -373,32 +385,40 @@ spec:
             - name: https
               containerPort: 443
               protocol: TCP
-          resources:
-            requests:
-              cpu: 100m
-              memory: 90Mi
+            - name: mdm-core-tcp
+              containerPort: 9902
+              protocol: TCP
+            - name: mdm-auth-tcp
+              containerPort: 9901
+              protocol: TCP
       nodeSelector:
         kubernetes.io/os: linux
-      serviceAccountName: nginx-{{ include "custom.namespace" . }}
+      serviceAccountName: nginx-{{ .Values.global.namespace }}
       terminationGracePeriodSeconds: 300
+{{- end }}
 
 ---
-{{- if eq .Values.global.cloudProvider "azure" }}
+{{- if eq .Values.nginx.cloudProvider "azure" }}
 apiVersion: v1
 kind: Service
 metadata:
   annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 99m
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    {{- if .Values.nginx.internal }}
     service.beta.kubernetes.io/azure-load-balancer-internal: "true"
-    service.beta.kubernetes.io/azure-load-balancer-internal-subnet: {{ .Values.global.ingress.subnet_name }}
+    service.beta.kubernetes.io/azure-load-balancer-internal-subnet: {{ .Values.nginx.subnet_name }}
+    {{- end }}
   labels:
     helm.sh/chart: ingress-nginx-4.4.0
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/instance: ingress-nginx
-    app.kubernetes.io/version: 1.9.3
+    app.kubernetes.io/version: 1.10.0
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
-  name: nginx-{{ include "custom.namespace" . }}
-  namespace: {{ include "custom.namespace" . }}
+  name: nginx-{{ .Values.global.namespace }}
+  namespace: {{ .Values.global.namespace }}
 spec:
   type: LoadBalancer
   externalTrafficPolicy: Local
@@ -429,7 +449,7 @@ spec:
 {{- end }}
 
 ---
-{{- if eq .Values.global.cloudProvider "amazon" }}
+{{- if eq .Values.nginx.cloudProvider "amazon" }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -438,14 +458,14 @@ metadata:
     service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
     service.beta.kubernetes.io/aws-load-balancer-type: nlb
   labels:
-    helm.sh/chart: ingress-nginx-4.4.0
+    helm.sh/chart: ingress-nginx-1.10.0
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/instance: ingress-nginx
-    app.kubernetes.io/version: 1.9.3
+    app.kubernetes.io/version: 1.10.0
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
-  name: nginx-{{ include "custom.namespace" . }}
-  namespace: {{ include "custom.namespace" . }}
+  name: nginx-{{ .Values.global.namespace }}
+  namespace: {{ .Values.global.namespace }}
 spec:
   type: LoadBalancer
   externalTrafficPolicy: Local
@@ -475,18 +495,5 @@ spec:
     app.kubernetes.io/component: controller
 {{- end }}
 
----
-# Source: ingress-nginx/templates/controller-serviceaccount.yaml
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  labels:
-    app.kubernetes.io/name: ingress-nginx
-    app.kubernetes.io/instance: ingress-nginx
-    app.kubernetes.io/version: 1.9.3
-    app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/component: controller
-  name: nginx-{{ include "custom.namespace" . }}
-  namespace: {{ include "custom.namespace" . }}
-automountServiceAccountToken: true
+
 
