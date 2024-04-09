@@ -15,7 +15,7 @@ spec:
     app: {{ .Values.names.core}}
 
 ---
-{{- if eq .Values.global.cloudProvider "amazon" }}
+{{- if eq .Values.nginx.cloudProvider "amazon" }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -40,7 +40,7 @@ spec:
 {{- end }}
 
 ---
-{{- if eq .Values.global.cloudProvider "azure" }}
+{{- if eq .Values.nginx.cloudProvider "azure" }}
 apiVersion: v1
 kind: Service
 metadata:

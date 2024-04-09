@@ -303,7 +303,7 @@ metadata:
     app.kubernetes.io/version: 1.10.0
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
-  name: {{ .Values.global.namespace }}
+  name: nginx-ingress-controller
   namespace: {{ .Values.global.namespace }}
 spec:
   selector:
@@ -332,7 +332,7 @@ spec:
                   - /wait-shutdown
           args:
             - /nginx-ingress-controller
-            - --publish-service={{ .Values.global.namespace }}/{{ .Values.global.namespace }}
+            - --publish-service={{ .Values.global.namespace }}/nginx-{{ .Values.global.namespace }}
             - --election-id=ingress-nginx-leader
             - --controller-class=k8s.io/ingress-nginx
             - --configmap={{ .Values.global.namespace }}/{{ .Values.global.namespace }}
@@ -417,7 +417,7 @@ metadata:
     app.kubernetes.io/version: 1.10.0
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
-  name: {{ .Values.global.namespace }}
+  name: nginx-{{ .Values.global.namespace }}
   namespace: {{ .Values.global.namespace }}
 spec:
   type: LoadBalancer
