@@ -68,7 +68,7 @@ kubectl create secret docker-registry docker-io --docker-server='https://index.d
 ```
 4. Create a kubernetes secret that contains the certificate files for your custom domain. This is used by the default nginx ingress controller to terminate TLS for your custom domain. If this secret is not created, you will get a ```502 Bad Gateway``` when you try to access the MDM Web UI
 ```
-kubectl create secret tls mdm-tls --cert=$your_tls_cert --key=$your_tls_key --namespace redpoint-mdm
+kubectl create secret tls ingress-tls --cert=$your_tls_cert --key=$your_tls_key --namespace redpoint-mdm
 ```
 If you prefer to use a different Ingress solution, disable the default ingress as described here [MDM Ingress ](#mdm-ingress) 
 
@@ -190,7 +190,7 @@ If you followed this guide step by step, then things should just work out of the
 
  ```Nginx 502 Bad Gateway when accessing the Web UI```
 
-The default installation requires that you create a kubernetes ```tls``` secret for you certificate data. The secret must be named ```mdm-tls```. If this secret is missing, Nginx wont know how to route the requests for the Web UI. Creating this secret with the relevant certficate data should resolve this issue
+The default installation requires that you create a kubernetes ```tls``` secret for you certificate data. The secret must be named ```ingress-tls```. If this secret is missing, Nginx wont know how to route the requests for the Web UI. Creating this secret with the relevant certficate data should resolve this issue
 
 ### Upgrading MDM
 If you initially deployed MDM using the Helm chart, upgrading to a newer version is a straightforward process. Follow these steps for a seamless upgrade:
