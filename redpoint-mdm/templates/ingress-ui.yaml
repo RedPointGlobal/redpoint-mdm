@@ -15,7 +15,7 @@ spec:
   tls:
   - hosts:
       - {{ .Values.ingress.host.ui }}.{{ .Values.ingress.host_domain }}
-    secretName: mdm-tls
+    secretName: ingress-tls
   ingressClassName: {{ .Values.nginx.namespace }}
   rules:
   - host: {{ .Values.ingress.host.ui }}.{{ .Values.ingress.host_domain }}
