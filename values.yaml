@@ -1,6 +1,6 @@
 global:
   # Namespace where the application will be deployed
-  namespace: jim-temp #redpoint-mdm
+  namespace: redpoint-mdm
 
 replicaCount: 1
 
