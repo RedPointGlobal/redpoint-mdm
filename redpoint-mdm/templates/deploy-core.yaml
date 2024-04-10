@@ -30,6 +30,27 @@ spec:
               secretKeyRef:
                 name: "mongodb-conn-string"
                 key: MONGO_CONNECTION_STRING
+          - name: _JAVA_OPTIONS
+            value: "-Xms4g -Xmx8g"
+          resources:
+            limits:
+              cpu: "5000m"   
+              memory: "8Gi"  
+            requests:
+              cpu: "2000m"     
+              memory: "4Gi"
+          livenessProbe:
+            httpGet:
+              path: /mdm/db/ping
+              port: 9902
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /mdm/db/ping
+              port: 9902
+            initialDelaySeconds: 15
+            periodSeconds: 10
           volumeMounts:
             - name: rpmdm-core-properties
               mountPath: /usr/local/share/redpointmdm/
