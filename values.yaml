@@ -11,9 +11,10 @@ app_name: redpoint-mdm
 java_api_service: rp-mdm-core
 
 mongodb:
-  # Enable MongoDB
+  # Enable DEMO MongoDB (for demonstration and testing only)
   enabled: true
-  # Connection string for MongoDB
+  # Connection string for MongoDB (Defaults to the DEMO MongDB)
+  # For Production, please replace this connection string with the one for your production MongoDB instance
   connection_string: mongodb://mongoadmin:9vDR1p8Q1KEO@mongodb:27017/admin?authSource=admin
 
 nginx:
