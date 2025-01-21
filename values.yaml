@@ -20,7 +20,7 @@ mongodb:
 nginx:
   # Enable Nginx
   enabled: true
-  # Internal Nginx flag
+  # Internal 
   internal: true 
   # Name of the subnet
   subnet_name: snet-rgoc-nonprod-eus2-aks
@@ -45,7 +45,7 @@ images:
     perm: redpointglobal/rp-mdm-permission
     user: redpointglobal/rp-mdm-user
     log: redpointglobal/rp-mdm-log
-  tag: v1.6.0-RELEASE
+  tag: v1.6.1-RELEASE
   pullPolicy: Always
 
 imagePullSecrets: docker-io 
@@ -105,7 +105,7 @@ ldap:
 
 ingress:
   # Ingress settings
-  host_domain: rg1cloud.com
+  host_domain: example.com
   internal: false
   subnet_name: snet-rgoc-nonprod-eus2-aks 
   name:

@@ -49,8 +49,10 @@ metadata:
   labels:
     app: {{ .Values.service.names.core }} 
   annotations:
-    service.beta.kubernetes.io/azure-load-balancer-internal: {{ .Values.ingress.internal | quote }}
-    service.beta.kubernetes.io/azure-load-balancer-internal-subnet: {{ .Values.ingress.subnet_name | quote }}
+    {{- if .Values.nginx.internal }}
+    service.beta.kubernetes.io/azure-load-balancer-internal: "true"
+    service.beta.kubernetes.io/azure-load-balancer-internal-subnet: {{ .Values.nginx.subnet_name }}
+    {{- end }}
 spec:
   ports:
     - port: 9902
