@@ -5,7 +5,7 @@ metadata:
   labels:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/instance: ingress-nginx
-    app.kubernetes.io/version: 1.10.0
+    app.kubernetes.io/version: 1.12.1
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
   name: {{ .Values.global.namespace }}
@@ -20,7 +20,7 @@ metadata:
     app.kubernetes.io/instance: ingress-nginx
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/part-of: ingress-nginx
-    app.kubernetes.io/version: 1.10.0
+    app.kubernetes.io/version: 1.12.1
   name: {{ .Values.global.namespace }}
 rules:
 - apiGroups:
@@ -99,10 +99,10 @@ apiVersion: networking.k8s.io/v1
 kind: IngressClass
 metadata:
   labels:
-    helm.sh/chart: ingress-nginx-1.10.0
+    helm.sh/chart: ingress-nginx-1.12.1
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/instance: ingress-nginx
-    app.kubernetes.io/version: 1.10.0
+    app.kubernetes.io/version: 1.12.1
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
   name: {{ .Values.global.namespace }}
@@ -118,7 +118,7 @@ metadata:
     app.kubernetes.io/instance: ingress-nginx
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/part-of: ingress-nginx
-    app.kubernetes.io/version: 1.10.0
+    app.kubernetes.io/version: 1.12.1
   name: {{ .Values.global.namespace }}
   namespace: {{ .Values.global.namespace }}
 rules:
@@ -224,7 +224,7 @@ metadata:
     app.kubernetes.io/instance: ingress-nginx
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/part-of: ingress-nginx
-    app.kubernetes.io/version: 1.10.0
+    app.kubernetes.io/version: 1.12.1
   name: {{ .Values.global.namespace }}
   namespace: {{ .Values.global.namespace }}
 roleRef:
@@ -244,7 +244,7 @@ metadata:
     app.kubernetes.io/instance: ingress-nginx
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/part-of: ingress-nginx
-    app.kubernetes.io/version: 1.10.0
+    app.kubernetes.io/version: 1.12.1
   name: {{ .Values.global.namespace }}
   namespace: {{ .Values.global.namespace }}
 roleRef:
@@ -262,10 +262,10 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   labels:
-    helm.sh/chart: ingress-nginx-1.10.0
+    helm.sh/chart: ingress-nginx-1.12.1
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/instance: ingress-nginx
-    app.kubernetes.io/version: 1.10.0
+    app.kubernetes.io/version: 1.12.1
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
   name: {{ .Values.global.namespace }}
@@ -283,7 +283,7 @@ metadata:
     helm.sh/chart: ingress-nginx-4.4.0
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/instance: ingress-nginx
-    app.kubernetes.io/version: 1.10.0
+    app.kubernetes.io/version: 1.12.1
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
   name: tcp-services
@@ -300,7 +300,7 @@ metadata:
     helm.sh/chart: ingress-nginx-4.4.0
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/instance: ingress-nginx
-    app.kubernetes.io/version: 1.10.0
+    app.kubernetes.io/version: 1.12.1
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
   name: nginx-ingress-controller
@@ -323,7 +323,7 @@ spec:
       dnsPolicy: ClusterFirst
       containers:
         - name: controller
-          image: registry.k8s.io/ingress-nginx/controller:v1.10.0@sha256:42b3f0e5d0846876b1791cd3afeb5f1cbbe4259d6f35651dcc1b5c980925379c
+          image: registry.k8s.io/ingress-nginx/controller:v1.12.1@sha256:d2fbc4ec70d8aa2050dd91a91506e998765e86c96f32cffb56c503c9c34eed5b
           imagePullPolicy: Always
           lifecycle:
             preStop:
@@ -414,7 +414,7 @@ metadata:
     helm.sh/chart: ingress-nginx-4.4.0
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/instance: ingress-nginx
-    app.kubernetes.io/version: 1.10.0
+    app.kubernetes.io/version: 1.12.1
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
   name: nginx-{{ .Values.global.namespace }}
@@ -458,10 +458,10 @@ metadata:
     service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
     service.beta.kubernetes.io/aws-load-balancer-type: nlb
   labels:
-    helm.sh/chart: ingress-nginx-1.10.0
+    helm.sh/chart: ingress-nginx-1.12.1
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/instance: ingress-nginx
-    app.kubernetes.io/version: 1.10.0
+    app.kubernetes.io/version: 1.12.1
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: controller
   name: {{ .Values.global.namespace }}
