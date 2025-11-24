@@ -45,7 +45,7 @@ images:
     perm: redpointglobal/rp-mdm-permission
     user: redpointglobal/rp-mdm-user
     log: redpointglobal/rp-mdm-log
-  tag: v1.6.3-RELEASE
+  tag: v1.6.4-RELEASE
   pullPolicy: Always
 
 imagePullSecrets: docker-io 
