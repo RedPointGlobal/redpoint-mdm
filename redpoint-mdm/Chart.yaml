@@ -1,8 +1,12 @@
-apiVersion: 1.5
+apiVersion: v2
 name: redpoint-mdm
 
 description: A Helm chart for Redpoint Master Data Management (MDM)
 
 type: application
-version: 1.5.3
-appVersion: "1.5.3"
+version: 1.6.4
+appVersion: "1.6.4"
+
+maintainers:
+  - name: Redpoint Global
+    email: support@redpointglobal.com

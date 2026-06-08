@@ -1,0 +1,52 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: redpoint-mdm
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/part-of: redpoint-mdm
+    app.kubernetes.io/version: {{ .Values.global.deployment.images.tag | quote }}
+  annotations:
+  {{- if .Values.ingress.controller.enabled }}
+    {{- with .Values.ingress.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- end }}
+spec:
+  ingressClassName: {{ .Values.ingress.className }}
+  {{- if eq .Values.ingress.certificateSource "kubernetes" }}
+  tls:
+  - secretName: {{ .Values.ingress.tlsSecretName }}
+  {{- end }}
+  rules:
+    - host: {{ .Values.ingress.hosts.webui }}.{{ .Values.ingress.domain }}
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: rp-mdm-ui
+              port:
+                number: 80
+    - host: {{ .Values.ingress.hosts.authentication }}.{{ .Values.ingress.domain }}
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: rp-mdm-authentication-tcp
+              port:
+                number: 9901
+    - host: {{ .Values.ingress.hosts.core }}.{{ .Values.ingress.domain }}
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: rp-mdm-core-tcp
+              port:
+                number: 9902

@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: log4js-config
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: redpoint-mdm
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/component: log4js-config
+    app.kubernetes.io/part-of: redpoint-mdm
+data:
+  log4js_config.json: |
+    {
+    "appenders": {"console": { "type": "console" }},
+     "categories": {
+     "MDM Server": { "appenders": ["console"], "level": "debug" },
+     "default": { "appenders": ["console"], "level": "debug" }
+      }
+    }

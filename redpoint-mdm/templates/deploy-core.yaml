@@ -1,66 +1,145 @@
+{{- $cfg := fromYaml (include "mdm.service" (dict "root" . "override" .Values.coreService)) -}}
+{{- $name := "rp-mdm-core" -}}
+{{- $component := "coreservice" -}}
+{{- $port := 9902 -}}
+{{- $logPath := "/usr/local/app/logs" -}}
+{{- if $cfg.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "mdm.labels" (dict "root" . "name" $name "component" $component) | nindent 4 }}
+data:
+  redpointmdm.properties: |
+    rpmdm.service.host=0.0.0.0
+    rpmdm.service.port=9902
+    rpmdm.authentication.url=http://rp-mdm-authentication:80/mdm
+    rpmdm.usergroup.url=http://rp-mdm-user:80/mdm
+    rpmdm.permission.url=http://rp-mdm-permission:80/mdm
+    rpmdm.log.url=http://rp-mdm-log:80/mdm
+    rpmdm.service.logging={{ $cfg.logging.enabled }}
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ $name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "mdm.labels" (dict "root" . "name" $name "component" $component) | nindent 4 }}
+  {{- $saAnn := include "mdm.cloudidentity.saAnnotations" (dict "root" .) | trim }}
+  {{- if $saAnn }}
+  annotations:
+    {{- $saAnn | nindent 4 }}
+  {{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "mdm.labels" (dict "root" . "name" $name "component" $component) | nindent 4 }}
+spec:
+  ports:
+    - port: 80
+      targetPort: {{ $port }}
+      protocol: TCP
+  selector:
+    {{- include "mdm.selectorLabels" (dict "name" $name) | nindent 4 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $name }}-tcp
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "mdm.labels" (dict "root" . "name" $name "component" $component) | nindent 4 }}
+spec:
+  ports:
+    - port: {{ $port }}
+      targetPort: {{ $port }}
+      protocol: TCP
+  selector:
+    {{- include "mdm.selectorLabels" (dict "name" $name) | nindent 4 }}
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.names.core }}
-  namespace: {{ .Values.global.namespace }}
+  name: {{ $name }}
+  namespace: {{ .Release.Namespace }}
   labels:
-    app: {{ .Values.names.core }}
+    {{- include "mdm.labels" (dict "root" . "name" $name "component" $component) | nindent 4 }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  {{- if not $cfg.autoscaling.enabled }}
+  replicas: {{ $cfg.replicas }}
+  {{- end }}
+  revisionHistoryLimit: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 1
   selector:
     matchLabels:
-      app: {{ .Values.names.core }}
+      {{- include "mdm.selectorLabels" (dict "name" $name) | nindent 6 }}
   template:
     metadata:
       labels:
-        app: {{ .Values.names.core }}
+        {{- include "mdm.labels" (dict "root" . "name" $name "component" $component) | nindent 8 }}
+        {{- with $cfg.customLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- include "mdm.cloudidentity.podLabels" (dict "root" .) | nindent 8 }}
+      {{- $ann := include "mdm.podAnnotations" (dict "cfg" $cfg "port" $port) | trim }}
+      {{- if $ann }}
+      annotations:
+        {{- $ann | nindent 8 }}
+      {{- end }}
     spec:
-      imagePullSecrets:
-        - name: {{ .Values.imagePullSecrets }}
-      serviceAccountName: {{ .Values.serviceAccount.names.core }}
+      serviceAccountName: {{ $name }}
+      {{- include "mdm.imagePullSecrets" (dict "root" .) | nindent 6 }}
+      {{- if $cfg.securityContext.enabled }}
+      {{- include "mdm.pod.securityContext" (dict "sc" $cfg.securityContext) | nindent 6 }}
+      {{- end }}
+      {{- include "mdm.scheduling" (dict "root" . "name" $name) | nindent 6 }}
       containers:
-        - name: {{ .Values.names.core }}         
-          image:  "{{ .Values.images.repository.core }}:{{ .Values.images.tag }}"
-          imagePullPolicy: {{ .Values.images.pullPolicy }}
-          ports:
-            - containerPort: {{ .Values.service.port.core }}
+        - name: {{ $name }}
+          image: {{ include "mdm.image" (dict "root" . "repo" .Values.global.deployment.images.core) | quote }}
+          imagePullPolicy: {{ .Values.global.deployment.images.imagePullPolicy }}
           env:
           - name: MDM_MONGO_URI
             valueFrom:
               secretKeyRef:
-                name: "mongodb-conn-string"
+                name: {{ .Values.cloudIdentity.secretsManagement.secretName | quote }}
                 key: MONGO_CONNECTION_STRING
           - name: _JAVA_OPTIONS
-            value: "-Xms4g -Xmx8g"
-          resources:
-            limits:
-              cpu: "5000m"   
-              memory: "8Gi"  
-            requests:
-              cpu: "2000m"     
-              memory: "4Gi"
-          livenessProbe:
-            httpGet:
-              path: /mdm/db/ping
-              port: 9902
-            initialDelaySeconds: 15
-            periodSeconds: 10
-          readinessProbe:
-            httpGet:
-              path: /mdm/db/ping
-              port: 9902
-            initialDelaySeconds: 15
-            periodSeconds: 10
+            value: {{ $cfg.javaOptions | quote }}
+          ports:
+          - name: http
+            containerPort: {{ $port }}
+            protocol: TCP
+          {{- if $cfg.securityContext.enabled }}
+          {{- include "mdm.container.securityContext" (dict "sc" $cfg.securityContext) | nindent 10 }}
+          {{- end }}
+          {{- include "mdm.resources" (dict "cfg" $cfg) | nindent 10 }}
+          {{- include "mdm.probes" (dict "cfg" $cfg "path" "/mdm/db/ping") | nindent 10 }}
           volumeMounts:
-            - name: rpmdm-core-properties
+            - name: {{ $name }}
               mountPath: /usr/local/share/redpointmdm/
+            - name: log4js-config
+              mountPath: /usr/local/app/authentication-service/log4js_config.json
+              subPath: log4js_config.json
+            - name: logs
+              mountPath: {{ $logPath }}
       volumes:
-        - name: rpmdm-core-properties
+        - name: {{ $name }}
           configMap:
-            name: rpmdm-core-properties
-      {{- if eq .Values.global.nodeConstraint "enabled" }}
-      nodeSelector:
-        {{- toYaml .Values.nodeSelector | nindent 8 }}
-      tolerations:
-        {{- toYaml .Values.tolerations | nindent 8 }}
-      {{- end }}
+            name: {{ $name }}
+        - name: log4js-config
+          configMap:
+            name: log4js-config
+        - name: logs
+          emptyDir: {}
+{{- end }}

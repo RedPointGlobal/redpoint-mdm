@@ -1,54 +1,141 @@
+{{- $cfg := fromYaml (include "mdm.service" (dict "root" . "override" .Values.permissionService)) -}}
+{{- $name := "rp-mdm-permission" -}}
+{{- $component := "permissionService" -}}
+{{- $port := 9908 -}}
+{{- $logPath := "/usr/local/app/permission-service/logs" -}}
+{{- if $cfg.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "mdm.labels" (dict "root" . "name" $name "component" $component) | nindent 4 }}
+data:
+  mdm_permission_service.properties: |
+    permission.port=9908
+    user.url=http://rp-mdm-user:80
+    log.url=http://rp-mdm-log:80
+    authentication.url=http://rp-mdm-authentication:80
+    trace_messages={{ $cfg.logging.enabled }}
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ $name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "mdm.labels" (dict "root" . "name" $name "component" $component) | nindent 4 }}
+  {{- $saAnn := include "mdm.cloudidentity.saAnnotations" (dict "root" .) | trim }}
+  {{- if $saAnn }}
+  annotations:
+    {{- $saAnn | nindent 4 }}
+  {{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "mdm.labels" (dict "root" . "name" $name "component" $component) | nindent 4 }}
+spec:
+  ports:
+    - port: 80
+      targetPort: {{ $port }}
+      protocol: TCP
+  selector:
+    {{- include "mdm.selectorLabels" (dict "name" $name) | nindent 4 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $name }}-tcp
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "mdm.labels" (dict "root" . "name" $name "component" $component) | nindent 4 }}
+spec:
+  ports:
+    - port: {{ $port }}
+      targetPort: {{ $port }}
+      protocol: TCP
+  selector:
+    {{- include "mdm.selectorLabels" (dict "name" $name) | nindent 4 }}
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.names.perm }}
-  namespace: {{ .Values.global.namespace }}
+  name: {{ $name }}
+  namespace: {{ .Release.Namespace }}
   labels:
-    app: {{ .Values.names.perm }}
+    {{- include "mdm.labels" (dict "root" . "name" $name "component" $component) | nindent 4 }}
 spec:
-  replicas: 1
+  {{- if not $cfg.autoscaling.enabled }}
+  replicas: {{ $cfg.replicas }}
+  {{- end }}
+  revisionHistoryLimit: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 1
   selector:
     matchLabels:
-      app: {{ .Values.names.perm }}
+      {{- include "mdm.selectorLabels" (dict "name" $name) | nindent 6 }}
   template:
     metadata:
       labels:
-        app: {{ .Values.names.perm }}
+        {{- include "mdm.labels" (dict "root" . "name" $name "component" $component) | nindent 8 }}
+        {{- with $cfg.customLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+        {{- include "mdm.cloudidentity.podLabels" (dict "root" .) | nindent 8 }}
+      {{- $ann := include "mdm.podAnnotations" (dict "cfg" $cfg "port" $port) | trim }}
+      {{- if $ann }}
+      annotations:
+        {{- $ann | nindent 8 }}
+      {{- end }}
     spec:
-      imagePullSecrets:
-        - name: {{ .Values.imagePullSecrets }}
-      serviceAccountName: {{ .Values.serviceAccount.names.perm }}
+      serviceAccountName: {{ $name }}
+      {{- include "mdm.imagePullSecrets" (dict "root" .) | nindent 6 }}
+      {{- if $cfg.securityContext.enabled }}
+      {{- include "mdm.pod.securityContext" (dict "sc" $cfg.securityContext) | nindent 6 }}
+      {{- end }}
+      {{- include "mdm.scheduling" (dict "root" . "name" $name) | nindent 6 }}
       containers:
-        - name: {{ .Values.names.perm }}
-          image: "{{ .Values.images.repository.perm }}:{{ .Values.images.tag }}"
-          imagePullPolicy: Always
-          ports:
-            - containerPort: {{ .Values.service.port.perm }}
+        - name: {{ $name }}
+          image: {{ include "mdm.image" (dict "root" . "repo" .Values.global.deployment.images.permission) | quote }}
+          imagePullPolicy: {{ .Values.global.deployment.images.imagePullPolicy }}
           env:
           - name: MDM_MONGO_URI
             valueFrom:
               secretKeyRef:
-                name: "mongodb-conn-string"
+                name: {{ .Values.cloudIdentity.secretsManagement.secretName | quote }}
                 key: MONGO_CONNECTION_STRING
-          - name: JAVA_API_SERVICE
-            value: {{ .Values.java_api_service }}
+          ports:
+          - name: http
+            containerPort: {{ $port }}
+            protocol: TCP
+          {{- if $cfg.securityContext.enabled }}
+          {{- include "mdm.container.securityContext" (dict "sc" $cfg.securityContext) | nindent 10 }}
+          {{- end }}
+          {{- include "mdm.resources" (dict "cfg" $cfg) | nindent 10 }}
+          {{- include "mdm.probes" (dict "cfg" $cfg "path" "/ping") | nindent 10 }}
           volumeMounts:
-            - name: rpmdm-perm-properties
+            - name: {{ $name }}
               mountPath: /usr/local/share/redpointmdm/
             - name: log4js-config
-              mountPath: /usr/local/app/permission-service/log4js_config.json
+              mountPath: /usr/local/app/authentication-service/log4js_config.json
               subPath: log4js_config.json
+            - name: logs
+              mountPath: {{ $logPath }}
       volumes:
-        - name: rpmdm-perm-properties
+        - name: {{ $name }}
           configMap:
-            name: rpmdm-perm-properties
+            name: {{ $name }}
         - name: log4js-config
           configMap:
             name: log4js-config
-      {{- if eq .Values.global.nodeConstraint "enabled" }}
-      nodeSelector:
-        {{- toYaml .Values.nodeSelector | nindent 8 }}
-      tolerations:
-        {{- toYaml .Values.tolerations | nindent 8 }}
-      {{- end }}
+        - name: logs
+          emptyDir: {}
+{{- end }}

@@ -1,0 +1,179 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "redpoint-mdm values",
+  "type": "object",
+  "required": ["global", "cloudIdentity", "ingress"],
+  "additionalProperties": true,
+  "definitions": {
+    "service": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "replicas": { "type": "integer", "minimum": 0 },
+        "port": { "type": "integer", "minimum": 1, "maximum": 65535 },
+        "resources": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "enabled": { "type": "boolean" }
+          }
+        },
+        "probes": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "podDisruptionBudget": {
+              "type": "object",
+              "additionalProperties": true,
+              "properties": {
+                "enabled": { "type": "boolean" },
+                "maxUnavailable": { "type": ["integer", "string"] }
+              }
+            }
+          }
+        },
+        "autoscaling": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "type": { "enum": ["hpa"] },
+            "minReplicas": { "type": "integer", "minimum": 1 },
+            "maxReplicas": { "type": "integer", "minimum": 1 },
+            "targetCPUUtilizationPercentage": { "type": "integer", "minimum": 1, "maximum": 100 },
+            "targetMemoryUtilizationPercentage": { "type": "integer", "minimum": 1, "maximum": 100 }
+          }
+        },
+        "securityContext": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "runAsUser": { "type": "integer" },
+            "runAsGroup": { "type": "integer" },
+            "fsGroup": { "type": "integer" },
+            "runAsNonRoot": { "type": "boolean" },
+            "readOnlyRootFilesystem": { "type": "boolean" },
+            "privileged": { "type": "boolean" },
+            "allowPrivilegeEscalation": { "type": "boolean" }
+          }
+        }
+      }
+    }
+  },
+  "properties": {
+    "global": {
+      "type": "object",
+      "required": ["deployment"],
+      "additionalProperties": true,
+      "properties": {
+        "deployment": {
+          "type": "object",
+          "required": ["platform", "images"],
+          "additionalProperties": true,
+          "properties": {
+            "platform": { "enum": ["azure"] },
+            "images": {
+              "type": "object",
+              "required": ["tag"],
+              "additionalProperties": true,
+              "properties": {
+                "tag": { "type": "string", "minLength": 1 },
+                "imagePullPolicy": { "enum": ["Always", "IfNotPresent", "Never"] },
+                "imagePullSecret": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "properties": {
+                    "enabled": { "type": "boolean" },
+                    "name": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "cloudIdentity": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "enabled": { "type": "boolean" },
+        "provider": { "enum": ["Azure"] },
+        "secretsManagement": {
+          "type": "object",
+          "required": ["secretName"],
+          "additionalProperties": true,
+          "properties": {
+            "secretName": { "type": "string", "minLength": 1 }
+          }
+        },
+        "azureSettings": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "credentialsType": { "enum": ["workloadIdentity"] },
+            "managedIdentityClientId": { "type": "string" }
+          }
+        }
+      }
+    },
+    "authService": { "$ref": "#/definitions/service" },
+    "coreService": { "$ref": "#/definitions/service" },
+    "logService": { "$ref": "#/definitions/service" },
+    "permissionService": { "$ref": "#/definitions/service" },
+    "webUI": { "$ref": "#/definitions/service" },
+    "userService": { "$ref": "#/definitions/service" },
+    "ingress": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "controller": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "enabled": { "type": "boolean" }
+          }
+        },
+        "mode": { "enum": ["public", "private"] },
+        "certificateSource": { "enum": ["kubernetes"] },
+        "tlsSecretName": { "type": "string" },
+        "className": { "type": "string" },
+        "domain": { "type": "string" },
+        "privateLink": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "azure": {
+              "type": "object",
+              "additionalProperties": true,
+              "properties": {
+                "enabled": { "type": "boolean" }
+              }
+            }
+          }
+        },
+        "hosts": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    },
+    "nodeSelector": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "enabled": { "type": "boolean" }
+      }
+    },
+    "tolerations": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "enabled": { "type": "boolean" }
+      }
+    }
+  }
+}

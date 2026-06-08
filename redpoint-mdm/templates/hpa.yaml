@@ -1,0 +1,45 @@
+{{- $services := list
+  (dict "name" "rp-mdm-authentication" "override" .Values.authService       "component" "authentication")
+  (dict "name" "rp-mdm-core"           "override" .Values.coreService        "component" "coreservice")
+  (dict "name" "rp-mdm-log"            "override" .Values.logService         "component" "logservice")
+  (dict "name" "rp-mdm-permission"     "override" .Values.permissionService  "component" "permissionService")
+  (dict "name" "rp-mdm-ui"             "override" .Values.webUI              "component" "webui")
+  (dict "name" "rp-mdm-user"           "override" .Values.userService        "component" "userservice")
+-}}
+{{- range $svc := $services }}
+{{- $cfg := fromYaml (include "mdm.service" (dict "root" $ "override" $svc.override)) }}
+{{- if and $cfg.enabled $cfg.autoscaling.enabled (eq $cfg.autoscaling.type "hpa") }}
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ $svc.name }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    {{- include "mdm.labels" (dict "root" $ "name" $svc.name "component" $svc.component) | nindent 4 }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ $svc.name }}
+  minReplicas: {{ $cfg.autoscaling.minReplicas }}
+  maxReplicas: {{ $cfg.autoscaling.maxReplicas }}
+  metrics:
+    {{- if $cfg.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: {{ $cfg.autoscaling.targetCPUUtilizationPercentage }}
+    {{- end }}
+    {{- if $cfg.autoscaling.targetMemoryUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: {{ $cfg.autoscaling.targetMemoryUtilizationPercentage }}
+    {{- end }}
+{{- end }}
+{{- end }}

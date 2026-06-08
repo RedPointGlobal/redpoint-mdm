@@ -1,16 +1,40 @@
-********************************* INSTALLATION SUCCESSFUL! ************************************************************
+{{- include "mdm.validateConfig" . -}}
+{{- $ns := .Release.Namespace -}}
+{{- $secret := .Values.cloudIdentity.secretsManagement.secretName -}}
+Redpoint Master Data Management (MDM) {{ .Values.global.deployment.images.tag }}
 
-MDM has been successfully installed in your cluster.
-  - Please allow a few minutes for all MDM services to start. Kindly wait for approximately 10 minutes.
+  Release:    {{ .Release.Name }}
+  Namespace:  {{ $ns }}
+  Platform:   {{ .Values.global.deployment.platform }}
 
-To retrieve the MDM UI endpoints, execute the following command:
+MDM is installing. It can take a few minutes for all services to become ready.
 
-kubectl get ingress --namespace redpoint-mdm
+REQUIRED - MongoDB connection secret
+  MDM reads its MongoDB connection string from the secret '{{ $secret }}'
+  (key: MONGO_CONNECTION_STRING). The chart references this secret but never
+  creates it. If it is missing, pods stay in CreateContainerConfigError.
 
-To retrieve the MDM Core and Authentication Server endpoints, execute the following command:
+    kubectl create secret generic {{ $secret }} \
+      --from-literal=MONGO_CONNECTION_STRING='mongodb://<user>:<password>@<host>:27017/admin?authSource=admin' \
+      --namespace {{ $ns }}
+{{- if .Values.ingress.hosts.webui }}
 
-kubectl get service --namespace redpoint-mdm
+Web UI
+  https://{{ .Values.ingress.hosts.webui }}.{{ .Values.ingress.domain }}
+  First sign-in uses the default credentials system / system - change them immediately.
+{{- end }}
 
-For application support, please contact support@redpointglobal.com
+Check status
+  kubectl get pods    --namespace {{ $ns }}
+  kubectl get ingress --namespace {{ $ns }}
 
-********************************* INSTALLATION SUCCESSFUL! ************************************************************
+Troubleshoot
+  kubectl logs       --namespace {{ $ns }} -l app.kubernetes.io/part-of=redpoint-mdm --tail=50
+  kubectl get events --namespace {{ $ns }} --sort-by='.lastTimestamp'
+
+Connect to Redpoint Data Management (RPDM)
+  kubectl get service rp-mdm-core-tcp            --namespace {{ $ns }}
+  kubectl get service rp-mdm-authentication-tcp  --namespace {{ $ns }}
+
+Docs:     https://github.com/RedPointGlobal/redpoint-mdm
+Support:  support@redpointglobal.com

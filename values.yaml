@@ -1,142 +1,136 @@
 global:
-  # Namespace where the application will be deployed
-  namespace: redpoint-mdm
+  deployment:
+    # Cloud environment for this deployment. This chart targets Azure only.
+    platform: azure
 
-replicaCount: 1
+    images:
+      authentication: rg1acrpub.azurecr.io/docker/redpointglobal/releases/rp-mdm-authentication
+      core: rg1acrpub.azurecr.io/docker/redpointglobal/releases/rp-mdm-core
+      log: rg1acrpub.azurecr.io/docker/redpointglobal/releases/rp-mdm-log
+      permission: rg1acrpub.azurecr.io/docker/redpointglobal/releases/rp-mdm-permission
+      webui: rg1acrpub.azurecr.io/docker/redpointglobal/releases/rp-mdm-ui
+      user: rg1acrpub.azurecr.io/docker/redpointglobal/releases/rp-mdm-user
+      # Optional: Not needed if using external ingress controller
+      ingress_controller: rg1acrpub.azurecr.io/docker/redpointglobal/releases/nginx-ingress-controller
+      # Specific version of MDM to be deployed
+      tag: 1.6.5-RELEASE
+      # Pull the image only if it's not already present on the node
+      imagePullPolicy: IfNotPresent
+      # Use an image pull secret for private registry authentication
+      imagePullSecret:
+        enabled: true
+        # Name of the Kubernetes secret containing registry credentials
+        name: redpoint-mdm
 
-# Name of the application
-app_name: redpoint-mdm
-
-# Service name for Java API
-java_api_service: rp-mdm-core
-
-mongodb:
-  # Enable DEMO MongoDB (for demonstration and testing only)
-  enabled: true
-  # Connection string for MongoDB (Defaults to the DEMO MongDB)
-  # For Production, please replace this connection string with the one for your production MongoDB instance
-  connection_string: mongodb://mongoadmin:9vDR1p8Q1KEO@mongodb:27017/admin?authSource=admin
-
-nginx:
-  # Enable Nginx
-  enabled: true
-  # Internal 
-  internal: true 
-  # Name of the subnet
-  subnet_name: snet-rgoc-nonprod-eus2-aks
-  # Cloud provider where Nginx is deployed
-  cloudProvider: azure
-
-names:
-  # Service names for different components
-  ui: rp-mdm-ui
-  core: rp-mdm-core
-  auth: rp-mdm-auth
-  perm: rp-mdm-perm
-  user: rp-mdm-user
-  log: rp-mdm-log
-
-images:
-  repository:
-    # Docker image repositories for different components
-    ui: redpointglobal/rp-mdm-ui
-    core: redpointglobal/rp-mdm-core
-    auth: redpointglobal/rp-mdm-authentication
-    perm: redpointglobal/rp-mdm-permission
-    user: redpointglobal/rp-mdm-user
-    log: redpointglobal/rp-mdm-log
-  tag: v1.6.4-RELEASE
-  pullPolicy: Always
-
-imagePullSecrets: docker-io 
-nameOverride: ""
-fullnameOverride: ""
-
-serviceAccount:
-  create: true
-  annotations: {}
-  names:
-    # Service account names for different components
-    ui: rp-mdm-ui
-    core: rp-mdm-core
-    auth: rp-mdm-auth
-    perm: rp-mdm-perm
-    user: rp-mdm-user
-    log: rp-mdm-log
-
-podAnnotations: {}
-
-podSecurityContext: {}
-
-securityContext: 
-   # Security context settings for pods
-   seccompProfile:
-     type: RuntimeDefault
-   runAsNonRoot: true
-   runAsUser: 1000
-   runAsGroup: 3000
-   fsGroup: 2000
-
-service:
-  names:
-    # Service names for different components
-    ui: rp-mdm-ui
-    core: rp-mdm-core
-    auth: rp-mdm-auth
-    perm: rp-mdm-perm
-    user: rp-mdm-user
-    log: rp-mdm-log
-  type: ClusterIP
-  port:
-    # Port mappings for different services
-    ui: 9090
-    core: 9902
-    auth: 9901
-    user: 9903
-    perm: 9908
-    log: 9904
-    https: 80
-  protocol: TCP
-
-ldap:
-  # LDAP configuration
-  active_dir_url: ldap://example.com 
-  active_dir_domain: DC=example,DC=com 
-
-ingress:
-  # Ingress settings
-  host_domain: example.com
-  internal: false
-  subnet_name: snet-rgoc-nonprod-eus2-aks 
-  name:
-    # Ingress names for different components
-    ui: rp-mdm-ui
-    core: rp-mdm-core
-    auth: rp-mdm-auth
-  enabled: true
-  host:
-    # Hostnames for different components
-    ui: rp-mdm-ui
-    core: rp-mdm-core
-    auth: rp-mdm-auth
-  tls_secret_name: ingress-tls 
-  acm_cert_arn: 
-
-autoscaling:
-  # Autoscaling settings
+# ==========================
+# Identity to authenticate with cloud services.
+cloudIdentity:
   enabled: false
-  minReplicas: 1
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
-  targetMemoryUtilizationPercentage: 80
+  # Authentication method for accessing cloud services. Azure only.
+  provider: Azure
+  secretsManagement:
+    # MDM reads sensitive values (the MongoDB connection string) from a
+    # Kubernetes secret that you create out-of-band before installing. The chart
+    # references this secret by name but never creates it or stores secret values.
+    # The secret must contain the key: MONGO_CONNECTION_STRING
+    secretName: redpoint-mdm-secrets
+  azureSettings:
+    # Supported options: workloadIdentity
+    credentialsType: workloadIdentity
+    managedIdentityClientId: your_managed_identity_client_id
 
-nodeConstraint: enabled
+# ======================================
+# Per-service configuration.
+authService:
+  enabled: true
+  autoscaling:
+    enabled: false
+  ldap:
+    active_directory_url: ldap://redpointglobal.com
+    active_directory_domain: DC=redpointglobal,DC=com
+
+coreService:
+  enabled: true
+  javaOptions: "-Xmx2000m"
+  logging:
+    enabled: true
+  probes:
+    enabled: true
+  resources:
+    requests:
+      memory: 1Gi
+    limits:
+      memory: 1Gi
+
+logService:
+  enabled: true
+
+permissionService:
+  enabled: true
+  logging:
+    enabled: true
+  probes:
+    enabled: true
+  autoscaling:
+    enabled: false
+
+webUI:
+  enabled: true
+
+userService:
+  enabled: true
+
+# ==========================
+ingress:
+  controller:
+    # Set enabled to false if you want to disable the creation of the ingress controller
+    enabled: true
+  # Set mode to private for internal ingress and public for public ingress
+  mode: private
+  privateLink:
+    azure:
+      enabled: false
+  certificateSource: kubernetes
+  tlsSecretName: ingress-tls
+  className: redpoint-mdm
+  # Azure internal load-balancer / Private Link subnet. Only required when ingress mode is private.
+  subnetName: snet-aks-workload
+  # Specify the domain name for the ingress resources.
+  domain: redpointcdp.com
+  # Add any specific annotations required for your ingress setup here.
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 4096m
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    nginx.ingress.kubernetes.io/enable-access-log: "true"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+  customLabels: {}
+  service:
+    port: 80
+  customAnnotations:
+    prometheus.io/scrape: "false"
+  # Define the desired Ingress hostnames
+  hosts:
+    # Web UI
+    webui: d640a0-mdm-web
+    # Authentication Service
+    authentication: d640a0-mdm-auth
+    # Core Service
+    core: d640a0-mdm-core
+
+# NodeSelector is used to control scheduling by specifying node labels.
+# When enabled, the deployment will only be scheduled on nodes that match the provided key-value pair.
 nodeSelector:
-  # Node selector settings
-  pool: rgoc-eus2
+  enabled: true
+  key: pool
+  value: rg1shared
+
+# Tolerations allow the deployment to be scheduled on tainted nodes.
+# When enabled, this ensures the workload can run on nodes explicitly reserved for Redpoint MDM by tolerating their taints.
 tolerations:
-  # Tolerations settings
-  - effect: NoSchedule
-    key: pool
-    operator: Equal
-    value: rgoc-eus2
+  enabled: true
+  effect: NoSchedule
+  key: pool
+  operator: Equal
+  value: rg1shared
