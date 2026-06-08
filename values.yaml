@@ -46,8 +46,8 @@ authService:
   autoscaling:
     enabled: false
   ldap:
-    active_directory_url: ldap://redpointglobal.com
-    active_directory_domain: DC=redpointglobal,DC=com
+    active_directory_url: ldap://example.com
+    active_directory_domain: DC=example,DC=com
 
 coreService:
   enabled: true
@@ -94,9 +94,9 @@ ingress:
   tlsSecretName: ingress-tls
   className: redpoint-mdm
   # Azure internal load-balancer / Private Link subnet. Only required when ingress mode is private.
-  subnetName: snet-aks-workload
+  subnetName: <my-subnet-name>
   # Specify the domain name for the ingress resources.
-  domain: redpointcdp.com
+  domain: example.com
   # Add any specific annotations required for your ingress setup here.
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: 4096m
@@ -113,23 +113,23 @@ ingress:
   # Define the desired Ingress hostnames
   hosts:
     # Web UI
-    webui: d640a0-mdm-web
+    webui: mdm-web
     # Authentication Service
-    authentication: d640a0-mdm-auth
+    authentication: mdm-auth
     # Core Service
-    core: d640a0-mdm-core
+    core: mdm-core
 
 # NodeSelector is used to control scheduling by specifying node labels.
 # When enabled, the deployment will only be scheduled on nodes that match the provided key-value pair.
 nodeSelector:
-  enabled: true
+  enabled: false
   key: pool
   value: rg1shared
 
 # Tolerations allow the deployment to be scheduled on tainted nodes.
 # When enabled, this ensures the workload can run on nodes explicitly reserved for Redpoint MDM by tolerating their taints.
 tolerations:
-  enabled: true
+  enabled: false
   effect: NoSchedule
   key: pool
   operator: Equal
