@@ -1,4 +1,4 @@
-![redpoint_logo](https://github.com/RedPointGlobal/redpoint-mdm/assets/42842390/89fc68f3-0075-407d-b29a-e809929a5c59)
+![redpoint_logo](chart/images/redpoint.png)
 ## Master Data Management (MDM) | Deployment on Kubernetes
 
 Redpoint® Master Data Management (MDM) manages the Golden Record: a single, accurate, and always up-to-date view of your most critical data. MDM gives you the capabilities to match, de-duplicate, steward, and govern that data across your organization.
@@ -22,7 +22,6 @@ This chart deploys MDM on Kubernetes using Helm. It targets Microsoft Azure.
 | [Installation](docs/installation.md) | Prerequisites, system requirements, install procedure, endpoints, activation |
 | [Production Configuration](docs/production.md) | External MongoDB, ingress options, Azure cloud identity, scaling and resources |
 | [RPDM Integration](docs/rpdm-integration.md) | Connect MDM to Redpoint Data Management (RPDM) |
-| [Migrate from Docker](docs/migration.md) | Blue/green migration of MDM workloads from Docker to Kubernetes |
 | [Operations](docs/operations.md) | Upgrading and troubleshooting |
 
 ## Resources

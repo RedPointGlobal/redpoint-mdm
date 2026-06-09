@@ -13,7 +13,7 @@ global:
       # Optional: Not needed if using external ingress controller
       ingress_controller: rg1acrpub.azurecr.io/docker/redpointglobal/releases/nginx-ingress-controller
       # Specific version of MDM to be deployed
-      tag: 1.6.5-RELEASE
+      tag: 1.6.4-RELEASE
       # Pull the image only if it's not already present on the node
       imagePullPolicy: IfNotPresent
       # Use an image pull secret for private registry authentication

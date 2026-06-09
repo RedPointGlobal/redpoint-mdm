@@ -15,7 +15,7 @@ git pull
 Reuse your release name and value overrides:
 
 ```sh
-helm upgrade redpoint-mdm redpoint-mdm/ --values values.yaml
+helm upgrade redpoint-mdm chart/ --values values.yaml
 ```
 
 Replace the release name and values file with your own if they differ. The upgrade applies the new chart version and any configuration changes.

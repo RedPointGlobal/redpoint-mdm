@@ -90,7 +90,7 @@ The chart references this secret but never creates it or stores secret values. I
 
 ```sh
 kubectl config set-context --current --namespace=redpoint-mdm
-helm install redpoint-mdm redpoint-mdm/ --values values.yaml
+helm install redpoint-mdm chart/ --values values.yaml
 ```
 
 A successful install prints:
