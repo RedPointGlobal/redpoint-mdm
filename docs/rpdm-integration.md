@@ -1,12 +1,20 @@
 # Connect MDM to Redpoint Data Management (RPDM)
 
-To connect MDM to RPDM you need the IP addresses of the MDM Core and Authentication services, which are exposed over TCP by `LoadBalancer` services.
+RPDM connects to MDM through the **ingress endpoints** for the Core and Authentication services. The Core and Authentication Kubernetes services are internal (ClusterIP); the ingress fronts them, so RPDM connects to the ingress hostnames, not to pod or service IPs.
 
-**1. Retrieve the service IP addresses**
+The hostnames are built from your ingress values: `ingress.hosts.authentication` and `ingress.hosts.core`, each joined with `ingress.domain`.
+
+**1. Find the MDM endpoints**
 
 ```sh
-kubectl get service rp-mdm-core-tcp            # MDM Core service (port 9902)
-kubectl get service rp-mdm-authentication-tcp  # MDM Authentication service (port 9901)
+kubectl get ingress -n redpoint-mdm
+```
+
+The configured hosts appear under `HOSTS`, for example:
+
+```
+rp-mdm-authentication.example.com   # Authentication
+rp-mdm-core.example.com             # Core
 ```
 
 **2. Install the MDM tools in RPDM**
@@ -19,15 +27,15 @@ kubectl get service rp-mdm-authentication-tcp  # MDM Authentication service (por
 
 **3. Configure the MDM connection**
 
-Click the MDM tab and enter your server and authentication endpoints:
+Click the MDM tab and enter the ingress endpoints. The `/mdm` path is required, and you do not append a port - the ingress routes to the correct service. Use `https` when TLS is configured on the ingress (the default), or `http` otherwise:
 
 ```
-Authentication Server URL: http://<MDM Authentication service IP>:9901/mdm
-MDM Server URL:            http://<MDM Core service IP>:9902/mdm
+Authentication Server URL: https://<ingress.hosts.authentication>.<ingress.domain>/mdm
+MDM Server URL:            https://<ingress.hosts.core>.<ingress.domain>/mdm
 
 Example:
-Authentication Server URL: http://10.60.0.20:9901/mdm
-MDM Server URL:            http://10.60.0.30:9902/mdm
+Authentication Server URL: https://rp-mdm-authentication.example.com/mdm
+MDM Server URL:            https://rp-mdm-core.example.com/mdm
 ```
 
 ![rpdm-mdm-settings](https://user-images.githubusercontent.com/42842390/223878996-04c82cf7-531e-4568-9e6f-8390181628fa.png)

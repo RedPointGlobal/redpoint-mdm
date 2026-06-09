@@ -120,12 +120,7 @@ It returns a host of the form:
 rp-mdm-ui.example.com
 ```
 
-The installation also exposes `LoadBalancer` services for the MDM Core and Authentication services over TCP. These are required to connect MDM to Redpoint Data Management (see [RPDM Integration](rpdm-integration.md)):
-
-```sh
-kubectl get service rp-mdm-core-tcp            # MDM Core service
-kubectl get service rp-mdm-authentication-tcp  # MDM Authentication service
-```
+The Core and Authentication services are reached through the ingress at the hosts you configured (`ingress.hosts.core` / `ingress.hosts.authentication` joined with `ingress.domain`). These endpoints are used to connect MDM to Redpoint Data Management (see [RPDM Integration](rpdm-integration.md)) and appear alongside the Web UI host in the same `kubectl get ingress` output. The underlying Kubernetes services are internal (ClusterIP); the ingress fronts them.
 
 ## Activation
 

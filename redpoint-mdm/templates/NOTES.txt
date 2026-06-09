@@ -32,9 +32,12 @@ Troubleshoot
   kubectl logs       --namespace {{ $ns }} -l app.kubernetes.io/part-of=redpoint-mdm --tail=50
   kubectl get events --namespace {{ $ns }} --sort-by='.lastTimestamp'
 
-Connect to Redpoint Data Management (RPDM)
-  kubectl get service rp-mdm-core-tcp            --namespace {{ $ns }}
-  kubectl get service rp-mdm-authentication-tcp  --namespace {{ $ns }}
+{{- if and .Values.ingress.hosts.authentication .Values.ingress.hosts.core }}
+
+Connect to Redpoint Data Management (RPDM) - use these ingress endpoints
+  Authentication Server URL:  https://{{ .Values.ingress.hosts.authentication }}.{{ .Values.ingress.domain }}/mdm
+  MDM Server URL:             https://{{ .Values.ingress.hosts.core }}.{{ .Values.ingress.domain }}/mdm
+{{- end }}
 
 Docs:     https://github.com/RedPointGlobal/redpoint-mdm
 Support:  support@redpointglobal.com
